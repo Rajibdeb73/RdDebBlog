@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CivicLens — Victorian Local Government Intelligence</title>
+<meta name="description" content="Free, independent Victorian local government intelligence. Deep dashboards for Cardinia Shire, Pakenham, Wyndham City and more. All from public data only.">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --ink:#08111A; --ink2:#1B2A38; --ink3:#364F64; --ink4:#607D90; --ink5:#9BB4C2;
+  --paper:#F4EFE6; --p2:#EBE4D8; --p3:#DDD6C8; --white:#FFF; --rule:#D2C9B8;
+  --gold:#C2941A; --gold2:#F0B429; --goldl:#FFFBEB;
+  --car:#C27520; --card:#8A4F0A; --carl:#FEF3C7;
+  --pak:#0881A8; --pakd:#164E63; --pakl:#E0F9FF;
+  --wyn:#6D28C9; --wynd:#3B0E8C; --wynl:#F3EEFF;
+  --cas:#0A7A45; --casl:#E6FBF0;
+  --col:#005A70; --coll:#E0F4F8;
+  --vic:#024F84; --vicl:#DFF0FF;
+  --red:#B91C1C; --redl:#FEE2E2;
+  --grn:#15803D; --grnl:#DCFCE7;
+  --s5c:#0A7A45; --s5l:#DCFCE7;
+  --s4c:#1D4ED8; --s4l:#DBEAFE;
+  --s3c:#92400E; --s3l:#FEF3C7;
+  --s2c:#C2410C; --s2l:#FED7AA;
+  --s1c:#B91C1C; --s1l:#FEE2E2;
+  --r:8px; --rl:14px;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);overflow-x:hidden;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9990;opacity:.02;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") center/180px}
+
+/* MASTHEAD */
+.mast{background:var(--ink);border-bottom:3px solid var(--gold)}
+.mast-stripe{display:flex;align-items:center;justify-content:space-between;padding:7px 52px;border-bottom:1px solid rgba(255,255,255,.07);flex-wrap:wrap;gap:6px}
+@media(max-width:660px){.mast-stripe,.mast-body{padding-left:18px;padding-right:18px}}
+.ms-date{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.07em;text-transform:uppercase}
+.ms-free{font-family:var(--mono);font-size:10px;color:var(--gold2);border:1px solid rgba(240,180,41,.35);padding:2px 9px;border-radius:20px}
+.mast-body{max-width:1280px;margin:0 auto;padding:24px 52px 0;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.mast-logo{font-family:var(--serif);font-size:clamp(40px,7vw,76px);font-weight:900;color:var(--white);letter-spacing:-.03em;line-height:1}
+.mast-logo span{color:var(--gold2)}
+.mast-tagline{font-size:11.5px;color:rgba(255,255,255,.35);font-family:var(--mono);margin-top:5px}
+.mast-pin{background:rgba(194,148,26,.12);border:1px solid rgba(240,180,41,.28);border-radius:var(--rl);padding:10px 16px;text-align:center;flex-shrink:0;margin-bottom:4px}
+.mp-l{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.32);margin-bottom:3px}
+.mp-v{font-size:13px;font-weight:600;color:var(--gold2)}
+
+/* NAV */
+.nav{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 52px;margin-top:6px;max-width:100%}
+.nav::-webkit-scrollbar{display:none}
+@media(max-width:660px){.nav{padding:0 10px}}
+.nb{flex-shrink:0;padding:13px 16px;font-family:var(--sans);font-size:12.5px;font-weight:500;color:rgba(255,255,255,.38);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-3px;cursor:pointer;transition:all .18s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.nb:hover{color:rgba(255,255,255,.72)}
+.nb.active{color:var(--white);border-bottom-color:var(--gold2)}
+.nb.loc{font-weight:600}
+.nb.loc.active{color:var(--gold2);border-bottom-color:var(--gold2)}
+.npill{font-size:9px;font-family:var(--mono);padding:2px 6px;border-radius:8px;letter-spacing:.05em;text-transform:uppercase}
+.np-live{background:rgba(10,122,69,.4);color:#6EE7B7}
+.np-soon{background:rgba(96,125,144,.22);color:rgba(255,255,255,.35)}
+
+/* STICKY */
+.sticky{background:var(--ink);border-bottom:2px solid var(--gold);position:fixed;top:0;left:0;right:0;z-index:500;display:none;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.sticky-i{max-width:1280px;margin:0 auto;display:flex;align-items:center;padding:0 52px;overflow-x:auto;scrollbar-width:none}
+.sticky-i::-webkit-scrollbar{display:none}
+@media(max-width:660px){.sticky-i{padding:0 12px}}
+.sticky-logo{font-family:var(--serif);font-size:17px;font-weight:900;color:var(--white);flex-shrink:0;margin-right:16px}
+.sticky-logo span{color:var(--gold2)}
+
+/* PANEL */
+.panel{display:none;min-height:70vh;animation:fu .28s ease both}
+.panel.active{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.wrap{max-width:1280px;margin:0 auto;padding:0 52px}
+@media(max-width:660px){.wrap{padding:0 18px}}
+.sec{padding:52px 0}.sec+.sec{border-top:1px solid var(--rule)}
+
+/* TYPOGRAPHY */
+.ey{font-family:var(--mono);font-size:10px;letter-spacing:.17em;text-transform:uppercase;display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.ey::before{content:"";width:18px;height:1.5px}
+.ey-g{color:var(--gold)}.ey-g::before{background:var(--gold)}
+.ey-c{color:var(--car)}.ey-c::before{background:var(--car)}
+.ey-p{color:var(--pak)}.ey-p::before{background:var(--pak)}
+.ey-w{color:var(--wyn)}.ey-w::before{background:var(--wyn)}
+.ey-v{color:var(--vic)}.ey-v::before{background:var(--vic)}
+.sh{font-family:var(--serif);font-size:clamp(22px,3.5vw,36px);font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.15;margin-bottom:10px}
+.sd{font-size:14px;color:var(--ink3);line-height:1.82;max-width:680px;margin-bottom:28px}
+
+/* LEDE */
+.lede{background:var(--ink);padding:42px 52px;border-bottom:3px solid var(--gold)}
+@media(max-width:660px){.lede{padding:28px 18px}}
+.lede-g{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 285px;gap:52px;align-items:start}
+@media(max-width:860px){.lede-g{grid-template-columns:1fr}}
+.lede-k{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.17em;color:var(--gold2);margin-bottom:14px}
+.lede-h{font-family:var(--serif);font-size:clamp(26px,5vw,50px);font-weight:900;color:var(--white);line-height:1.1;letter-spacing:-.025em;margin-bottom:14px}
+.lede-h em{font-style:italic;color:rgba(255,255,255,.38)}
+.lede-p{font-size:14.5px;color:rgba(255,255,255,.58);line-height:1.82;max-width:540px;margin-bottom:22px}
+.lede-pts{display:flex;flex-direction:column;gap:9px;margin-bottom:26px}
+.lpt{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,.62);line-height:1.55}
+.lpt-dot{width:17px;height:17px;border-radius:50%;background:rgba(194,148,26,.18);border:1px solid rgba(240,180,41,.32);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--gold2);flex-shrink:0;margin-top:2px}
+.lede-btns{display:flex;gap:9px;flex-wrap:wrap}
+.btn-g{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--r);background:var(--gold2);color:var(--ink);font-family:var(--sans);font-size:13px;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-g:hover{background:var(--gold)}
+.btn-ghost{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.68);font-family:var(--sans);font-size:13px;text-decoration:none;cursor:pointer;background:none;transition:all .2s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.44);color:var(--white)}
+/* jump sidebar */
+.ls{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:var(--rl);padding:18px}
+.ls-h{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.28);margin-bottom:13px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.07)}
+.ji{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:var(--r);margin-bottom:6px;cursor:pointer;transition:all .18s;border:1px solid transparent}
+.ji:last-child{margin-bottom:0}.ji:hover{transform:translateX(3px)}
+.ji.car{background:rgba(194,148,26,.14);border-color:rgba(194,148,26,.24)}
+.ji.pak{background:rgba(8,129,168,.14);border-color:rgba(8,129,168,.24)}
+.ji.wyn{background:rgba(109,40,201,.14);border-color:rgba(109,40,201,.24)}
+.ji.col{background:rgba(0,90,112,.14);border-color:rgba(0,90,112,.24)}
+.ji.vic{background:rgba(2,79,132,.1);border-color:rgba(2,79,132,.18)}
+.ji-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ji-i{flex:1}
+.ji-n{font-size:12.5px;font-weight:600}
+.ji.car .ji-n{color:#FCD34D}.ji.pak .ji-n{color:#67E8F9}
+.ji.wyn .ji-n{color:#C4B5FD}.ji.col .ji-n{color:#6EE7B7}.ji.vic .ji-n{color:#7DD3FC}
+.ji-s{font-family:var(--mono);font-size:9.5px;color:rgba(255,255,255,.3);margin-top:2px}
+.ji-a{color:rgba(255,255,255,.22);font-size:12px}
+
+/* STATUS CARDS */
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px;margin-bottom:40px}
+.sc{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:all .2s}
+.sc:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.sc-bar{height:3px}
+.sc-body{padding:15px 17px}
+.sc-ico{font-size:24px;margin-bottom:8px}
+.sc-name{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.25}
+.sc-sub{font-size:11px;color:var(--ink4);line-height:1.5;font-family:var(--mono)}
+.sc-foot{padding:9px 17px;border-top:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between}
+.sc-num{font-family:var(--serif);font-size:17px;font-weight:700;line-height:1}
+.sc-lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink5);margin-top:2px}
+.sc-badge{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.07em}
+.b-live{background:var(--grnl);color:var(--grn)}.b-local{background:var(--carl);color:var(--car)}.b-soon{background:var(--p2);color:var(--ink4)}
+
+/* PROFILE BAND */
+.pb{border-radius:var(--rl);padding:26px 30px;color:var(--white);margin-bottom:26px;position:relative;overflow:hidden}
+.pb::before{content:"";position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05);pointer-events:none}
+.pb-badge{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.12em;opacity:.52;margin-bottom:7px}
+.pb-name{font-family:var(--serif);font-size:clamp(17px,2.5vw,23px);font-weight:700;margin-bottom:16px}
+.pb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+.pbi label{display:block;font-size:9px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;opacity:.48;margin-bottom:2px}
+.pbi strong{font-size:12.5px;font-weight:500}
+
+/* DATA CARD */
+.dc{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);overflow:hidden;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.dc-h{padding:15px 20px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dc-h h3{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ink);line-height:1.3}
+.dc-b{padding:18px 20px}
+.dc-b p{font-size:13.5px;color:var(--ink3);line-height:1.78;margin-bottom:14px}
+.dst{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:20px}
+.st-live{background:var(--grnl);color:var(--grn)}.st-soon{background:var(--p2);color:var(--ink4)}
+
+/* METRICS */
+.mets{display:grid;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));gap:10px;margin-bottom:14px}
+.met{background:var(--paper);border:1px solid var(--rule);border-radius:var(--r);padding:11px 13px}
+.met-n{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1}
+.met-l{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink4);margin-top:3px}
+
+/* BUDGET BARS */
+.bb{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.brow{display:flex;align-items:center;gap:9px}
+.br-l{width:185px;flex-shrink:0;font-size:12px;color:var(--ink2);font-weight:500}
+.br-t{flex:1;background:var(--p2);border-radius:4px;height:9px}
+.br-f{height:100%;border-radius:4px;min-width:3px}
+.br-v{width:52px;text-align:right;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+@media(max-width:540px){.br-l{width:120px;font-size:11px}}
+
+/* MATURITY BARS */
+.dm{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.dmr{display:flex;align-items:center;gap:10px}
+.dmd{font-size:12.5px;color:var(--ink3);width:195px;flex-shrink:0;line-height:1.3}
+.dmt{flex:1;background:var(--p2);border-radius:5px;height:8px;overflow:hidden}
+.dmf{height:100%;border-radius:5px}
+.dms{font-family:var(--mono);font-size:12px;font-weight:500;min-width:30px;text-align:right}
+@media(max-width:540px){.dmd{width:120px;font-size:11px}}
+
+/* CALLOUT */
+.ca{padding:13px 16px 13px 44px;border-radius:var(--r);border-left:3px solid;margin-bottom:16px;font-size:13px;line-height:1.72;position:relative}
+.ca::before{position:absolute;left:13px;top:12px;font-size:15px}
+.ca-a{background:var(--carl);border-color:var(--car);color:var(--card)}.ca-a::before{content:"⭐"}
+.ca-p{background:var(--pakl);border-color:var(--pak);color:var(--pakd)}.ca-p::before{content:"📍"}
+.ca-w{background:var(--wynl);border-color:var(--wyn);color:var(--wynd)}.ca-w::before{content:"🏆"}
+.ca-r{background:var(--redl);border-color:var(--red);color:#7F1D1D}.ca-r::before{content:"⚠️"}
+.ca-g{background:var(--grnl);border-color:var(--grn);color:#14532D}.ca-g::before{content:"✅"}
+.ca-i{background:var(--vicl);border-color:var(--vic);color:#0C3A6A}.ca-i::before{content:"ℹ️"}
+
+/* COMPARISON TABLE */
+.cmp{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:14px}
+.cmp th{padding:9px 12px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.02em;color:var(--white)}
+.cmp th:first-child{background:var(--ink);min-width:158px}
+.cth-c{background:var(--car)}.cth-w{background:var(--wyn)}.cth-cs{background:var(--cas)}
+.cmp td{padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.5}
+.cmp td:first-child{font-weight:600;color:var(--ink2);background:var(--paper);font-size:12px;white-space:nowrap}
+.cmp tr:hover td{background:#FAFAF7}
+.win{color:var(--grn);font-weight:600}.gap{color:var(--ink5)}
+
+/* REPORT GRID */
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:18px;margin-bottom:28px}
+.rc{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);overflow:hidden;display:flex;flex-direction:column;transition:all .2s}
+.rc:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.09)}
+.rc-bar{height:3px}.rc-head{padding:16px 18px 0}
+.rc-type{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.rc-head h3{font-family:var(--serif);font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:7px}
+.rc-body{padding:0 18px 16px;flex:1;display:flex;flex-direction:column}
+.rc-body p{font-size:12.5px;color:var(--ink3);line-height:1.72;margin-bottom:10px}
+.rtags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.rt{font-size:9.5px;font-family:var(--mono);padding:2px 7px;border-radius:4px;font-weight:500}
+.rt-html{background:#FEF9C3;color:#854D0E}.rt-xl{background:#DCFCE7;color:#166534}
+.rt-ppt{background:#FEE2E2;color:#991B1B}.rt-vic{background:var(--vicl);color:var(--vic)}
+.rt-loc{background:var(--carl);color:var(--car)}.rt-ai{background:var(--wynl);color:var(--wyn)}
+.ract{display:flex;gap:7px;margin-top:auto;flex-wrap:wrap}
+.rbtn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:var(--r);font-family:var(--sans);font-size:12.5px;font-weight:500;text-decoration:none;transition:all .18s;border:none;cursor:pointer}
+.rbtn.p{background:var(--ink);color:var(--white)}.rbtn.p:hover{background:var(--ink2)}
+.rbtn.s{background:var(--paper);border:1px solid var(--rule);color:var(--ink2)}.rbtn.s:hover{background:var(--p2)}
+.rbtn.car{background:var(--carl);color:var(--car)}.rbtn.car:hover{background:#FDE68A}
+.rbtn.pak{background:var(--pakl);color:var(--pak)}.rbtn.pak:hover{background:#BAF3FC}
+.rbtn.wyn{background:var(--wynl);color:var(--wyn)}.rbtn.wyn:hover{background:#DDD6FE}
+
+/* HEAT MAP */
+.hmw{overflow-x:auto;border-radius:var(--r);box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:20px}
+.hm{border-collapse:collapse;min-width:680px;width:100%;font-size:12px}
+.hm thead th{padding:10px 8px;text-align:center;font-weight:700;font-size:10px;letter-spacing:.03em;white-space:nowrap;border-bottom:2px solid var(--rule);border-right:1px solid rgba(255,255,255,.1)}
+.hm th.hd{text-align:left;padding-left:13px;min-width:185px;background:var(--ink);color:white;font-size:10.5px}
+.hm th.hw{min-width:34px;background:#1B2A38;color:rgba(255,255,255,.42);font-size:9px}
+.hm td{padding:0;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);vertical-align:middle}
+.hm td.dl{padding:9px 13px;font-weight:600;font-size:12.5px;color:var(--ink);background:var(--paper);white-space:nowrap}
+.hm td.wc{text-align:center;background:#F7F5F0;font-size:10px;font-weight:700;color:var(--ink4);border-right:2px solid var(--rule)}
+.hmc{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:52px;padding:6px 4px;text-align:center}
+.hms{font-family:var(--serif);font-size:22px;font-weight:800;line-height:1}
+.hmb{font-size:8.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:2px;max-width:82px;line-height:1.3}
+.s5{background:var(--s5l)}.s5 .hms,.s5 .hmb{color:var(--s5c)}
+.s4{background:var(--s4l)}.s4 .hms,.s4 .hmb{color:var(--s4c)}
+.s3{background:var(--s3l)}.s3 .hms,.s3 .hmb{color:var(--s3c)}
+.s2{background:var(--s2l)}.s2 .hms,.s2 .hmb{color:var(--s2c)}
+.s1{background:var(--s1l)}.s1 .hms,.s1 .hmb{color:var(--s1c)}
+.hm td.hc{border-left:3px solid var(--gold2);border-right:3px solid var(--gold2)}
+.hm th.hch{border-left:3px solid var(--gold2);border-right:3px solid var(--gold2)}
+.hm-tr td.dl{background:var(--ink);color:white;font-size:11.5px}
+.hm-tr td.wc{background:var(--ink2);color:rgba(255,255,255,.38)}
+.hm-leg{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px;align-items:center;font-size:11.5px;color:var(--ink4)}
+.hml{display:flex;align-items:center;gap:5px}
+.hml-d{width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:800;font-size:13px}
+
+/* ADD COUNCIL */
+.add-w{background:var(--p2);border:2px dashed var(--rule);border-radius:var(--rl);padding:28px 24px;text-align:center;margin-bottom:28px}
+.add-w h4{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:7px}
+.add-w p{font-size:13px;color:var(--ink3);line-height:1.7;margin-bottom:16px;max-width:500px;margin-left:auto;margin-right:auto}
+.sp-row{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:16px}
+.sp{font-size:11.5px;padding:5px 12px;border-radius:20px;background:var(--white);border:1px solid var(--rule);color:var(--ink3);font-family:var(--mono)}
+
+/* BIZ */
+.bstats{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:12px;margin-bottom:22px}
+.bs{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:13px 15px;text-align:center}
+.bs-n{font-family:var(--serif);font-size:27px;font-weight:700;line-height:1}
+.bs-l{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink4);margin-top:4px}
+.catg{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:8px;margin-bottom:14px}
+.catc{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:10px 12px;display:flex;align-items:center;gap:9px}
+.ce{font-size:18px;flex-shrink:0}
+.cn{font-size:12px;font-weight:600;color:var(--ink);line-height:1.3}
+.cs{font-size:10px;color:var(--ink4);font-family:var(--mono);margin-top:1px}
+
+/* FUTURE */
+.fb{background:var(--ink);border-radius:var(--rl);padding:56px 40px;text-align:center;margin:48px 0}
+.fb-ico{font-size:40px;margin-bottom:16px}
+.fb-h{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--white);margin-bottom:10px}
+.fb-sub{font-size:14px;color:rgba(255,255,255,.48);line-height:1.78;max-width:540px;margin:0 auto 28px}
+.fb-tl{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.fbt{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:var(--r);padding:11px 18px;text-align:center}
+.fbt-w{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--gold2);display:block;margin-bottom:2px}
+.fbt-t{font-size:11.5px;color:rgba(255,255,255,.42)}
+
+/* AUTHOR */
+.aw{max-width:740px;margin:0 auto;padding:52px 0}
+.acard{display:flex;gap:24px;align-items:flex-start;background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);padding:26px;margin-bottom:22px}
+@media(max-width:560px){.acard{flex-direction:column}}
+.aav{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--pak),var(--cas));display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:24px;font-weight:700;color:var(--white);flex-shrink:0}
+.aname{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.arole{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:10px}
+.abio{font-size:14px;color:var(--ink2);line-height:1.82;margin-bottom:11px}
+.alinks{display:flex;gap:8px;flex-wrap:wrap}
+.al{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:var(--r);font-size:12.5px;font-weight:500;text-decoration:none;transition:all .2s}
+.al-li{background:#0A66C2;color:white}.al-li:hover{background:#0958A8}
+.al-gh{background:var(--p2);border:1px solid var(--rule);color:var(--ink2)}.al-gh:hover{background:var(--p3)}
+.al svg{width:14px;height:14px;fill:currentColor}
+.expg{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:20px}
+@media(max-width:500px){.expg{grid-template-columns:1fr}}
+.expi{background:var(--white);border:1px solid var(--rule);border-left:3px solid;border-radius:0 var(--r) var(--r) 0;padding:12px 14px}
+.expi h4{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.expi p{font-size:11.5px;color:var(--ink3);line-height:1.58}
+.disc{background:var(--p2);border:1px solid var(--rule);border-radius:var(--rl);padding:15px 19px;font-size:12.5px;color:var(--ink3);line-height:1.75}
+.disc strong{color:var(--ink);font-weight:600}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:3px solid var(--gold);padding:28px 52px;color:rgba(255,255,255,.35);font-family:var(--sans);font-size:12px}
+@media(max-width:660px){footer{padding:22px 18px}}
+.fi{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.fl{font-family:var(--serif);font-size:19px;font-weight:900;color:rgba(255,255,255,.82)}
+.fl span{color:var(--gold2)}
+.fn{max-width:400px;line-height:1.65}
+.flinks{display:flex;gap:18px}
+.flinks a{color:rgba(255,255,255,.32);text-decoration:none;transition:color .15s}
+.flinks a:hover{color:rgba(255,255,255,.8)}
+
+/* REVEAL */
+.rev{opacity:0;transform:translateY(12px);transition:opacity .52s ease,transform .52s ease}
+.rev.v{opacity:1;transform:none}
+.chart-box{position:relative;width:100%;margin-bottom:14px}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="mast">
+  <div class="mast-stripe">
+    <div class="ms-date">Victoria, Australia · Est. 2026 · Free civic intelligence</div>
+    <div class="ms-free">Free Forever</div>
+  </div>
+  <div class="mast-body">
+    <div>
+      <div class="mast-logo">Civic<span>Lens</span></div>
+      <div class="mast-tagline">Independent Victorian local government intelligence · Built from public data only</div>
+    </div>
+    <div class="mast-pin">
+      <div class="mp-l">Local focus</div>
+      <div class="mp-v">📍 Cardinia Shire &amp; Pakenham</div>
+    </div>
+  </div>
+  <nav class="nav" aria-label="Main navigation">
+    <button class="nb active"  onclick="go('home')"     data-tab="home">Home</button>
+    <button class="nb loc"     onclick="go('cardinia')" data-tab="cardinia"><span class="npill np-live">Live</span> ★ Cardinia Shire</button>
+    <button class="nb loc"     onclick="go('pakenham')" data-tab="pakenham"><span class="npill np-live">Live</span> ★ Pakenham</button>
+    <button class="nb"         onclick="go('victoria')" data-tab="victoria"><span class="npill np-live">Live</span> Victoria Dashboard</button>
+    <button class="nb"         onclick="go('wyndham')"  data-tab="wyndham"><span class="npill np-live">Live</span> Wyndham City</button>
+    <button class="nb"         onclick="go('colac')"    data-tab="colac"><span class="npill np-live">Live</span> Colac Otway &amp; SW Vic</button>
+    <button class="nb"         onclick="go('federal')"  data-tab="federal"><span class="npill np-soon">Future</span> Federal</button>
+    <button class="nb"         onclick="go('state')"    data-tab="state"><span class="npill np-soon">Future</span> State Gov</button>
+    <button class="nb"         onclick="go('author')"   data-tab="author">About the Author</button>
+  </nav>
+</header>
+
+<div class="sticky" id="sticky">
+  <div class="sticky-i">
+    <div class="sticky-logo">Civic<span>Lens</span></div>
+    <button class="nb" onclick="go('home')"     data-stab="home">Home</button>
+    <button class="nb loc" onclick="go('cardinia')" data-stab="cardinia">★ Cardinia</button>
+    <button class="nb loc" onclick="go('pakenham')" data-stab="pakenham">★ Pakenham</button>
+    <button class="nb" onclick="go('victoria')" data-stab="victoria">Victoria</button>
+    <button class="nb" onclick="go('wyndham')"  data-stab="wyndham">Wyndham</button>
+    <button class="nb" onclick="go('colac')"    data-stab="colac">SW Vic</button>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="panel-home" class="panel active">
+  <div class="lede">
+    <div class="lede-g">
+      <div>
+        <div class="lede-k">Free · Independent · Victoria-first · Public data only</div>
+        <h1 class="lede-h">Your council. <em>Made legible.</em></h1>
+        <p class="lede-p">Government data is public — but reading it requires time, expertise and access most residents don't have. CivicLens applies enterprise-grade analysis to Victorian local government data so every resident can understand what their council is spending, building, and deciding.</p>
+        <div class="lede-pts">
+          <div class="lpt"><div class="lpt-dot">✓</div>Free forever — no subscriptions, no paywalls, no advertising of any kind</div>
+          <div class="lpt"><div class="lpt-dot">✓</div>Primary focus: Victoria local government — Cardinia Shire &amp; Pakenham in greatest depth</div>
+          <div class="lpt"><div class="lpt-dot">✓</div>All analysis from publicly available data — council websites, annual reports, planning portals</div>
+          <div class="lpt"><div class="lpt-dot">✓</div>New councils added progressively — suggest one via the Victoria Dashboard</div>
+          <div class="lpt"><div class="lpt-dot">✓</div>Federal and State dashboards planned once Victorian council coverage matures</div>
+        </div>
+        <div class="lede-btns">
+          <button class="btn-g" onclick="go('cardinia')">★ Cardinia Deep Dive →</button>
+          <button class="btn-ghost" onclick="go('victoria')">All Victorian Councils</button>
+        </div>
+      </div>
+      <div class="ls">
+        <div class="ls-h">Active dashboards — click to jump</div>
+        <div class="ji car" onclick="go('cardinia')"><div class="ji-dot" style="background:#FCD34D"></div><div class="ji-i"><div class="ji-n">★ Cardinia Shire</div><div class="ji-s">Deep Intelligence · Budget · Digital</div></div><div class="ji-a">›</div></div>
+        <div class="ji pak" onclick="go('pakenham')"><div class="ji-dot" style="background:#67E8F9"></div><div class="ji-i"><div class="ji-n">★ Pakenham</div><div class="ji-s">82 businesses · AI review engine</div></div><div class="ji-a">›</div></div>
+        <div class="ji wyn" onclick="go('wyndham')"><div class="ji-dot" style="background:#C4B5FD"></div><div class="ji-i"><div class="ji-n">Wyndham City</div><div class="ji-s">Deep Intelligence · $165M capital</div></div><div class="ji-a">›</div></div>
+        <div class="ji col" onclick="go('colac')"><div class="ji-dot" style="background:#6EE7B7"></div><div class="ji-i"><div class="ji-n">Colac Otway &amp; SW Vic</div><div class="ji-s">App landscape · 6-council study</div></div><div class="ji-a">›</div></div>
+        <div class="ji vic" onclick="go('victoria')"><div class="ji-dot" style="background:#7DD3FC"></div><div class="ji-i"><div class="ji-n">Victoria Dashboard</div><div class="ji-s">All reports · Add new councils</div></div><div class="ji-a">›</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="sec">
+      <div class="ey ey-g rev">What is live right now</div>
+      <h2 class="sh rev">Published dashboards &amp; reports</h2>
+      <p class="sd rev">Six active Victorian local government studies — two with deep local focus on Cardinia Shire and Pakenham.</p>
+      <div class="sg rev">
+        <div class="sc" onclick="go('cardinia')"><div class="sc-bar" style="background:linear-gradient(90deg,var(--card),var(--car))"></div><div class="sc-body"><div class="sc-ico">🏗️</div><div class="sc-name">Cardinia Shire Council</div><div class="sc-sub">Deep Intelligence · Budget · Digital Maturity · Benchmarking</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--car)">63/100</div><div class="sc-lbl">Digital maturity</div></div><span class="sc-badge b-local">★ Local</span></div></div>
+        <div class="sc" onclick="go('pakenham')"><div class="sc-bar" style="background:linear-gradient(90deg,var(--pakd),var(--pak))"></div><div class="sc-body"><div class="sc-ico">☕</div><div class="sc-name">Pakenham SMB Intelligence</div><div class="sc-sub">82 businesses · 12 categories · AI review engine</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--pak)">4.57★</div><div class="sc-lbl">Average rating</div></div><span class="sc-badge b-local">★ Local</span></div></div>
+        <div class="sc" onclick="go('wyndham')"><div class="sc-bar" style="background:linear-gradient(90deg,var(--wynd),var(--wyn))"></div><div class="sc-body"><div class="sc-ico">🌆</div><div class="sc-name">Wyndham City Council</div><div class="sc-sub">Deep Intelligence · $165.1M capital · Smart City 2019</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--wyn)">337K</div><div class="sc-lbl">Population</div></div><span class="sc-badge b-live">Live</span></div></div>
+        <div class="sc" onclick="go('victoria')"><div class="sc-bar" style="background:linear-gradient(90deg,var(--car),var(--pak),var(--wyn))"></div><div class="sc-body"><div class="sc-ico">📊</div><div class="sc-name">SE Melbourne 3-Council Comparison</div><div class="sc-sub">Cardinia · Casey · Greater Dandenong · Heat map</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--cas)">4.5/5</div><div class="sc-lbl">Casey benchmark</div></div><span class="sc-badge b-live">Live</span></div></div>
+        <div class="sc" onclick="go('colac')"><div class="sc-bar" style="background:var(--col)"></div><div class="sc-body"><div class="sc-ico">🌿</div><div class="sc-name">Colac Otway &amp; SW Victoria</div><div class="sc-sub">App landscape · 6-council comparison · G21 Alliance</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--col)">6</div><div class="sc-lbl">LGAs studied</div></div><span class="sc-badge b-live">Live</span></div></div>
+        <div class="sc" onclick="go('victoria')" style="border-style:dashed"><div class="sc-bar" style="background:var(--rule)"></div><div class="sc-body"><div class="sc-ico">➕</div><div class="sc-name">Add a New Council</div><div class="sc-sub">Suggest a Victorian LGA for the next deep study</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--ink5)">Open</div><div class="sc-lbl">Nominations</div></div><span class="sc-badge b-soon">Suggest</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARDINIA -->
+<div id="panel-cardinia" class="panel">
+  <div class="wrap">
+    <div class="sec">
+      <div class="ey ey-c rev">★ Local Focus — Cardinia Shire Council</div>
+      <h2 class="sh rev">Cardinia Shire — Deep Intelligence Report 2025–26</h2>
+      <p class="sd rev">The dual-identity council: fast-growth greenfield estates in the north-west (Officer, Pakenham, Clyde North) meeting rural conservation townships in the south-east. Adding 3 families per day on a 3.0% rate-capped revenue base.</p>
+      <div class="pb rev" style="background:linear-gradient(135deg,#8A4F0A,#C27520,#D97706)">
+        <div class="pb-badge">Cardinia Shire Council · Deep Intelligence · May 2026</div>
+        <div class="pb-name">Cardinia Shire — The Dual-Identity Council</div>
+        <div class="pb-grid">
+          <div class="pbi"><label>Population 2024</label><strong>135,147</strong></div>
+          <div class="pbi"><label>Projected 2041</label><strong>182,833</strong></div>
+          <div class="pbi"><label>Growth rate</label><strong>3 families/day</strong></div>
+          <div class="pbi"><label>Area</label><strong>1,280 km²</strong></div>
+          <div class="pbi"><label>Capital Works FY25/26</label><strong>$74.2M</strong></div>
+          <div class="pbi"><label>Underlying deficit</label><strong>$3.4M</strong></div>
+          <div class="pbi"><label>Asset base</label><strong>$3.1B</strong></div>
+          <div class="pbi"><label>ERP investment</label><strong>$32M TechOne (4yr)</strong></div>
+          <div class="pbi"><label>Unsealed roads</label><strong>800+ km</strong></div>
+          <div class="pbi"><label>Rate cap FY25/26</label><strong>3.0% (below CPI)</strong></div>
+          <div class="pbi"><label>Digital maturity</label><strong>63 / 100</strong></div>
+          <div class="pbi"><label>Report date</label><strong>May 2026</strong></div>
+        </div>
+      </div>
+      <div class="ca ca-a rev"><strong>The Dual-Identity Problem:</strong> Cardinia is two councils in one. The north-west corridor demands urban-grade services — sealed roads, community centres, childcare — for estate residents who arrive expecting city-standard delivery. The south-east demands agricultural land management, heritage conservation, and environmental services for rural communities. Every budget decision reflects this structural tension and no single operational model resolves it.</div>
+      <div class="dc rev">
+        <div class="dc-h"><h3>FY2025/26 Capital Budget — $74.2M</h3><span class="dst st-live">Adopted</span></div>
+        <div class="dc-b">
+          <div class="mets">
+            <div class="met"><div class="met-n" style="color:var(--s1c)">87%</div><div class="met-l">To renewal — not new</div></div>
+            <div class="met"><div class="met-n" style="color:var(--car)">$64.7M</div><div class="met-l">Asset renewal total</div></div>
+            <div class="met"><div class="met-n" style="color:var(--car)">$29.9M</div><div class="met-l">Roads, bridges, paths</div></div>
+            <div class="met"><div class="met-n" style="color:var(--grn)">$9.5M</div><div class="met-l">New capital (13%)</div></div>
+            <div class="met"><div class="met-n" style="color:var(--s1c)">$17M</div><div class="met-l">Borrowed for maintenance</div></div>
+            <div class="met"><div class="met-n" style="color:var(--s1c)">$3.4M</div><div class="met-l">Underlying deficit</div></div>
+          </div>
+          <div class="bb">
+            <div class="brow"><div class="br-l">Asset renewals</div><div class="br-t"><div class="br-f" style="width:87%;background:var(--s1c)"></div></div><div class="br-v">$64.7M</div></div>
+            <div class="brow"><div class="br-l">Roads, bridges &amp; paths</div><div class="br-t"><div class="br-f" style="width:40%;background:var(--car)"></div></div><div class="br-v">$29.9M</div></div>
+            <div class="brow"><div class="br-l">Buildings &amp; facilities</div><div class="br-t"><div class="br-f" style="width:30%;background:#D97706"></div></div><div class="br-v">$22M</div></div>
+            <div class="brow"><div class="br-l">New capital projects</div><div class="br-t"><div class="br-f" style="width:13%;background:var(--grn)"></div></div><div class="br-v">$9.5M</div></div>
+            <div class="brow"><div class="br-l">Parks &amp; open space</div><div class="br-t"><div class="br-f" style="width:9%;background:#22C55E"></div></div><div class="br-v">$6.7M</div></div>
+            <div class="brow"><div class="br-l">Recreation &amp; leisure</div><div class="br-t"><div class="br-f" style="width:2.5%;background:#84CC16"></div></div><div class="br-v">$1.8M</div></div>
+            <div class="brow"><div class="br-l">Drainage improvements</div><div class="br-t"><div class="br-f" style="width:2%;background:#06B6D4"></div></div><div class="br-v">$1.4M</div></div>
+          </div>
+          <div class="ca ca-r">87% of Cardinia's capital ($64.7M) is RENEWAL of assets that already exist — not new infrastructure. Only $9.5M goes toward genuinely new community assets for 5,000 new residents per year. The council is borrowing $17M simply to maintain existing infrastructure — a clear signal the asset maintenance backlog has outgrown the rate-capped revenue base.</div>
+        </div>
+      </div>
+      <div class="dc rev">
+        <div class="dc-h"><h3>Digital Maturity — 63/100</h3><span class="dst st-live">May 2026</span></div>
+        <div class="dc-b">
+          <div class="dm">
+            <div class="dmr"><div class="dmd">ERP / Finance Systems</div><div class="dmt"><div class="dmf" style="width:80%;background:var(--s4c)"></div></div><div class="dms" style="color:var(--s4c)">4/5</div></div>
+            <div class="dmr"><div class="dmd">Community Engagement</div><div class="dmt"><div class="dmf" style="width:80%;background:var(--s4c)"></div></div><div class="dms" style="color:var(--s4c)">4/5</div></div>
+            <div class="dmr"><div class="dmd">Cloud Infrastructure</div><div class="dmt"><div class="dmf" style="width:80%;background:var(--s4c)"></div></div><div class="dms" style="color:var(--s4c)">4/5</div></div>
+            <div class="dmr"><div class="dmd">Cybersecurity Posture</div><div class="dmt"><div class="dmf" style="width:80%;background:var(--s4c)"></div></div><div class="dms" style="color:var(--s4c)">4/5</div></div>
+            <div class="dmr"><div class="dmd">Citizen Self-Service Portal</div><div class="dmt"><div class="dmf" style="width:60%;background:var(--s3c)"></div></div><div class="dms" style="color:var(--s3c)">3/5</div></div>
+            <div class="dmr"><div class="dmd">Data &amp; Analytics</div><div class="dmt"><div class="dmf" style="width:60%;background:var(--s3c)"></div></div><div class="dms" style="color:var(--s3c)">3/5</div></div>
+            <div class="dmr"><div class="dmd">Records Management</div><div class="dmt"><div class="dmf" style="width:60%;background:var(--s3c)"></div></div><div class="dms" style="color:var(--s3c)">3/5</div></div>
+            <div class="dmr"><div class="dmd">GIS &amp; Spatial Data</div><div class="dmt"><div class="dmf" style="width:60%;background:var(--s3c)"></div></div><div class="dms" style="color:var(--s3c)">3/5</div></div>
+            <div class="dmr"><div class="dmd">Smart City / IoT</div><div class="dmt"><div class="dmf" style="width:20%;background:var(--s1c)"></div></div><div class="dms" style="color:var(--s1c)">1/5</div></div>
+            <div class="dmr"><div class="dmd">Multilingual / Accessibility</div><div class="dmt"><div class="dmf" style="width:20%;background:var(--s1c)"></div></div><div class="dms" style="color:var(--s1c)">1/5</div></div>
+            <div class="dmr"><div class="dmd">AI / Machine Learning</div><div class="dmt"><div class="dmf" style="width:20%;background:var(--s1c)"></div></div><div class="dms" style="color:var(--s1c)">1/5</div></div>
+            <div class="dmr"><div class="dmd">Digital Equity / Inclusion</div><div class="dmt"><div class="dmf" style="width:20%;background:var(--s1c)"></div></div><div class="dms" style="color:var(--s1c)">1/5</div></div>
+          </div>
+          <div class="ca ca-a">The $32M TechOne OneCouncil rollout (Finance live Sep 2023; full scope 2029) closes ERP, Records, Cloud and Citizen Portal gaps. The strategic gap remaining post-2029: Smart City / IoT, Multilingual services, AI analytics and Digital Equity — none currently in programme scope.</div>
+        </div>
+      </div>
+      <div class="dc rev">
+        <div class="dc-h"><h3>Cardinia vs. Wyndham vs. City of Casey</h3><span class="dst st-live">Benchmark · May 2026</span></div>
+        <div class="dc-b">
+          <div style="overflow-x:auto">
+            <table class="cmp">
+              <thead><tr><th>Dimension</th><th class="cth-c">★ Cardinia</th><th class="cth-w">Wyndham City</th><th class="cth-cs">City of Casey</th></tr></thead>
+              <tbody>
+                <tr><td>Population</td><td>135,147</td><td>337,009</td><td class="win">390,000+</td></tr>
+                <tr><td>Total Revenue</td><td>~$320M</td><td class="win">$1.25B</td><td>~$1.1B</td></tr>
+                <tr><td>Capital FY25/26</td><td>$74.2M</td><td>$165.1M</td><td class="win">~$180M</td></tr>
+                <tr><td>ERP</td><td>◑ TechOne Ph.2 WIP</td><td>◑ TechOne Ph.1 live</td><td class="win">● TechOne full ✓</td></tr>
+                <tr><td>Citizen Portal / SSO</td><td class="win">★ MyCardinia — best</td><td>◑ In development</td><td class="win">● CiAnywhere live</td></tr>
+                <tr><td>Smart City / IoT</td><td class="gap">— Not evidenced</td><td class="win">● ANZ Award 2019</td><td class="win">● Smart Casey</td></tr>
+                <tr><td>Community Engagement</td><td class="win">● Creating Cardinia</td><td class="win">● The Loop (SP)</td><td class="win">● Casey Conversations</td></tr>
+                <tr><td>Deliberative Panel</td><td class="win">● 2025 panel</td><td class="win">● 103-member 2024</td><td class="win">● 55-member</td></tr>
+                <tr><td>Multilingual</td><td class="gap">— Not evidenced</td><td class="win">● MS Translator</td><td>◑ Partial</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ca ca-g">★ <strong>Cardinia leads this cohort on Citizen SSO:</strong> MyProfile + MyCardinia is the most mature unified citizen login of any council studied. This is a strategic differentiator to build on as the $32M TechOne programme expands services accessible through a single account.</div>
+        </div>
+      </div>
+      <div class="ract rev" style="margin-top:8px">
+        <a class="rbtn car" href="Cardinia_Shire_Council_Deep_Analysis.html" target="_blank" rel="noopener">Open Full Deep Intelligence Report →</a>
+        <a class="rbtn s" href="SE_Melbourne_3Council_Cardinia_Comparison.html" target="_blank" rel="noopener">SE Melbourne 3-Council Comparison →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAKENHAM -->
+<div id="panel-pakenham" class="panel">
+  <div class="wrap">
+    <div class="sec">
+      <div class="ey ey-p rev">★ Local Focus — Pakenham, Victoria 3810</div>
+      <h2 class="sh rev">Pakenham — Business Intelligence Report 2025</h2>
+      <p class="sd rev">Google review intelligence across 82 small and medium businesses in Pakenham. One of Melbourne's strongest outer-growth corridor business communities — 12 categories, AI-powered review themes, performance quadrant and complete business directory.</p>
+      <div class="pb rev" style="background:linear-gradient(135deg,var(--pakd),var(--pak),#22D3EE)">
+        <div class="pb-badge">Pakenham SMB Intelligence · Google Review Analysis · 2025</div>
+        <div class="pb-name">Pakenham — Thriving Growth-Corridor Business Community</div>
+        <div class="pb-grid">
+          <div class="pbi"><label>Businesses analysed</label><strong>82 SMBs</strong></div>
+          <div class="pbi"><label>Reviews processed</label><strong>1,000+</strong></div>
+          <div class="pbi"><label>Business categories</label><strong>12 sectors</strong></div>
+          <div class="pbi"><label>Average rating</label><strong>4.57 ★ / 5.0</strong></div>
+          <div class="pbi"><label>Perfect 5.0 ★</label><strong>24 businesses (29%)</strong></div>
+          <div class="pbi"><label>New entrants</label><strong>18 (&lt;100 reviews)</strong></div>
+          <div class="pbi"><label>Postcode</label><strong>3810 — VIC</strong></div>
+          <div class="pbi"><label>Report date</label><strong>2025</strong></div>
+        </div>
+      </div>
+      <div class="ca ca-p rev"><strong>Pakenham is thriving:</strong> 4.57 average across 82 businesses and 29% holding a perfect 5.0★ score — Pakenham's local economy punches well above its outer-suburban peer group. The community reflects a young-family demographic driving strong demand across childcare, medical, fitness, food and trade services.</div>
+      <div class="dc rev">
+        <div class="dc-h"><h3>Business Community Snapshot</h3><span class="dst st-live">2025 Google Data</span></div>
+        <div class="dc-b">
+          <div class="bstats">
+            <div class="bs"><div class="bs-n" style="color:var(--pak)">82</div><div class="bs-l">Businesses mapped</div></div>
+            <div class="bs"><div class="bs-n" style="color:var(--pak)">4.57★</div><div class="bs-l">Average rating</div></div>
+            <div class="bs"><div class="bs-n" style="color:var(--pak)">24</div><div class="bs-l">Perfect 5.0★</div></div>
+            <div class="bs"><div class="bs-n" style="color:var(--pak)">29%</div><div class="bs-l">5-star listings</div></div>
+            <div class="bs"><div class="bs-n" style="color:var(--pak)">12</div><div class="bs-l">Business sectors</div></div>
+            <div class="bs"><div class="bs-n" style="color:var(--pak)">18</div><div class="bs-l">New entrants</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="dc rev">
+        <div class="dc-h"><h3>12 Business Categories</h3><span class="dst st-live">2025</span></div>
+        <div class="dc-b">
+          <div class="catg">
+            <div class="catc"><div class="ce">☕</div><div><div class="cn">Food &amp; Cafes</div><div class="cs">Highest volume</div></div></div>
+            <div class="catc"><div class="ce">🍽️</div><div><div class="cn">Dining &amp; Restaurants</div><div class="cs">Strong cuisine diversity</div></div></div>
+            <div class="catc"><div class="ce">💪</div><div><div class="cn">Fitness &amp; Health</div><div class="cs">High-growth sector</div></div></div>
+            <div class="catc"><div class="ce">🏥</div><div><div class="cn">Medical &amp; Dental</div><div class="cs">Demand exceeds supply</div></div></div>
+            <div class="catc"><div class="ce">💅</div><div><div class="cn">Beauty &amp; Wellness</div><div class="cs">Strong female-led economy</div></div></div>
+            <div class="catc"><div class="ce">✂️</div><div><div class="cn">Hair &amp; Barbers</div><div class="cs">Community staple</div></div></div>
+            <div class="catc"><div class="ce">🔧</div><div><div class="cn">Auto &amp; Trades</div><div class="cs">Outer suburbs essential</div></div></div>
+            <div class="catc"><div class="ce">🛍️</div><div><div class="cn">Retail &amp; Shopping</div><div class="cs">Pakenham Central anchor</div></div></div>
+            <div class="catc"><div class="ce">💼</div><div><div class="cn">Professional Services</div><div class="cs">Growing with population</div></div></div>
+            <div class="catc"><div class="ce">🏠</div><div><div class="cn">Finance &amp; Loans</div><div class="cs">Mortgage belt demand</div></div></div>
+            <div class="catc"><div class="ce">👶</div><div><div class="cn">Childcare &amp; Education</div><div class="cs">Critical shortage</div></div></div>
+            <div class="catc"><div class="ce">⚡</div><div><div class="cn">Trades &amp; Services</div><div class="cs">Construction driven</div></div></div>
+          </div>
+          <div class="ca ca-p">The full report segments all 82 businesses into: 🏆 Market Leaders · 📈 Established Players · ⚡ Challengers · ⚠ Improvement Zone. The AI Review Intelligence Engine answers natural language questions about the Pakenham business community in real time.</div>
+        </div>
+      </div>
+      <div class="dc rev">
+        <div class="dc-h"><h3>Rating Distribution — 82 Businesses</h3><span class="dst st-live">Google Reviews 2025</span></div>
+        <div class="dc-b">
+          <div class="chart-box" style="height:200px">
+            <canvas id="pakChart" role="img" aria-label="Rating distribution: 5.0 star 24 businesses, 4.5-4.9 star 31, 4.0-4.4 star 18, 3.5-3.9 star 6, under 3.5 star 3"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="ract rev">
+        <a class="rbtn pak" href="pakenham_smb_analysis.html" target="_blank" rel="noopener">Open Full SMB Intelligence Report →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VICTORIA DASHBOARD -->
+<div id="panel-victoria" class="panel">
+  <div class="wrap">
+    <div class="sec">
+      <div class="ey ey-v rev">Victoria · Local Government · All Studies</div>
+      <h2 class="sh rev">Victorian Councils — Integrated Dashboard</h2>
+      <p class="sd rev">All active Victorian local government studies. The integrated heat map compares all studied councils across 12 capability dimensions — Cardinia Shire highlighted as the focus council.</p>
+      <div class="dc rev">
+        <div class="dc-h"><h3>Digital Maturity — All Studied Councils</h3><span class="dst st-live">Comparative · May 2026</span></div>
+        <div class="dc-b">
+          <div class="hm-leg">
+            <div class="hml"><div class="hml-d s5">5</div><span>Market-leading</span></div>
+            <div class="hml"><div class="hml-d s4">4</div><span>Strong</span></div>
+            <div class="hml"><div class="hml-d s3">3</div><span>Functional</span></div>
+            <div class="hml"><div class="hml-d s2">2</div><span>Limited</span></div>
+            <div class="hml"><div class="hml-d s1">1</div><span>Critical gap</span></div>
+            <div style="margin-left:auto;font-size:11px;background:var(--carl);color:var(--car);border:1px solid var(--car);padding:3px 10px;border-radius:20px;font-weight:600;font-family:var(--mono)">★ = Cardinia focus</div>
+          </div>
+          <div class="hmw">
+            <table class="hm">
+              <thead><tr>
+                <th class="hd">Capability</th><th class="hw">Wt</th>
+                <th class="hch" style="background:linear-gradient(135deg,#8A4F0A,#C27520);color:white;min-width:100px">★ Cardinia</th>
+                <th style="background:var(--wynd);color:white;min-width:100px">Wyndham</th>
+                <th style="background:var(--cas);color:white;min-width:100px">Casey</th>
+                <th style="background:#005A70;color:white;min-width:100px">Colac Otway</th>
+                <th style="background:#1E4080;color:white;min-width:100px">Surf Coast</th>
+                <th style="background:#4A1D96;color:white;min-width:100px">Corangamite</th>
+              </tr></thead>
+              <tbody>
+                <tr><td class="dl">Online Transactions</td><td class="wc">×1</td>
+                  <td class="hc"><div class="hmc s4"><div class="hms">4</div><div class="hmb">MyCardinia</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">OneCouncil</div></div></td>
+                  <td><div class="hmc s5"><div class="hms">5</div><div class="hmb">CiAnywhere</div></div></td>
+                  <td><div class="hmc s3"><div class="hms">3</div><div class="hmb">Civica 2017</div></div></td>
+                  <td><div class="hmc s3"><div class="hms">3</div><div class="hmb">Partial</div></div></td>
+                  <td><div class="hmc s3"><div class="hms">3</div><div class="hmb">TechOne</div></div></td>
+                </tr>
+                <tr><td class="dl">Planning Digitisation</td><td class="wc">×2</td>
+                  <td class="hc"><div class="hmc s4"><div class="hms">4</div><div class="hmb">ePlanning</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">ePlanning</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">TechOne</div></div></td>
+                  <td><div class="hmc s1"><div class="hms">1</div><div class="hmb">PDF/403 err</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">ePlanning</div></div></td>
+                  <td><div class="hmc s3"><div class="hms">3</div><div class="hmb">eTrack</div></div></td>
+                </tr>
+                <tr><td class="dl">Community Engagement</td><td class="wc">×2</td>
+                  <td class="hc"><div class="hmc s4"><div class="hms">4</div><div class="hmb">Soc.Pinpoint</div></div></td>
+                  <td><div class="hmc s5"><div class="hms">5</div><div class="hmb">The Loop</div></div></td>
+                  <td><div class="hmc s5"><div class="hms">5</div><div class="hmb">Casey Convos</div></div></td>
+                  <td><div class="hmc s1"><div class="hms">1</div><div class="hmb">None</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">Soc.Pinpoint</div></div></td>
+                  <td><div class="hmc s5"><div class="hms">5</div><div class="hmb">EngageHQ 🏆</div></div></td>
+                </tr>
+                <tr><td class="dl">ERP Integration</td><td class="wc">×2</td>
+                  <td class="hc"><div class="hmc s4"><div class="hms">4</div><div class="hmb">Ph.2 WIP</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">Ph.1 live</div></div></td>
+                  <td><div class="hmc s5"><div class="hms">5</div><div class="hmb">Full ✓</div></div></td>
+                  <td><div class="hmc s2"><div class="hms">2</div><div class="hmb">Civica</div></div></td>
+                  <td><div class="hmc s2"><div class="hms">2</div><div class="hmb">Unconfirmed</div></div></td>
+                  <td><div class="hmc s5"><div class="hms">5</div><div class="hmb">TechOne One</div></div></td>
+                </tr>
+                <tr><td class="dl">Cloud Infrastructure</td><td class="wc">×2</td>
+                  <td class="hc"><div class="hmc s4"><div class="hms">4</div><div class="hmb">TechOne SaaS</div></div></td>
+                  <td><div class="hmc s5"><div class="hms">5</div><div class="hmb">Multi-cloud</div></div></td>
+                  <td><div class="hmc s5"><div class="hms">5</div><div class="hmb">TechOne+IoT</div></div></td>
+                  <td><div class="hmc s2"><div class="hms">2</div><div class="hmb">Fragmented</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">Azure</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">TechOne</div></div></td>
+                </tr>
+                <tr><td class="dl">Citizen Identity / SSO</td><td class="wc">×2</td>
+                  <td class="hc" style="background:#FFFBEB"><div class="hmc s4" style="background:transparent"><div class="hms" style="color:var(--car)">4</div><div class="hmb" style="color:var(--car)">★ MyProfile</div></div></td>
+                  <td><div class="hmc s3"><div class="hms">3</div><div class="hmb">Staff SSO</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">CRM portal</div></div></td>
+                  <td><div class="hmc s1"><div class="hms">1</div><div class="hmb">None</div></div></td>
+                  <td><div class="hmc s1"><div class="hms">1</div><div class="hmb">None</div></div></td>
+                  <td><div class="hmc s3"><div class="hms">3</div><div class="hmb">Staff SSO</div></div></td>
+                </tr>
+                <tr><td class="dl">Smart City / IoT</td><td class="wc">×1</td>
+                  <td class="hc"><div class="hmc s1"><div class="hms">1</div><div class="hmb">None</div></div></td>
+                  <td><div class="hmc s5"><div class="hms">5</div><div class="hmb">Award 2019</div></div></td>
+                  <td><div class="hmc s5"><div class="hms">5</div><div class="hmb">Launchpad</div></div></td>
+                  <td><div class="hmc s1"><div class="hms">1</div><div class="hmb">None</div></div></td>
+                  <td><div class="hmc s1"><div class="hms">1</div><div class="hmb">None</div></div></td>
+                  <td><div class="hmc s1"><div class="hms">1</div><div class="hmb">None</div></div></td>
+                </tr>
+                <tr><td class="dl">Records Management</td><td class="wc">×1</td>
+                  <td class="hc"><div class="hmc s3"><div class="hms">3</div><div class="hmb">TechOne WIP</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">TechOne ECM</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">TechOne ECM</div></div></td>
+                  <td><div class="hmc s2"><div class="hms">2</div><div class="hmb">TBC vendor</div></div></td>
+                  <td><div class="hmc s2"><div class="hms">2</div><div class="hmb">Unknown</div></div></td>
+                  <td><div class="hmc s4"><div class="hms">4</div><div class="hmb">TechOne ECM</div></div></td>
+                </tr>
+                <tr class="hm-tr">
+                  <td class="dl">WEIGHTED SCORE (/85)</td><td class="wc">/85</td>
+                  <td class="hc" style="background:linear-gradient(135deg,#8A4F0A,#C27520)"><div class="hmc" style="background:transparent"><div class="hms" style="color:white;font-size:26px">63</div><div class="hmb" style="color:rgba(255,255,255,.7)">74% · Rank 3</div></div></td>
+                  <td style="background:var(--wynd)"><div class="hmc" style="background:transparent"><div class="hms" style="color:white;font-size:26px">74</div><div class="hmb" style="color:rgba(255,255,255,.6)">87% · Rank 2</div></div></td>
+                  <td style="background:var(--cas)"><div class="hmc" style="background:transparent"><div class="hms" style="color:white;font-size:26px">76</div><div class="hmb" style="color:rgba(255,255,255,.7)">89% · #1 🏆</div></div></td>
+                  <td style="background:#005A70"><div class="hmc" style="background:transparent"><div class="hms" style="color:white;font-size:26px">42</div><div class="hmb" style="color:rgba(255,255,255,.6)">49%</div></div></td>
+                  <td style="background:#1E4080"><div class="hmc" style="background:transparent"><div class="hms" style="color:white;font-size:26px">55</div><div class="hmb" style="color:rgba(255,255,255,.6)">65%</div></div></td>
+                  <td style="background:#4A1D96"><div class="hmc" style="background:transparent"><div class="hms" style="color:white;font-size:26px">67</div><div class="hmb" style="color:rgba(255,255,255,.7)">79%</div></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ca ca-a">★ Cardinia ranks 3rd overall (63/85 — 74%) and <strong>leads all 6 councils on Citizen Identity / SSO</strong>. The $32M TechOne rollout, when complete in 2029, pushes Cardinia's weighted score to ~72/85, within 4 points of Casey's current benchmark.</div>
+        </div>
+      </div>
+      <div class="ey ey-v rev" style="margin-top:8px">Complete report library</div>
+      <h3 class="sh rev" style="font-size:clamp(18px,2.5vw,26px);margin-bottom:20px">All Published Reports</h3>
+      <div class="rg rev">
+        <div class="rc"><div class="rc-bar" style="background:linear-gradient(90deg,var(--card),var(--car))"></div><div class="rc-head"><div class="rc-type" style="color:var(--car)">★ Local · Cardinia · May 2026</div><h3>Cardinia Shire — Deep Intelligence Report</h3></div><div class="rc-body"><p>Full 10-section analysis: population, services, $74.2M budget, challenges, unusual trends, initiatives, tech stack, digital maturity (63/100), benchmarking, strategic assessment.</p><div class="rtags"><span class="rt rt-html">Interactive HTML</span><span class="rt rt-vic">Victoria</span><span class="rt rt-loc">★ Local</span></div><div class="ract"><a class="rbtn car" href="Cardinia_Shire_Council_Deep_Analysis.html" target="_blank" rel="noopener">Open Report →</a></div></div></div>
+        <div class="rc"><div class="rc-bar" style="background:linear-gradient(90deg,var(--pakd),var(--pak))"></div><div class="rc-head"><div class="rc-type" style="color:var(--pak)">★ Local · Pakenham · 2025</div><h3>Pakenham SMB Google Review Intelligence</h3></div><div class="rc-body"><p>82 businesses, 12 categories, performance quadrant, AI review intelligence engine, Top 20 list, complete business directory.</p><div class="rtags"><span class="rt rt-html">Interactive + AI</span><span class="rt rt-vic">Victoria</span><span class="rt rt-loc">★ Local</span><span class="rt rt-ai">AI-powered</span></div><div class="ract"><a class="rbtn pak" href="pakenham_smb_analysis.html" target="_blank" rel="noopener">Open Report →</a></div></div></div>
+        <div class="rc"><div class="rc-bar" style="background:linear-gradient(90deg,var(--wynd),var(--wyn))"></div><div class="rc-head"><div class="rc-type" style="color:var(--wyn)">Wyndham City · May 2026</div><h3>Wyndham City — Deep Intelligence Report</h3></div><div class="rc-body"><p>Australia's fastest-growing municipality. $165.1M capital, Smart City Award 2019, TechOne Phase 1 live. Full service, budget, challenges and digital stack analysis.</p><div class="rtags"><span class="rt rt-html">Interactive HTML</span><span class="rt rt-vic">Victoria</span></div><div class="ract"><a class="rbtn wyn" href="Wyndham_City_Council_Deep_Analysis.html" target="_blank" rel="noopener">Open Report →</a></div></div></div>
+        <div class="rc"><div class="rc-bar" style="background:linear-gradient(90deg,var(--car),var(--pak),var(--cas))"></div><div class="rc-head"><div class="rc-type" style="color:var(--car)">SE Melbourne · May 2026</div><h3>SE Melbourne 3-Council Digital Comparison</h3></div><div class="rc-body"><p>Cardinia vs Casey vs Greater Dandenong. 12-dimension heat map, application estates, domain matrix. Casey 4.5/5, Cardinia 3.7/5, Dandenong 2.9/5.</p><div class="rtags"><span class="rt rt-html">Interactive HTML</span><span class="rt rt-vic">Victoria</span><span class="rt rt-loc">★ Cardinia</span></div><div class="ract"><a class="rbtn car" href="SE_Melbourne_3Council_Cardinia_Comparison.html" target="_blank" rel="noopener">Open Report →</a></div></div></div>
+        <div class="rc"><div class="rc-bar" style="background:var(--col)"></div><div class="rc-head"><div class="rc-type" style="color:var(--col)">Colac Otway · SW Victoria · May 2026</div><h3>Colac Otway — Application Landscape &amp; Rationalisation</h3></div><div class="rc-body"><p>21-app estate, 40+ service mappings, 5 duplication zones, 10 risks, 12 recommendations. Embedded Excel data collection template.</p><div class="rtags"><span class="rt rt-html">HTML + Excel</span><span class="rt rt-vic">Victoria</span></div><div class="ract"><a class="rbtn p" href="Colac_Otway_Application_Landscape_Proposal_2.html" target="_blank" rel="noopener">Open Report →</a><a class="rbtn s" href="Colac_Otway_Data_Collection_Template.xlsx" download>Excel</a></div></div></div>
+        <div class="rc"><div class="rc-bar" style="background:linear-gradient(90deg,#005A70,#2563A8,#7B3FA8)"></div><div class="rc-head"><div class="rc-type" style="color:#7B3FA8">6-Council Study · May 2026</div><h3>Six-Council Victorian Comparison</h3></div><div class="rc-body"><p>Colac Otway · Surf Coast · Corangamite · Cardinia · Casey · Dandenong. Application estates and full 6-council weighted heat map.</p><div class="rtags"><span class="rt rt-html">Interactive HTML</span><span class="rt rt-vic">6 LGAs</span></div><div class="ract"><a class="rbtn p" href="Colac_Otway_6Council_Comparison.html" target="_blank" rel="noopener">Open Report →</a></div></div></div>
+        <div class="rc"><div class="rc-bar" style="background:linear-gradient(90deg,#B91C1C,#E8941A,#15803D)"></div><div class="rc-head"><div class="rc-type" style="color:#B91C1C">Strategy Deck · 15 Slides</div><h3>Colac Otway — Challenges, Optimisation &amp; Peer Learning</h3></div><div class="rc-body"><p>Five challenges, five quick wins, five peer-learning lessons. Three-horizon roadmap and G21 Alliance opportunity.</p><div class="rtags"><span class="rt rt-ppt">PPTX 15 Slides</span><span class="rt rt-vic">Strategy</span></div><div class="ract"><a class="rbtn p" href="Colac_Otway_Challenges_And_Peer_Learning.pptx" download>Download →</a></div></div></div>
+        <div class="rc"><div class="rc-bar" style="background:var(--grn)"></div><div class="rc-head"><div class="rc-type" style="color:var(--grn)">Data Template</div><h3>EA Data Collection Workbook — Colac Otway</h3></div><div class="rc-body"><p>10-worksheet Excel template pre-populated from public evidence. App register, service mapping, maturity heat map, risk register, recommendations.</p><div class="rtags"><span class="rt rt-xl">10-Sheet Excel</span><span class="rt rt-vic">Victoria</span></div><div class="ract"><a class="rbtn p" href="Colac_Otway_Data_Collection_Template.xlsx" download>Download Excel →</a></div></div></div>
+      </div>
+      <div class="add-w rev">
+        <h4>Suggest a Victorian Council to Study Next</h4>
+        <p>New councils are added based on community interest, data availability, and local significance. Growth corridors, regional centres and underserved communities are prioritised.</p>
+        <div class="sp-row">
+          <span class="sp">Mornington Peninsula</span><span class="sp">Frankston City</span>
+          <span class="sp">Whittlesea</span><span class="sp">Hume City</span>
+          <span class="sp">Mitchell Shire</span><span class="sp">Yarra Ranges</span>
+          <span class="sp">Bass Coast</span><span class="sp">South Gippsland</span>
+          <span class="sp">Casey (full deep study)</span><span class="sp">Greater Dandenong (full)</span>
+        </div>
+        <a class="btn-ghost" style="color:var(--ink);border-color:var(--rule);background:var(--white)" href="https://www.linkedin.com/in/rajib-deb/" target="_blank" rel="noopener">Suggest a council on LinkedIn →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WYNDHAM -->
+<div id="panel-wyndham" class="panel">
+  <div class="wrap">
+    <div class="sec">
+      <div class="ey ey-w rev">Victorian Council Study — Wyndham City</div>
+      <h2 class="sh rev">Wyndham City Council — Deep Intelligence 2025–26</h2>
+      <p class="sd rev">Australia's fastest-growing municipality. 337,009 residents growing by 6,000 per year. $165.1M capital budget across 71 projects. Smart City Award ANZ 2019. The same growth-pressure challenge as Cardinia — at 2.5× the scale.</p>
+      <div class="pb rev" style="background:linear-gradient(135deg,var(--wynd),var(--wyn),#A78BFA)">
+        <div class="pb-badge">Wyndham City Council · Deep Intelligence · May 2026</div>
+        <div class="pb-name">Wyndham City — Australia's Fastest-Growing Municipality</div>
+        <div class="pb-grid">
+          <div class="pbi"><label>Population 2024</label><strong>337,009</strong></div>
+          <div class="pbi"><label>Projected 2040</label><strong>500,000+</strong></div>
+          <div class="pbi"><label>Growth rate</label><strong>~6,000/year</strong></div>
+          <div class="pbi"><label>Total revenue FY24</label><strong>$1.25B</strong></div>
+          <div class="pbi"><label>Capital works FY25/26</label><strong>$165.1M</strong></div>
+          <div class="pbi"><label>Projects approved</label><strong>71 projects</strong></div>
+          <div class="pbi"><label>Rate cap FY25/26</label><strong>2.75% (below CPI)</strong></div>
+          <div class="pbi"><label>Smart City Award</label><strong>2019 Best ANZ — SCCA</strong></div>
+          <div class="pbi"><label>ERP</label><strong>TechOne Phase 1 live ✓</strong></div>
+          <div class="pbi"><label>Deliberative panel</label><strong>103-member (2024)</strong></div>
+          <div class="pbi"><label>Largest metro LGA area</label><strong>Victoria</strong></div>
+          <div class="pbi"><label>Report date</label><strong>May 2026</strong></div>
+        </div>
+      </div>
+      <div class="ca ca-w rev"><strong>Four Compounding Stressors:</strong> (1) Explosive population growth on a rate-capped revenue base, (2) aging infrastructure in established suburbs demanding costly renewal, (3) massive new capital requirements from greenfield estates, (4) rapidly diversifying community requiring multilingual and culturally responsive services. Structurally identical to Cardinia — at 2.5× population.</div>
+      <div class="dc rev">
+        <div class="dc-h"><h3>FY2025/26 Capital Budget — $165.1M</h3><span class="dst st-live">71 Projects · Adopted</span></div>
+        <div class="dc-b">
+          <div class="mets">
+            <div class="met"><div class="met-n" style="color:var(--wyn)">$165.1M</div><div class="met-l">Total capital</div></div>
+            <div class="met"><div class="met-n" style="color:var(--wyn)">71</div><div class="met-l">Projects approved</div></div>
+            <div class="met"><div class="met-n" style="color:var(--wyn)">$80.9M</div><div class="met-l">Roads &amp; drainage</div></div>
+            <div class="met"><div class="met-n" style="color:var(--wyn)">$27.7M</div><div class="met-l">Community facilities</div></div>
+            <div class="met"><div class="met-n" style="color:var(--wyn)">$20.8M</div><div class="met-l">Parks &amp; open space</div></div>
+            <div class="met"><div class="met-n" style="color:var(--wyn)">$1.25B</div><div class="met-l">Total revenue FY24</div></div>
+          </div>
+          <div class="bb">
+            <div class="brow"><div class="br-l">Roads &amp; drainage</div><div class="br-t"><div class="br-f" style="width:85%;background:var(--wyn)"></div></div><div class="br-v">$80.9M</div></div>
+            <div class="brow"><div class="br-l">Community facilities</div><div class="br-t"><div class="br-f" style="width:29%;background:#8B5CF6"></div></div><div class="br-v">$27.7M</div></div>
+            <div class="brow"><div class="br-l">Parks &amp; open space</div><div class="br-t"><div class="br-f" style="width:22%;background:#A78BFA"></div></div><div class="br-v">$20.8M</div></div>
+            <div class="brow"><div class="br-l">Other infrastructure</div><div class="br-t"><div class="br-f" style="width:19%;background:#C4B5FD"></div></div><div class="br-v">$18.6M</div></div>
+            <div class="brow"><div class="br-l">Asset renewals</div><div class="br-t"><div class="br-f" style="width:17%;background:#DDD6FE"></div></div><div class="br-v">$17.1M</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="dc rev">
+        <div class="dc-h"><h3>Wyndham Digital Capability Stack</h3><span class="dst st-live">May 2026</span></div>
+        <div class="dc-b">
+          <div class="dm">
+            <div class="dmr"><div class="dmd">Smart City / IoT</div><div class="dmt"><div class="dmf" style="width:100%;background:var(--s5c)"></div></div><div class="dms" style="color:var(--s5c)">5/5</div></div>
+            <div class="dmr"><div class="dmd">Community Engagement</div><div class="dmt"><div class="dmf" style="width:100%;background:var(--s5c)"></div></div><div class="dms" style="color:var(--s5c)">5/5</div></div>
+            <div class="dmr"><div class="dmd">ERP / Finance Systems</div><div class="dmt"><div class="dmf" style="width:80%;background:var(--s4c)"></div></div><div class="dms" style="color:var(--s4c)">4/5</div></div>
+            <div class="dmr"><div class="dmd">Cloud Infrastructure</div><div class="dmt"><div class="dmf" style="width:80%;background:var(--s4c)"></div></div><div class="dms" style="color:var(--s4c)">4/5</div></div>
+            <div class="dmr"><div class="dmd">Citizen Portal</div><div class="dmt"><div class="dmf" style="width:80%;background:var(--s4c)"></div></div><div class="dms" style="color:var(--s4c)">4/5</div></div>
+            <div class="dmr"><div class="dmd">Multilingual Services</div><div class="dmt"><div class="dmf" style="width:80%;background:var(--s4c)"></div></div><div class="dms" style="color:var(--s4c)">4/5</div></div>
+            <div class="dmr"><div class="dmd">GIS &amp; Spatial Data</div><div class="dmt"><div class="dmf" style="width:60%;background:var(--s3c)"></div></div><div class="dms" style="color:var(--s3c)">3/5</div></div>
+            <div class="dmr"><div class="dmd">Records Management</div><div class="dmt"><div class="dmf" style="width:60%;background:var(--s3c)"></div></div><div class="dms" style="color:var(--s3c)">3/5</div></div>
+            <div class="dmr"><div class="dmd">Cybersecurity Posture</div><div class="dmt"><div class="dmf" style="width:60%;background:var(--s3c)"></div></div><div class="dms" style="color:var(--s3c)">3/5</div></div>
+            <div class="dmr"><div class="dmd">AI / Machine Learning</div><div class="dmt"><div class="dmf" style="width:40%;background:var(--s2c)"></div></div><div class="dms" style="color:var(--s2c)">2/5</div></div>
+          </div>
+          <div class="ca ca-w">Wyndham's Smart City programme (ANZ Award 2019) and 103-member deliberative panel are the two standout capabilities across all 6 councils studied. Both are the clearest strategic benchmarks for Cardinia's next investment cycle — IoT infrastructure and deeper community engagement analytics.</div>
+        </div>
+      </div>
+      <div class="ract rev">
+        <a class="rbtn wyn" href="Wyndham_City_Council_Deep_Analysis.html" target="_blank" rel="noopener">Open Full Deep Intelligence Report →</a>
+        <button class="rbtn s" onclick="go('victoria')">See all Victorian councils →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COLAC / SW VIC -->
+<div id="panel-colac" class="panel">
+  <div class="wrap">
+    <div class="sec">
+      <div class="ey rev" style="color:var(--col);--ey-before:var(--col)"><span style="width:18px;height:1.5px;background:var(--col);display:inline-block;margin-right:9px"></span>South West Victoria Study Group</div>
+      <h2 class="sh rev">Colac Otway &amp; South West Victoria</h2>
+      <p class="sd rev">The most comprehensive application landscape study in this collection — 6 Victorian LGAs across the G21 Alliance, with 40+ service mappings, governance risk registers, duplication zones, and strategic roadmaps.</p>
+      <div class="rg rev">
+        <div class="rc"><div class="rc-bar" style="background:var(--col)"></div><div class="rc-head"><div class="rc-type" style="color:var(--col)">App Landscape v2 · May 2026</div><h3>Colac Otway — Application Landscape &amp; Rationalisation</h3></div><div class="rc-body"><p>9-section analysis. 21-app estate. 40+ service maps. 5 duplication zones. 10 risks. 12 recommendations. Embedded Excel data template.</p><div class="rtags"><span class="rt rt-html">HTML + Excel</span><span class="rt rt-vic">SW Victoria</span></div><div class="ract"><a class="rbtn p" href="Colac_Otway_Application_Landscape_Proposal_2.html" target="_blank" rel="noopener">Open Report →</a><a class="rbtn s" href="Colac_Otway_Data_Collection_Template.xlsx" download>Excel</a></div></div></div>
+        <div class="rc"><div class="rc-bar" style="background:linear-gradient(90deg,#005A70,#2563A8,#7B3FA8,var(--car),#0E7490,var(--cas))"></div><div class="rc-head"><div class="rc-type" style="color:#7B3FA8">6-Council Study · May 2026</div><h3>Six-Council Victorian Comparison</h3></div><div class="rc-body"><p>Colac Otway · Surf Coast · Corangamite · Cardinia · Casey · Dandenong. Application estates, maturity bars, 6-council weighted heat map.</p><div class="rtags"><span class="rt rt-html">Interactive HTML</span><span class="rt rt-vic">6 LGAs</span></div><div class="ract"><a class="rbtn p" href="Colac_Otway_6Council_Comparison.html" target="_blank" rel="noopener">Open Report →</a></div></div></div>
+        <div class="rc"><div class="rc-bar" style="background:linear-gradient(90deg,#B91C1C,#E8941A,#15803D)"></div><div class="rc-head"><div class="rc-type" style="color:#B91C1C">PowerPoint · 15 Slides</div><h3>Colac Otway — Challenges, Optimisation &amp; Peer Learning</h3></div><div class="rc-body"><p>Five challenges. Five quick wins. Five lessons from Surf Coast &amp; Corangamite. Three-horizon roadmap. G21 regional collaboration.</p><div class="rtags"><span class="rt rt-ppt">PPTX 15 Slides</span><span class="rt rt-vic">Strategy</span></div><div class="ract"><a class="rbtn p" href="Colac_Otway_Challenges_And_Peer_Learning.pptx" download>Download →</a></div></div></div>
+        <div class="rc"><div class="rc-bar" style="background:var(--col)"></div><div class="rc-head"><div class="rc-type" style="color:var(--col)">v1 Archive</div><h3>Colac Otway — Original Application Landscape</h3></div><div class="rc-body"><p>Original 7-section analysis: 6-layer architecture diagram, service mappings, duplication radar, domain matrix, risk register, 12 recommendations.</p><div class="rtags"><span class="rt rt-html">HTML Archive</span><span class="rt rt-vic">v1</span></div><div class="ract"><a class="rbtn s" href="Colac_Otway_Application_Landscape_Proposal.html" target="_blank" rel="noopener">Open v1 →</a></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEDERAL FUTURE -->
+<div id="panel-federal" class="panel">
+  <div class="wrap"><div class="sec">
+    <div class="fb">
+      <div class="fb-ico">🇦🇺</div>
+      <h2 class="fb-h">Federal Government Dashboard — On the Roadmap</h2>
+      <p class="fb-sub">The CivicLens Federal Dashboard will cover the Australian Government's digital estate, federal budget infrastructure allocation by state, Services Australia performance, Digital Transformation Agency maturity, and OECD digital government benchmarking. Victorian local government coverage comes first — federal content publishes once council coverage matures.</p>
+      <div class="fb-tl">
+        <div class="fbt"><span class="fbt-w">Q3 2026</span><span class="fbt-t">Federal ICT &amp; Digital Maturity</span></div>
+        <div class="fbt"><span class="fbt-w">Q3 2026</span><span class="fbt-t">Infrastructure Investment by State</span></div>
+        <div class="fbt"><span class="fbt-w">Q4 2026</span><span class="fbt-t">Services Australia Analysis</span></div>
+        <div class="fbt"><span class="fbt-w">Q4 2026</span><span class="fbt-t">OECD Digital Gov Benchmark</span></div>
+      </div>
+    </div>
+    <div style="text-align:center"><button class="btn-g" onclick="go('victoria')">← Return to Active Victorian Studies</button></div>
+  </div></div>
+</div>
+
+<!-- STATE FUTURE -->
+<div id="panel-state" class="panel">
+  <div class="wrap"><div class="sec">
+    <div class="fb">
+      <div class="fb-ico">🏛️</div>
+      <h2 class="fb-h">State Government Dashboards — On the Roadmap</h2>
+      <p class="fb-sub">State dashboards will cover Victoria's whole-of-government digital estate (Service Victoria, Vic Roads, DEECA, planning reform), benchmarked against Service NSW — Australia's digital government benchmark. Victorian local government coverage comes first.</p>
+      <div class="fb-tl">
+        <div class="fbt"><span class="fbt-w">Q3 2026</span><span class="fbt-t">Victorian Digital Gov Strategy</span></div>
+        <div class="fbt"><span class="fbt-w">Q3 2026</span><span class="fbt-t">Victorian Planning System</span></div>
+        <div class="fbt"><span class="fbt-w">Q4 2026</span><span class="fbt-t">NSW Service NSW Benchmark</span></div>
+        <div class="fbt"><span class="fbt-w">2027</span><span class="fbt-t">QLD · SA · WA</span></div>
+      </div>
+    </div>
+    <div style="text-align:center"><button class="btn-g" onclick="go('victoria')">← Return to Active Victorian Studies</button></div>
+  </div></div>
+</div>
+
+<!-- AUTHOR -->
+<div id="panel-author" class="panel">
+  <div class="wrap">
+    <div class="aw">
+      <div class="ey ey-g" style="margin-bottom:10px">About the author</div>
+      <h2 class="sh" style="margin-bottom:26px">The person behind CivicLens</h2>
+      <div class="acard">
+        <div class="aav">RD</div>
+        <div>
+          <div class="aname">Rajib Deb</div>
+          <div class="arole">Technology Professional · Melbourne, Australia · Cardinia Shire Resident</div>
+          <p class="abio">I'm a technology professional with 30+ years of experience consulting and delivering large-scale solutions and implementations across multiple industry sectors — including banking, financial services, insurance, telecommunications, energy, utilities, and public sector organisations.</p>
+          <p class="abio" style="margin-top:10px">I live in Cardinia Shire. CivicLens grew from one observation: I spend my career producing rigorous, evidence-based analysis for large organisations. My own council — which manages $3.1B in assets and is adding 3 families per day — deserves the same quality of scrutiny. All research uses only publicly available data.</p>
+          <div class="alinks">
+            <a class="al al-li" href="https://www.linkedin.com/in/rajib-deb/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+            <a class="al al-gh" href="https://github.com/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+          </div>
+        </div>
+      </div>
+      <h3 style="font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:13px">Areas of expertise</h3>
+      <div class="expg">
+        <div class="expi" style="border-left-color:var(--pak)"><h4>Enterprise Architecture</h4><p>Strategy, capability mapping, application landscape analysis and roadmap development across complex multi-platform estates.</p></div>
+        <div class="expi" style="border-left-color:var(--car)"><h4>Payment Systems</h4><p>NPP, BECS, SWIFT, card rails. Payment hub selection and implementation across Australian financial institutions.</p></div>
+        <div class="expi" style="border-left-color:var(--cas)"><h4>Digital Transformation</h4><p>Large-scale technology consulting and delivery across banking, insurance, telco, energy and public sector.</p></div>
+        <div class="expi" style="border-left-color:var(--wyn)"><h4>Public Sector Analytics</h4><p>Digital maturity assessment, service delivery analysis and application landscape mapping from public data.</p></div>
+      </div>
+      <div class="disc"><strong>Independence declaration:</strong> All analysis on CivicLens is entirely independent. I have no commercial relationship with any council, TechnologyOne, Granicus, Social Pinpoint, or any other vendor or organisation mentioned in this research. All research uses only publicly available data. Views expressed are my own personal analysis only.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="fi">
+    <div><div class="fl">Civic<span>Lens</span></div><div style="font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Victorian Local Government Intelligence</div></div>
+    <div class="fn">Free. Independent. Built from public data. Making Victorian local government legible for every resident. Primary local focus: Cardinia Shire and Pakenham.</div>
+    <div class="flinks">
+      <a onclick="go('home')" style="cursor:pointer">Home</a>
+      <a onclick="go('victoria')" style="cursor:pointer">Reports</a>
+      <a onclick="go('author')" style="cursor:pointer">Author</a>
+      <a href="https://www.linkedin.com/in/rajib-deb/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const TABS=["home","cardinia","pakenham","victoria","wyndham","colac","federal","state","author"];
+function go(id){
+  document.querySelectorAll(".nb").forEach(b=>b.classList.toggle("active",b.dataset.tab===id||b.dataset.stab===id));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="panel-"+id));
+  history.replaceState(null,"","#"+id);
+  window.scrollTo({top:0,behavior:"smooth"});
+  rev();
+}
+const h=location.hash.slice(1);
+if(TABS.includes(h))go(h);
+const stk=document.getElementById("sticky");
+const mh=document.querySelector(".mast").offsetHeight;
+window.addEventListener("scroll",()=>{stk.style.display=window.scrollY>mh?"block":"none"},{passive:true});
+function rev(){
+  setTimeout(()=>{
+    document.querySelectorAll(".rev:not(.v)").forEach(el=>{
+      if(el.getBoundingClientRect().top<window.innerHeight*.92)el.classList.add("v");
+    });
+  },80);
+}
+const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("v");ro.unobserve(e.target);}});},{threshold:.08});
+document.querySelectorAll(".rev").forEach(el=>ro.observe(el));
+rev();
+window.addEventListener("load",()=>{
+  const ctx=document.getElementById("pakChart");
+  if(!ctx)return;
+  new Chart(ctx,{
+    type:"bar",
+    data:{
+      labels:["5.0 ★ (24)","4.5–4.9 ★ (31)","4.0–4.4 ★ (18)","3.5–3.9 ★ (6)","< 3.5 ★ (3)"],
+      datasets:[{label:"Businesses",data:[24,31,18,6,3],backgroundColor:["#0881A8","#22A8C8","#67C8E0","#A5DCF0","#CCEEFA"],borderColor:"transparent",borderWidth:0,borderRadius:5}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y} businesses`}}},scales:{x:{grid:{display:false},ticks:{color:"#607D90",font:{size:11}}},y:{grid:{color:"rgba(0,0,0,.05)"},ticks:{color:"#607D90",font:{size:11},stepSize:5},title:{display:true,text:"Number of businesses",color:"#607D90",font:{size:11}}}}}
+  });
+});
+</script>
+</body>
+</html>
