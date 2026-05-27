@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardinia Shire · Casey · Greater Dandenong — Digital Maturity Comparison</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  /* Cardinia — Amber/Gold (focus council) */
+  --car:        #D97706;
+  --car-d:      #92400E;
+  --car-l:      #FEF3C7;
+  --car-mid:    #F59E0B;
+  /* Casey — Cyan/Teal */
+  --cas:        #0891B2;
+  --cas-d:      #164E63;
+  --cas-l:      #ECFEFF;
+  /* Dandenong — Emerald */
+  --gd:         #059669;
+  --gd-d:       #064E3B;
+  --gd-l:       #ECFDF5;
+  /* Neutrals */
+  --ink:        #0F172A;
+  --ink-mid:    #334155;
+  --ink-light:  #64748B;
+  --rule:       #E2E8F0;
+  --surface:    #F8FAFC;
+  --white:      #FFFFFF;
+  /* Scores */
+  --s1-bg:#FEE2E2; --s1-fg:#991B1B;
+  --s2-bg:#FED7AA; --s2-fg:#9A3412;
+  --s3-bg:#FEF9C3; --s3-fg:#854D0E;
+  --s4-bg:#BBF7D0; --s4-fg:#166534;
+  --s5-bg:#16A34A; --s5-fg:#FFFFFF;
+  --radius:10px; --radius-lg:16px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.05);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.11),0 4px 10px rgba(0,0,0,.06);
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── COVER ─────────────────────────────────────────────── */
+.cover {
+  background: var(--ink);
+  color: white;
+  padding: 56px 52px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(217,119,6,.18) 0%, transparent 60%),
+              radial-gradient(ellipse at 20% 80%, rgba(8,145,178,.12) 0%, transparent 50%);
+}
+.cover::after {
+  content:'';
+  position:absolute; top:-60px; right:-60px;
+  width:380px; height:380px; border-radius:50%;
+  border: 1px solid rgba(245,158,11,.15);
+}
+.cover-kicker {
+  font-family:'DM Mono',monospace;
+  font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:rgba(255,255,255,.5); margin-bottom:16px;
+  display:flex; align-items:center; gap:10px;
+}
+.cover-kicker::before {
+  content:'';width:24px;height:1px;background:var(--car-mid);
+}
+.cover h1 {
+  font-family:'Syne',sans-serif;
+  font-size:42px; font-weight:800; line-height:1.1;
+  margin-bottom:8px;
+}
+.cover h1 em { font-style:normal; color:var(--car-mid); }
+.cover-sub {
+  font-size:15px; color:rgba(255,255,255,.65);
+  max-width:540px; margin-bottom:36px; line-height:1.65;
+}
+.cover-pills { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:32px; }
+.cover-pill {
+  display:flex; align-items:center; gap:7px;
+  padding:6px 14px; border-radius:24px;
+  border:1px solid rgba(255,255,255,.15);
+  font-size:12px; font-weight:500; color:rgba(255,255,255,.85);
+}
+.cover-pill.focus { background:rgba(217,119,6,.25); border-color:rgba(245,158,11,.4); color:#FCD34D; font-weight:700; }
+.cover-pill .dot { width:7px;height:7px;border-radius:50%; }
+.cover-meta { display:flex; gap:32px; flex-wrap:wrap; padding-top:24px; border-top:1px solid rgba(255,255,255,.1); }
+.cover-meta-item label { display:block; font-family:'DM Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:rgba(255,255,255,.4); margin-bottom:3px; }
+.cover-meta-item span { font-size:12.5px; color:rgba(255,255,255,.82); font-weight:500; }
+
+/* ── NAV ────────────────────────────────────────────────── */
+.nav { background:var(--white); border-bottom:2px solid var(--car); position:sticky; top:0; z-index:100; box-shadow:var(--shadow-sm); }
+.nav-inner { display:flex; overflow-x:auto; scrollbar-width:none; max-width:1320px; margin:0 auto; padding:0 32px; }
+.nav-inner::-webkit-scrollbar { display:none; }
+.nav-a {
+  display:flex; align-items:center; gap:6px;
+  padding:13px 16px; font-size:12.5px; font-weight:500;
+  color:var(--ink-light); text-decoration:none; white-space:nowrap;
+  border-bottom:2px solid transparent; margin-bottom:-2px;
+  transition:all .18s; font-family:'Outfit',sans-serif;
+}
+.nav-a:hover { color:var(--car); border-bottom-color:var(--car); background:#FFFBEB; }
+.nav-a.active { color:var(--car); border-bottom-color:var(--car); }
+
+/* ── LAYOUT ─────────────────────────────────────────────── */
+.wrap { max-width:1320px; margin:0 auto; padding:0 32px; }
+.section { padding:52px 0; }
+.section + .section { border-top:1px solid var(--rule); }
+.section-eyebrow {
+  font-family:'DM Mono',monospace; font-size:10px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--car); margin-bottom:8px;
+  display:flex; align-items:center; gap:10px;
+}
+.section-eyebrow::before { content:''; width:20px; height:2px; background:var(--car); }
+.section-title {
+  font-family:'Syne',sans-serif; font-size:28px; font-weight:700;
+  color:var(--ink); margin-bottom:10px;
+}
+.section-desc { font-size:13.5px; color:var(--ink-light); max-width:720px; line-height:1.7; margin-bottom:32px; }
+
+/* ── SCORE BANNER CARDS ─────────────────────────────────── */
+.score-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:36px; }
+.score-card {
+  border-radius:var(--radius-lg); overflow:hidden;
+  box-shadow:var(--shadow-md); position:relative;
+}
+.score-card.focus { box-shadow:0 0 0 3px var(--car-mid), var(--shadow-lg); }
+.score-card-head { padding:22px 24px 16px; color:white; }
+.score-card-head .label { font-family:'DM Mono',monospace; font-size:9.5px; text-transform:uppercase; letter-spacing:.12em; opacity:.65; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+.score-card-head .focus-star { font-size:11px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:20px; font-style:normal; opacity:1; }
+.score-card-head h3 { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; margin-bottom:14px; }
+.score-num { font-family:'Syne',sans-serif; font-size:52px; font-weight:800; line-height:1; }
+.score-denom { font-size:14px; font-weight:400; opacity:.6; }
+.score-card-body { background:white; padding:14px 24px; }
+.score-tier { font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; display:inline-block; margin-bottom:10px; }
+.score-meta-row { display:flex; justify-content:space-between; font-size:11.5px; color:var(--ink-light); padding:4px 0; border-bottom:1px solid var(--rule); }
+.score-meta-row:last-child { border-bottom:none; }
+.score-meta-row strong { color:var(--ink); font-weight:600; }
+
+/* ── COUNCIL TABS ───────────────────────────────────────── */
+.tab-bar {
+  display:flex; gap:0; border-bottom:2px solid var(--rule);
+  margin-bottom:32px; overflow-x:auto; scrollbar-width:none;
+}
+.tab-bar::-webkit-scrollbar { display:none; }
+.tab-btn {
+  padding:11px 22px; font-size:13px; font-weight:600; font-family:'Outfit',sans-serif;
+  border:none; background:none; cursor:pointer; white-space:nowrap;
+  color:var(--ink-light); border-bottom:3px solid transparent; margin-bottom:-2px;
+  transition:all .18s; display:flex; align-items:center; gap:7px;
+}
+.tab-btn:hover { color:var(--ink); background:var(--surface); }
+.tab-btn.car.active { color:var(--car-d); border-bottom-color:var(--car); background:#FFFBEB; }
+.tab-btn.cas.active { color:var(--cas-d); border-bottom-color:var(--cas); background:var(--cas-l); }
+.tab-btn.gd.active  { color:var(--gd-d);  border-bottom-color:var(--gd);  background:var(--gd-l); }
+.tab-btn.sum.active { color:#6D28D9; border-bottom-color:#7C3AED; background:#F5F3FF; }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; animation:fadeIn .25s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+/* ── PROFILE CARD ───────────────────────────────────────── */
+.profile-hero {
+  border-radius:var(--radius-lg); padding:28px 32px; color:white;
+  margin-bottom:24px; position:relative; overflow:hidden;
+}
+.profile-hero::before {
+  content:''; position:absolute; top:-40px; right:-40px;
+  width:240px; height:240px; border-radius:50%;
+  background:rgba(255,255,255,.06);
+}
+.profile-hero .ph-badge { font-family:'DM Mono',monospace; font-size:9.5px; text-transform:uppercase; letter-spacing:.12em; opacity:.6; margin-bottom:8px; }
+.profile-hero h3 { font-family:'Syne',sans-serif; font-size:24px; font-weight:700; margin-bottom:16px; }
+.ph-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+@media(max-width:700px) { .ph-grid { grid-template-columns:1fr 1fr; } }
+.ph-item label { display:block; font-size:9px; font-family:'DM Mono',monospace; text-transform:uppercase; letter-spacing:.08em; opacity:.55; margin-bottom:2px; }
+.ph-item strong { font-size:12.5px; font-weight:500; }
+
+/* ── CALLOUT ────────────────────────────────────────────── */
+.callout { padding:14px 18px 14px 50px; border-radius:var(--radius); border-left:4px solid; margin-bottom:22px; font-size:13px; line-height:1.65; position:relative; }
+.callout::before { position:absolute; left:16px; top:13px; font-size:16px; }
+.callout.amber { background:var(--car-l); border-color:var(--car); color:#78350F; }
+.callout.amber::before { content:'⭐'; }
+.callout.blue  { background:var(--cas-l); border-color:var(--cas); color:var(--cas-d); }
+.callout.blue::before  { content:'🌆'; }
+.callout.green { background:var(--gd-l);  border-color:var(--gd);  color:var(--gd-d); }
+.callout.green::before { content:'🏙️'; }
+.callout.warn  { background:#FFF7ED; border-color:#F97316; color:#7C2D12; }
+.callout.warn::before  { content:'⚠️'; }
+
+/* ── TABLE ──────────────────────────────────────────────── */
+.tbl-wrap { background:var(--white); border:1px solid var(--rule); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-sm); overflow-x:auto; margin-bottom:24px; }
+table { width:100%; border-collapse:collapse; font-size:12.5px; }
+thead th { background:var(--ink); color:white; padding:10px 14px; text-align:left; font-weight:600; font-size:11px; letter-spacing:.02em; white-space:nowrap; }
+tbody tr:hover { background:#F8FAFC; }
+tbody td { padding:10px 14px; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.55; }
+tbody tr:last-child td { border-bottom:none; }
+.badge { display:inline-block; padding:2px 8px; border-radius:5px; font-size:10.5px; font-weight:600; }
+.b-green  { background:var(--gd-l);   color:var(--gd-d); }
+.b-amber  { background:var(--car-l);  color:var(--car-d); }
+.b-blue   { background:var(--cas-l);  color:var(--cas-d); }
+.b-red    { background:#FEE2E2; color:#991B1B; }
+.b-grey   { background:#F1F5F9; color:#475569; }
+
+/* ── MATURITY BARS ──────────────────────────────────────── */
+.bar-section { background:var(--white); border:1px solid var(--rule); border-radius:var(--radius); padding:22px 24px; margin-bottom:24px; }
+.bar-row { display:flex; align-items:center; gap:12px; margin-bottom:11px; }
+.bar-row:last-child { margin-bottom:0; }
+.bar-lbl { width:200px; font-size:12.5px; font-weight:600; color:var(--ink); flex-shrink:0; }
+.bar-track { flex:1; background:var(--rule); border-radius:20px; height:11px; }
+.bar-fill  { height:100%; border-radius:20px; transition:width .6s ease; }
+.bar-val   { width:30px; font-size:11.5px; font-weight:700; text-align:right; flex-shrink:0; }
+.overall-row {
+  margin-top:18px; padding-top:18px; border-top:1px solid var(--rule);
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.overall-score { font-family:'Syne',sans-serif; font-size:36px; font-weight:800; line-height:1; }
+.overall-tier  { font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; }
+
+/* ── HEATMAP ────────────────────────────────────────────── */
+.hm-wrap { overflow-x:auto; border-radius:var(--radius); box-shadow:var(--shadow-md); margin-bottom:28px; }
+.hm { border-collapse:collapse; min-width:900px; width:100%; font-size:12px; }
+.hm thead th {
+  padding:12px 10px; text-align:center; font-weight:700; font-size:10.5px;
+  letter-spacing:.03em; white-space:nowrap; border-bottom:2px solid var(--rule);
+  border-right:1px solid rgba(255,255,255,.1);
+}
+.hm th.dim-h { text-align:left; padding-left:16px; min-width:200px; font-size:11px; }
+.hm th.wt-h  { min-width:38px; font-size:9px; font-weight:500; }
+.hm td { padding:0; border-bottom:1px solid var(--rule); border-right:1px solid var(--rule); vertical-align:middle; }
+.hm td.dim-label { padding:10px 16px; font-weight:600; font-size:12.5px; color:var(--ink); background:var(--surface); white-space:nowrap; }
+.hm td.wt-cell   { text-align:center; background:#F8FAFC; font-size:10px; font-weight:700; color:var(--ink-light); border-right:2px solid var(--rule); }
+.hm-cell { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:58px; padding:7px 5px; text-align:center; }
+.hm-score { font-family:'Syne',sans-serif; font-size:24px; font-weight:800; line-height:1; }
+.hm-sub   { font-size:8.5px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; margin-top:2px; line-height:1.3; max-width:90px; }
+/* Score colours */
+.s1 { background:var(--s1-bg); } .s1 .hm-score,.s1 .hm-sub { color:var(--s1-fg); }
+.s2 { background:var(--s2-bg); } .s2 .hm-score,.s2 .hm-sub { color:var(--s2-fg); }
+.s3 { background:var(--s3-bg); } .s3 .hm-score,.s3 .hm-sub { color:var(--s3-fg); }
+.s4 { background:var(--s4-bg); } .s4 .hm-score,.s4 .hm-sub { color:var(--s4-fg); }
+.s5 { background:var(--s5-bg); } .s5 .hm-score,.s5 .hm-sub { color:var(--s5-fg); }
+/* Cardinia highlight column */
+.hm td.car-col { border-left:3px solid var(--car-mid); border-right:3px solid var(--car-mid); }
+.hm th.car-col-h { border-left:3px solid var(--car-mid); border-right:3px solid var(--car-mid); }
+/* Totals row */
+.hm-total td.dim-label { background:var(--ink); color:white; font-weight:700; font-size:12px; }
+.hm-total td.wt-cell   { background:var(--ink); color:rgba(255,255,255,.5); }
+.hm-total td.insight-cell { background:var(--ink-mid); color:rgba(255,255,255,.8); font-size:11px; padding:10px 12px; }
+
+/* HM legend */
+.hm-legend { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; align-items:center; font-size:11.5px; color:var(--ink-light); }
+.hm-leg { display:flex; align-items:center; gap:5px; }
+.hm-leg-dot { width:26px; height:26px; border-radius:5px; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:700; font-size:13px; }
+
+/* ── COMPARISON PANELS ──────────────────────────────────── */
+.cmp-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:24px; }
+.cmp-card { background:var(--white); border:1px solid var(--rule); border-radius:var(--radius); padding:18px 20px; }
+.cmp-card-hd { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid; }
+.cmp-card-hd.car { color:var(--car-d); border-color:var(--car); }
+.cmp-card-hd.gap { color:#B91C1C; border-color:#EF4444; }
+.cmp-card ul { font-size:12.5px; color:var(--ink-light); line-height:1.8; padding-left:16px; }
+.cmp-card ul li strong { color:var(--ink); }
+
+/* ── DOMAIN MATRIX ──────────────────────────────────────── */
+.matrix-wrap { overflow-x:auto; border-radius:var(--radius); box-shadow:var(--shadow-sm); margin-bottom:24px; }
+.matrix { border-collapse:collapse; min-width:600px; width:100%; font-size:12px; }
+.matrix th { background:var(--ink); color:white; padding:10px 12px; text-align:center; font-weight:600; font-size:10.5px; white-space:nowrap; }
+.matrix th.row-h { text-align:left; padding-left:14px; min-width:180px; }
+.matrix td { padding:0; border:1px solid var(--rule); }
+.matrix td.row-label { padding:9px 14px; font-weight:600; font-size:12px; color:var(--ink); background:var(--surface); white-space:nowrap; }
+.mx-cell { display:flex; align-items:center; justify-content:center; min-height:40px; font-size:18px; font-weight:700; }
+.mx-full { background:#BBF7D0; } .mx-part { background:#FEF9C3; } .mx-none { background:#F8FAFC; color:#CBD5E1; }
+
+/* ── RANKING BAR CHART ──────────────────────────────────── */
+.rank-chart { background:var(--white); border:1px solid var(--rule); border-radius:var(--radius); padding:24px 28px; margin-bottom:24px; }
+.rank-row { display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+.rank-row:last-child { margin-bottom:0; }
+.rank-num { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:700; font-size:12px; color:white; flex-shrink:0; }
+.rank-name { width:160px; font-size:13px; font-weight:600; flex-shrink:0; }
+.rank-track { flex:1; background:var(--rule); border-radius:6px; height:28px; position:relative; overflow:hidden; }
+.rank-fill { height:100%; border-radius:6px; display:flex; align-items:center; justify-content:flex-end; padding-right:10px; }
+.rank-fill span { font-family:'Syne',sans-serif; font-weight:700; font-size:13px; color:white; }
+.rank-pct { width:40px; font-size:11.5px; font-weight:600; color:var(--ink-light); text-align:right; flex-shrink:0; }
+
+/* ── APP ESTATE CARDS ───────────────────────────────────── */
+.estate-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; margin-bottom:24px; }
+.estate-card { background:var(--white); border:1px solid var(--rule); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow-sm); }
+.estate-layer { font-size:9px; font-family:'DM Mono',monospace; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-light); margin-bottom:4px; }
+.estate-name { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:4px; line-height:1.3; }
+.estate-vendor { font-size:11px; color:var(--ink-light); margin-bottom:8px; }
+.estate-tags { display:flex; gap:5px; flex-wrap:wrap; }
+.estate-tag { font-size:9.5px; font-weight:600; padding:2px 7px; border-radius:4px; }
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+footer { background:var(--ink); color:rgba(255,255,255,.55); padding:28px 32px; text-align:center; font-size:12px; }
+footer strong { color:rgba(255,255,255,.85); }
+
+@media(max-width:768px) {
+  .cover { padding:36px 20px 32px; }
+  .cover h1 { font-size:28px; }
+  .wrap { padding:0 16px; }
+  .score-grid { grid-template-columns:1fr; }
+  .cmp-grid { grid-template-columns:1fr; }
+  .ph-grid { grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div id="cl-nav" style="position:sticky;top:0;z-index:9999;background:#0A0E14;border-bottom:2px solid #C49A2A;padding:0;font-family:'IBM Plex Sans',system-ui,sans-serif;">
+  <div style="max-width:1240px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:44px;gap:16px;overflow:hidden;">
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;">
+      <svg style="width:16px;height:16px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="#C49A2A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:900;color:#fff;letter-spacing:-.02em;">Civic<span style="color:#C49A2A;">Lens</span></span>
+    </a>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Victoria · SE Melbourne 3-Council Comparison 2026</span>
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:6px;background:rgba(196,154,42,.15);border:1px solid rgba(196,154,42,.3);color:#C49A2A;font-size:12px;font-weight:500;text-decoration:none;white-space:nowrap;flex-shrink:0;font-family:'IBM Plex Sans',system-ui,sans-serif;">
+      ← All Dashboards
+    </a>
+  </div>
+</div>
+
+
+<!-- ▓▓ COVER ▓▓ -->
+<div class="cover">
+  <div class="wrap">
+    <div class="cover-kicker">South-East Melbourne Growth Corridor — Digital Maturity Assessment — May 2026</div>
+    <h1>Digital Maturity<br><em>Comparison</em></h1>
+    <p class="cover-sub">A structured enterprise architecture assessment of three South-East Melbourne growth-corridor LGAs — benchmarking Cardinia Shire against City of Casey and Greater Dandenong across 12 capability dimensions.</p>
+
+    <div class="cover-pills">
+      <div class="cover-pill focus">
+        <div class="dot" style="background:var(--car-mid);"></div>
+        ★ Cardinia Shire — 3.7/5 — Strong / Transforming (FOCUS)
+      </div>
+      <div class="cover-pill">
+        <div class="dot" style="background:var(--cas);"></div>
+        City of Casey — 4.5/5 — Digital Leader
+      </div>
+      <div class="cover-pill">
+        <div class="dot" style="background:var(--gd);"></div>
+        Greater Dandenong — 2.9/5 — Progressing
+      </div>
+    </div>
+
+    <div class="cover-meta">
+      <div class="cover-meta-item"><label>Scope</label><span>3 Victorian LGAs — South-East Melbourne</span></div>
+      <div class="cover-meta-item"><label>Dimensions Assessed</label><span>12 capability dimensions (weighted)</span></div>
+      <div class="cover-meta-item"><label>Focus Council</label><span>Cardinia Shire Council</span></div>
+      <div class="cover-meta-item"><label>Evidence Basis</label><span>Public estate, TechOne press releases, council websites</span></div>
+      <div class="cover-meta-item"><label>Prepared</label><span>May 2026 — Draft for Discussion</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-a" href="#overview">Overview</a>
+    <a class="nav-a" href="#cardinia">★ Cardinia Shire</a>
+    <a class="nav-a" href="#casey">City of Casey</a>
+    <a class="nav-a" href="#dandenong">Greater Dandenong</a>
+    <a class="nav-a" href="#heatmap">Heat Map</a>
+    <a class="nav-a" href="#domain-matrix">Domain Matrix</a>
+    <a class="nav-a" href="#strategic">Strategic Insights</a>
+  </div>
+</nav>
+
+<!-- ▓▓ SECTION 1 — OVERVIEW ▓▓ -->
+<section id="overview" class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">01 / Overview</div>
+    <h2 class="section-title">Three Councils — One Growth Corridor</h2>
+    <p class="section-desc">Cardinia Shire, City of Casey, and Greater Dandenong are all fast-growing south-east Melbourne LGAs governed under the Local Government Act 2020 (Vic). Each faces the same planning and environment obligations, but has made distinct technology investment choices.</p>
+
+    <div class="score-grid">
+      <!-- Cardinia -->
+      <div class="score-card focus">
+        <div class="score-card-head" style="background:linear-gradient(135deg,#92400E,#D97706);">
+          <div class="label">Focus Council <em class="focus-star">★ PRIMARY</em></div>
+          <h3>Cardinia Shire</h3>
+          <div style="display:flex;align-items:flex-end;gap:6px;margin-top:4px;">
+            <div class="score-num">3.7</div><div class="score-denom" style="margin-bottom:10px;">/5</div>
+          </div>
+        </div>
+        <div class="score-card-body">
+          <span class="score-tier" style="background:#FEF3C7;color:#92400E;">Strong — Transforming</span>
+          <div class="score-meta-row"><span>Population</span><strong>~110,000 → 183,000 by 2041</strong></div>
+          <div class="score-meta-row"><span>ERP</span><strong>TechOne OneCouncil ($32M rollout)</strong></div>
+          <div class="score-meta-row"><span>ePlanning</span><strong>✓ Deployed</strong></div>
+          <div class="score-meta-row"><span>Engagement</span><strong>Social Pinpoint — Creating Cardinia</strong></div>
+          <div class="score-meta-row"><span>Citizen SSO</span><strong>★ Best-in-class — MyProfile</strong></div>
+          <div class="score-meta-row"><span>Weighted Score</span><strong>63 / 85 (74%)</strong></div>
+        </div>
+      </div>
+
+      <!-- Casey -->
+      <div class="score-card">
+        <div class="score-card-head" style="background:linear-gradient(135deg,#164E63,#0891B2);">
+          <div class="label">Benchmark — Digital Leader</div>
+          <h3>City of Casey</h3>
+          <div style="display:flex;align-items:flex-end;gap:6px;margin-top:4px;">
+            <div class="score-num">4.5</div><div class="score-denom" style="margin-bottom:10px;">/5</div>
+          </div>
+        </div>
+        <div class="score-card-body">
+          <span class="score-tier" style="background:#ECFEFF;color:#164E63;">🏆 Digital Leader</span>
+          <div class="score-meta-row"><span>Population</span><strong>~420,000 (largest LGA in Vic)</strong></div>
+          <div class="score-meta-row"><span>ERP</span><strong>TechOne OneCouncil — fully deployed 2025</strong></div>
+          <div class="score-meta-row"><span>Smart City</span><strong>Smart Casey Launchpad (IoT, AI, Data)</strong></div>
+          <div class="score-meta-row"><span>Engagement</span><strong>Casey Conversations — 4,600+ responses</strong></div>
+          <div class="score-meta-row"><span>Citizen SSO</span><strong>OneCouncil CRM portal</strong></div>
+          <div class="score-meta-row"><span>Weighted Score</span><strong>76 / 85 (89%)</strong></div>
+        </div>
+      </div>
+
+      <!-- Greater Dandenong -->
+      <div class="score-card">
+        <div class="score-card-head" style="background:linear-gradient(135deg,#064E3B,#059669);">
+          <div class="label">Benchmark — Progressing</div>
+          <h3>Greater Dandenong</h3>
+          <div style="display:flex;align-items:flex-end;gap:6px;margin-top:4px;">
+            <div class="score-num">2.9</div><div class="score-denom" style="margin-bottom:10px;">/5</div>
+          </div>
+        </div>
+        <div class="score-card-body">
+          <span class="score-tier" style="background:#ECFDF5;color:#064E3B;">Progressing — Transformation underway</span>
+          <div class="score-meta-row"><span>Population</span><strong>~165,000 (most culturally diverse LGA)</strong></div>
+          <div class="score-meta-row"><span>ERP</span><strong>Not publicly confirmed</strong></div>
+          <div class="score-meta-row"><span>ePlanning</span><strong>✓ Online Planning Portal</strong></div>
+          <div class="score-meta-row"><span>ECM</span><strong>Objective ECM (upgraded 2023)</strong></div>
+          <div class="score-meta-row"><span>Multilingual</span><strong>Google Translate across all sites ✓</strong></div>
+          <div class="score-meta-row"><span>Weighted Score</span><strong>49 / 85 (58%)</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ranking bar chart -->
+    <div class="rank-chart">
+      <h4 style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:20px;">Weighted Digital Maturity Ranking (out of 85)</h4>
+      <div class="rank-row">
+        <div class="rank-num" style="background:var(--cas);">1</div>
+        <div class="rank-name" style="color:var(--cas-d);">City of Casey</div>
+        <div class="rank-track">
+          <div class="rank-fill" style="width:89%;background:var(--cas);">
+            <span>76</span>
+          </div>
+        </div>
+        <div class="rank-pct">89%</div>
+      </div>
+      <div class="rank-row" style="position:relative;">
+        <div class="rank-num" style="background:var(--car);border:2px solid var(--car-mid);">2</div>
+        <div class="rank-name" style="color:var(--car-d);font-weight:700;">★ Cardinia Shire</div>
+        <div class="rank-track">
+          <div class="rank-fill" style="width:74%;background:linear-gradient(90deg,var(--car-d),var(--car));">
+            <span>63</span>
+          </div>
+        </div>
+        <div class="rank-pct" style="color:var(--car);font-weight:700;">74%</div>
+      </div>
+      <div class="rank-row">
+        <div class="rank-num" style="background:var(--gd);">3</div>
+        <div class="rank-name" style="color:var(--gd-d);">Greater Dandenong</div>
+        <div class="rank-track">
+          <div class="rank-fill" style="width:58%;background:var(--gd);">
+            <span>49</span>
+          </div>
+        </div>
+        <div class="rank-pct">58%</div>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <strong>Cardinia's Position:</strong> Ranked 2nd of 3 councils with a weighted score of 63/85 (74%). Cardinia's $32M TechOne OneCouncil rollout (2025–2029) is the largest digital investment in this comparison group. When complete, Cardinia will close the ERP, records, and cloud gaps that currently separate it from Casey's benchmark score. Its <strong>Citizen SSO (MyProfile/MyCardinia) is the strongest in this cohort</strong> — a strategic differentiator.
+    </div>
+  </div>
+</section>
+
+<!-- ▓▓ SECTION 2 — CARDINIA ▓▓ -->
+<section id="cardinia" class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">02 / Focus Council</div>
+    <h2 class="section-title">★ Cardinia Shire Council</h2>
+    <p class="section-desc">One of Victoria's fastest-growing municipalities at 45 km east of Melbourne. Cardinia is mid-way through its most significant digital transformation programme — a $32M TechOne OneCouncil deployment replacing legacy systems across customer service, planning, assets, HR, and records.</p>
+
+    <div class="profile-hero" style="background:linear-gradient(135deg,#92400E 0%,#D97706 60%,#F59E0B 100%);">
+      <div class="ph-badge">Council Profile — Cardinia Shire Council</div>
+      <h3>Cardinia Shire Council</h3>
+      <div class="ph-grid">
+        <div class="ph-item"><label>Population</label><strong>~110,000 (2026)</strong></div>
+        <div class="ph-item"><label>Target by 2041</label><strong>183,000 residents (+67%)</strong></div>
+        <div class="ph-item"><label>Area</label><strong>1,280 km²</strong></div>
+        <div class="ph-item"><label>Staff</label><strong>~650–700 (ABW model)</strong></div>
+        <div class="ph-item"><label>HQ</label><strong>Officer, Pakenham corridor</strong></div>
+        <div class="ph-item"><label>ERP</label><strong>TechOne OneCouncil SaaS</strong></div>
+        <div class="ph-item"><label>Digital Budget</label><strong>$32M (4-year programme)</strong></div>
+        <div class="ph-item"><label>ePlanning</label><strong>✓ Active portal</strong></div>
+        <div class="ph-item"><label>Engagement</label><strong>Social Pinpoint (Creating Cardinia)</strong></div>
+        <div class="ph-item"><label>Citizen Portal</label><strong>MyCardinia + MyProfile SSO</strong></div>
+        <div class="ph-item"><label>Capital Works</label><strong>$219M earmarked 2023–2026</strong></div>
+        <div class="ph-item"><label>Growth corridor</label><strong>Fastest growing LGA in SE Melbourne</strong></div>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <strong>Transformation Signal (March 2026):</strong> Cardinia awarded TechOne the $32M ERP contract in March 2026 with PM Partners as implementation partner, replacing all core systems including customer service portal, online customer portal, asset management, property rating, planning, local laws, records management, budgeting and staff management — the most comprehensive single-vendor digital programme in this comparison group.
+    </div>
+
+    <h4 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 16px;">Application Estate</h4>
+    <div class="estate-grid">
+      <div class="estate-card" style="border-top:3px solid var(--car);">
+        <div class="estate-layer">Layer 1 — Citizen Portal</div>
+        <div class="estate-name">MyCardinia</div>
+        <div class="estate-vendor">TechnologyOne DxP</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-amber">SaaS</span>
+          <span class="estate-tag b-amber">Expanding</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--car);">
+        <div class="estate-layer">Layer 1 — Citizen Identity</div>
+        <div class="estate-name">MyProfile (myprofile.cardinia.vic.gov.au)</div>
+        <div class="estate-vendor">TechnologyOne</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-amber">★ Best SSO in cohort</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--car);">
+        <div class="estate-layer">Layer 2 — ERP Core</div>
+        <div class="estate-name">TechOne OneCouncil SaaS</div>
+        <div class="estate-vendor">TechnologyOne (ASX: TNE)</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-amber">Phase 1 Live (Sep 2023)</span>
+          <span class="estate-tag b-amber">$32M rollout</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--car);">
+        <div class="estate-layer">Layer 2 — Planning</div>
+        <div class="estate-name">ePlanning Portal</div>
+        <div class="estate-vendor">TechOne / Pathway (likely)</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-blue">Preferred lodgement</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--car);">
+        <div class="estate-layer">Layer 3 — Community Engagement</div>
+        <div class="estate-name">Creating Cardinia</div>
+        <div class="estate-vendor">Social Pinpoint</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-green">43+ consultations</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--car);">
+        <div class="estate-layer">Layer 3 — Supplementary Surveys</div>
+        <div class="estate-name">LimeSurvey + The Hive</div>
+        <div class="estate-vendor">LimeSurvey / TBC</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-grey">AU-hosted data</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--car);">
+        <div class="estate-layer">Layer 4 — Records (Rollout)</div>
+        <div class="estate-name">TechOne ECM</div>
+        <div class="estate-vendor">TechnologyOne</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-amber">In rollout 2025–29</span>
+          <span class="estate-tag b-grey">PROV compliant target</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--car);">
+        <div class="estate-layer">Layer 5 — Spatial</div>
+        <div class="estate-name">ArcGIS / Mapping</div>
+        <div class="estate-vendor">Esri</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-amber">Partially evidenced</span>
+          <span class="estate-tag b-grey">Property / planning maps</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--car);">
+        <div class="estate-layer">Layer 5 — Staff Environment</div>
+        <div class="estate-name">Activity Based Working + M365</div>
+        <div class="estate-vendor">Microsoft</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-green">Hybrid first</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--car);">
+        <div class="estate-layer">Layer 6 — Demographics</div>
+        <div class="estate-name">id.com.au Community Profile</div>
+        <div class="estate-vendor">.id (FORECAST.id)</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-grey">Standard Vic LGA tool</span>
+        </div>
+      </div>
+    </div>
+
+    <h4 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 16px;">Service Maturity Profile</h4>
+    <div class="bar-section">
+      <div class="bar-row"><div class="bar-lbl">Online Transactions</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#D97706;"></div></div><div class="bar-val" style="color:#D97706;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Forms &amp; Service Requests</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#D97706;"></div></div><div class="bar-val" style="color:#D97706;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Planning Digitisation</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#D97706;"></div></div><div class="bar-val" style="color:#D97706;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Community Engagement</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#D97706;"></div></div><div class="bar-val" style="color:#D97706;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Digital Notice Delivery</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#FBBF24;"></div></div><div class="bar-val" style="color:#92400E;">3/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">GIS &amp; Spatial</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#FBBF24;"></div></div><div class="bar-val" style="color:#92400E;">3/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Cloud Infrastructure</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#D97706;"></div></div><div class="bar-val" style="color:#D97706;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">ERP Integration</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#D97706;"></div></div><div class="bar-val" style="color:#D97706;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Records Management</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#FBBF24;"></div></div><div class="bar-val" style="color:#92400E;">3/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Security Posture</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#FBBF24;"></div></div><div class="bar-val" style="color:#92400E;">3/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Citizen Identity / SSO</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#D97706;"></div></div><div class="bar-val" style="color:#D97706;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Staff Digital Tools</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#D97706;"></div></div><div class="bar-val" style="color:#D97706;">4/5</div></div>
+      <div class="overall-row">
+        <div class="overall-score" style="color:#D97706;">3.7</div>
+        <div>
+          <div style="font-size:11px;color:var(--ink-light);margin-bottom:4px;">/ 5 Overall Score</div>
+          <span class="overall-tier" style="background:#FEF3C7;color:#92400E;">Strong — Transforming</span>
+        </div>
+        <div style="margin-left:auto;text-align:right;">
+          <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--car);">63<span style="font-size:14px;font-weight:400;color:var(--ink-light);">/85</span></div>
+          <div style="font-size:11px;color:var(--ink-light);">Weighted score (74%)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▓▓ SECTION 3 — CASEY ▓▓ -->
+<section id="casey" class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">03 / Benchmark — Digital Leader</div>
+    <h2 class="section-title">City of Casey</h2>
+    <p class="section-desc">Victoria's largest LGA by population (~420,000) and one of Australia's fastest-growing cities. Casey has completed its TechOne OneCouncil SaaS deployment and runs a mature Smart City programme with IoT sensors, AI analytics, and a deeply engaged community consultation platform.</p>
+
+    <div class="profile-hero" style="background:linear-gradient(135deg,#164E63 0%,#0891B2 60%,#22D3EE 100%);">
+      <div class="ph-badge">Council Profile — City of Casey</div>
+      <h3>City of Casey</h3>
+      <div class="ph-grid">
+        <div class="ph-item"><label>Population</label><strong>~420,000 (2026)</strong></div>
+        <div class="ph-item"><label>New families/year</label><strong>~5,000 per year</strong></div>
+        <div class="ph-item"><label>Area</label><strong>409 km²</strong></div>
+        <div class="ph-item"><label>Staff</label><strong>~1,200+</strong></div>
+        <div class="ph-item"><label>HQ</label><strong>Narre Warren</strong></div>
+        <div class="ph-item"><label>ERP</label><strong>TechOne OneCouncil (fully deployed 2025)</strong></div>
+        <div class="ph-item"><label>Smart City</label><strong>Smart Casey Launchpad (since 2020)</strong></div>
+        <div class="ph-item"><label>Engagement</label><strong>Casey Conversations — 4,600+ responses 2024</strong></div>
+        <div class="ph-item"><label>Digital Strategy</label><strong>Digital Equity Framework + Lab</strong></div>
+        <div class="ph-item"><label>CRM</label><strong>TechOne CiAnywhere built-in CRM</strong></div>
+        <div class="ph-item"><label>Capital Works</label><strong>$100M+ annually</strong></div>
+        <div class="ph-item"><label>Maturity tier</label><strong>🏆 Digital Leader</strong></div>
+      </div>
+    </div>
+
+    <div class="callout blue">
+      <strong>Digital Leader Signals:</strong> Casey's TechOne OneCouncil deployment including Property &amp; Rating CiAnywhere with built-in CRM was complete by 2025 — delivering consistent, self-service interactions for 420,000 residents. The Smart Casey Launchpad (2020) drives IoT, AI and data platform innovation. "Casey Conversations" (Social Pinpoint) gathered 4,600+ community responses in 2024 via a 55-member deliberative citizen panel. An open API feeds PowerBI dashboards for real-time engagement analytics.
+    </div>
+
+    <h4 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 16px;">Application Estate</h4>
+    <div class="estate-grid">
+      <div class="estate-card" style="border-top:3px solid var(--cas);">
+        <div class="estate-layer">Layer 1 — ERP (Complete)</div>
+        <div class="estate-name">TechOne OneCouncil SaaS</div>
+        <div class="estate-vendor">TechnologyOne (ASX: TNE)</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Fully deployed 2025</span>
+          <span class="estate-tag b-blue">10+ yr relationship</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--cas);">
+        <div class="estate-layer">Layer 1 — Citizen CRM Portal</div>
+        <div class="estate-name">OneCouncil CiAnywhere Portal</div>
+        <div class="estate-vendor">TechnologyOne</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-blue">Built-in CRM</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--cas);">
+        <div class="estate-layer">Layer 2 — Community Engagement</div>
+        <div class="estate-name">Casey Conversations</div>
+        <div class="estate-vendor">Social Pinpoint</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active — 4,600+ responses</span>
+          <span class="estate-tag b-blue">PowerBI API</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--cas);">
+        <div class="estate-layer">Layer 2 — Smart City</div>
+        <div class="estate-name">Smart Casey Launchpad</div>
+        <div class="estate-vendor">IoT / AI / Data platforms (multi-vendor)</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active since 2020</span>
+          <span class="estate-tag b-blue">IoT sensors</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--cas);">
+        <div class="estate-layer">Layer 3 — Planning</div>
+        <div class="estate-name">TechOne ePlanning</div>
+        <div class="estate-vendor">TechnologyOne</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-blue">Integrated with OneCouncil</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--cas);">
+        <div class="estate-layer">Layer 3 — Records</div>
+        <div class="estate-name">TechOne ECM</div>
+        <div class="estate-vendor">TechnologyOne</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-blue">Integrated via OneCouncil</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--cas);">
+        <div class="estate-layer">Layer 4 — GIS / Spatial</div>
+        <div class="estate-name">ArcGIS + Smart City IoT Sensors</div>
+        <div class="estate-vendor">Esri + IoT vendors</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Strong</span>
+          <span class="estate-tag b-blue">Augmented with sensor data</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--cas);">
+        <div class="estate-layer">Layer 5 — Digital Equity</div>
+        <div class="estate-name">Digital Equity Framework + Lab</div>
+        <div class="estate-vendor">In-house / Community</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-blue">Unique in SE Melbourne</span>
+        </div>
+      </div>
+    </div>
+
+    <h4 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 16px;">Service Maturity Profile</h4>
+    <div class="bar-section">
+      <div class="bar-row"><div class="bar-lbl">Online Transactions</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;font-weight:800;">5/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Forms &amp; Service Requests</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Planning Digitisation</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Community Engagement</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;font-weight:800;">5/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Digital Notice Delivery</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">GIS &amp; Spatial</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Cloud Infrastructure</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;font-weight:800;">5/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">ERP Integration</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;font-weight:800;">5/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Records Management</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Security Posture</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Citizen Identity / SSO</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Staff Digital Tools</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0891B2;"></div></div><div class="bar-val" style="color:#0891B2;">4/5</div></div>
+      <div class="overall-row">
+        <div class="overall-score" style="color:#0891B2;">4.5</div>
+        <div>
+          <div style="font-size:11px;color:var(--ink-light);margin-bottom:4px;">/ 5 Overall Score</div>
+          <span class="overall-tier" style="background:var(--cas-l);color:var(--cas-d);">🏆 Digital Leader</span>
+        </div>
+        <div style="margin-left:auto;text-align:right;">
+          <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--cas);">76<span style="font-size:14px;font-weight:400;color:var(--ink-light);">/85</span></div>
+          <div style="font-size:11px;color:var(--ink-light);">Weighted score (89%)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▓▓ SECTION 4 — DANDENONG ▓▓ -->
+<section id="dandenong" class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">04 / Benchmark — Progressing</div>
+    <h2 class="section-title">City of Greater Dandenong</h2>
+    <p class="section-desc">Melbourne's most culturally diverse city (156 languages) and a Refugee Welcome Zone since 2002. Greater Dandenong is mid-way through a "Digital Redevelopment Project" with an upgraded Objective ECM, a live Online Planning Portal, and an IT &amp; Digital Strategy — but lacks a confirmed ERP and community engagement platform.</p>
+
+    <div class="profile-hero" style="background:linear-gradient(135deg,#064E3B 0%,#059669 60%,#34D399 100%);">
+      <div class="ph-badge">Council Profile — City of Greater Dandenong</div>
+      <h3>City of Greater Dandenong</h3>
+      <div class="ph-grid">
+        <div class="ph-item"><label>Population</label><strong>~165,000 (2026)</strong></div>
+        <div class="ph-item"><label>Area</label><strong>129 km²</strong></div>
+        <div class="ph-item"><label>Staff</label><strong>~800</strong></div>
+        <div class="ph-item"><label>HQ</label><strong>Dandenong</strong></div>
+        <div class="ph-item"><label>ECM</label><strong>Objective ECM (upgraded 2023)</strong></div>
+        <div class="ph-item"><label>ERP</label><strong>Not publicly confirmed</strong></div>
+        <div class="ph-item"><label>ePlanning</label><strong>✓ Online Planning Portal</strong></div>
+        <div class="ph-item"><label>Digital Project</label><strong>Digital Redevelopment Project (active)</strong></div>
+        <div class="ph-item"><label>Multilingual</label><strong>Google Translate — all websites</strong></div>
+        <div class="ph-item"><label>Diversity</label><strong>156 languages — most diverse LGA in Vic</strong></div>
+        <div class="ph-item"><label>Refugee Welcome Zone</label><strong>Since 2002</strong></div>
+        <div class="ph-item"><label>IT Strategy</label><strong>Dedicated IT &amp; Digital Strategy page</strong></div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <strong>Unique Differentiator — Multilingual Digital Services:</strong> Greater Dandenong's mandatory Google Translate integration across all digital properties is a governance standard unique among these three councils. With 156 languages spoken in the municipality, digital inclusion is not optional — it is a service delivery obligation. This represents a digital investment that Cardinia and Casey have not formally committed to at the same level.
+    </div>
+
+    <h4 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 16px;">Application Estate</h4>
+    <div class="estate-grid">
+      <div class="estate-card" style="border-top:3px solid var(--gd);">
+        <div class="estate-layer">Layer 1 — ECM (Upgraded 2023)</div>
+        <div class="estate-name">Objective ECM</div>
+        <div class="estate-vendor">Objective Corporation</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active — 2023 upgrade</span>
+          <span class="estate-tag b-grey">Breaks data silos</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--gd);">
+        <div class="estate-layer">Layer 2 — Planning</div>
+        <div class="estate-name">Online Planning Portal</div>
+        <div class="estate-vendor">TBC (Pathway / TechOne likely)</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-green">Register + Applications + Fees</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--gd);">
+        <div class="estate-layer">Layer 3 — Digital Transformation</div>
+        <div class="estate-name">Digital Redevelopment Project</div>
+        <div class="estate-vendor">TBC</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-amber">In progress</span>
+          <span class="estate-tag b-grey">CMS + services redesign</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--gd);">
+        <div class="estate-layer">Layer 3 — Accessibility</div>
+        <div class="estate-name">Google Translate API</div>
+        <div class="estate-vendor">Google</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active — all pages</span>
+          <span class="estate-tag b-green">156 languages</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--gd);">
+        <div class="estate-layer">Layer 4 — ERP</div>
+        <div class="estate-name">ERP Platform (TBC)</div>
+        <div class="estate-vendor">Not confirmed from public estate</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-red">Unconfirmed</span>
+          <span class="estate-tag b-grey">High risk — shadow system</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--gd);">
+        <div class="estate-layer">Layer 4 — Community Engagement</div>
+        <div class="estate-name">"Have Your Say" (platform TBC)</div>
+        <div class="estate-vendor">Not publicly identified</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-amber">Partial</span>
+          <span class="estate-tag b-red">No dedicated platform evidenced</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--gd);">
+        <div class="estate-layer">Layer 5 — Demographics</div>
+        <div class="estate-name">id.com.au Community Profile</div>
+        <div class="estate-vendor">.id (FORECAST.id)</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Active</span>
+          <span class="estate-tag b-grey">Standard Vic LGA tool</span>
+        </div>
+      </div>
+      <div class="estate-card" style="border-top:3px solid var(--gd);">
+        <div class="estate-layer">Layer 5 — IT Strategy</div>
+        <div class="estate-name">IT &amp; Digital Strategy</div>
+        <div class="estate-vendor">In-house</div>
+        <div class="estate-tags">
+          <span class="estate-tag b-green">Published</span>
+          <span class="estate-tag b-grey">Dedicated strategy page</span>
+        </div>
+      </div>
+    </div>
+
+    <h4 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin:0 0 16px;">Service Maturity Profile</h4>
+    <div class="bar-section">
+      <div class="bar-row"><div class="bar-lbl">Online Transactions</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#059669;"></div></div><div class="bar-val" style="color:#059669;">3/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Forms &amp; Service Requests</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#059669;"></div></div><div class="bar-val" style="color:#059669;">3/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Planning Digitisation</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#059669;"></div></div><div class="bar-val" style="color:#059669;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Community Engagement</div><div class="bar-track"><div class="bar-fill" style="width:40%;background:#F97316;"></div></div><div class="bar-val" style="color:#C2410C;">2/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Digital Notice Delivery</div><div class="bar-track"><div class="bar-fill" style="width:40%;background:#F97316;"></div></div><div class="bar-val" style="color:#C2410C;">2/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">GIS &amp; Spatial</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#059669;"></div></div><div class="bar-val" style="color:#059669;">3/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Cloud Infrastructure</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#059669;"></div></div><div class="bar-val" style="color:#059669;">3/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">ERP Integration</div><div class="bar-track"><div class="bar-fill" style="width:40%;background:#F97316;"></div></div><div class="bar-val" style="color:#C2410C;">2/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Records Management</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#059669;"></div></div><div class="bar-val" style="color:#059669;">4/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Security Posture</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#059669;"></div></div><div class="bar-val" style="color:#059669;">3/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Citizen Identity / SSO</div><div class="bar-track"><div class="bar-fill" style="width:40%;background:#F97316;"></div></div><div class="bar-val" style="color:#C2410C;">2/5</div></div>
+      <div class="bar-row"><div class="bar-lbl">Staff Digital Tools</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#059669;"></div></div><div class="bar-val" style="color:#059669;">3/5</div></div>
+      <div class="overall-row">
+        <div class="overall-score" style="color:#059669;">2.9</div>
+        <div>
+          <div style="font-size:11px;color:var(--ink-light);margin-bottom:4px;">/ 5 Overall Score</div>
+          <span class="overall-tier" style="background:var(--gd-l);color:var(--gd-d);">Progressing — Transformation underway</span>
+        </div>
+        <div style="margin-left:auto;text-align:right;">
+          <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--gd);">49<span style="font-size:14px;font-weight:400;color:var(--ink-light);">/85</span></div>
+          <div style="font-size:11px;color:var(--ink-light);">Weighted score (58%)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▓▓ SECTION 5 — HEAT MAP ▓▓ -->
+<section id="heatmap" class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">05 / Maturity Heat Map</div>
+    <h2 class="section-title">★ Cardinia Shire in Context — 12-Dimension Heat Map</h2>
+    <p class="section-desc">Scores 1–5 per capability. Weight ×2 applied to strategic dimensions (Planning, Engagement, Cloud, ERP, Citizen SSO). Cardinia column is <strong style="color:var(--car-d);">highlighted in amber</strong>.</p>
+
+    <div class="hm-legend">
+      <div class="hm-leg"><div class="hm-leg-dot" style="background:var(--s1-bg);color:var(--s1-fg);">1</div><span>Critical Gap</span></div>
+      <div class="hm-leg"><div class="hm-leg-dot" style="background:var(--s2-bg);color:var(--s2-fg);">2</div><span>Limited</span></div>
+      <div class="hm-leg"><div class="hm-leg-dot" style="background:var(--s3-bg);color:var(--s3-fg);">3</div><span>Functional</span></div>
+      <div class="hm-leg"><div class="hm-leg-dot" style="background:var(--s4-bg);color:var(--s4-fg);">4</div><span>Strong</span></div>
+      <div class="hm-leg"><div class="hm-leg-dot" style="background:var(--s5-bg);color:var(--s5-fg);">5</div><span>Market-leading</span></div>
+      <div style="margin-left:auto;">
+        <span style="background:var(--car-l);color:var(--car-d);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;border:1px solid var(--car);">★ = Cardinia focus column</span>
+      </div>
+    </div>
+
+    <div class="hm-wrap">
+      <table class="hm">
+        <thead>
+          <tr>
+            <th class="dim-h" style="background:var(--ink);">Capability Dimension</th>
+            <th class="wt-h" style="background:#1E293B;color:rgba(255,255,255,.5);">Wt</th>
+            <th class="car-col-h" style="background:linear-gradient(135deg,#92400E,#D97706);color:white;min-width:130px;">★ Cardinia<br>Shire</th>
+            <th style="background:var(--cas-d);color:white;min-width:130px;">City of<br>Casey</th>
+            <th style="background:var(--gd-d);color:white;min-width:130px;">Greater<br>Dandenong</th>
+            <th style="background:var(--ink-mid);color:white;text-align:left;padding-left:12px;min-width:220px;">Key Insight for Cardinia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="dim-label">Online Transaction Capability</td>
+            <td class="wt-cell">×1</td>
+            <td class="car-col"><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">MyCardinia</div></div></td>
+            <td><div class="hm-cell s5"><div class="hm-score">5</div><div class="hm-sub">TechOne CRM full</div></div></td>
+            <td><div class="hm-cell s3"><div class="hm-score">3</div><div class="hm-sub">Redevelopment</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">Cardinia leads Dandenong. Casey's CiAnywhere CRM sets the benchmark — MyCardinia expansion will close this gap by 2027.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Forms &amp; Service Requests</td>
+            <td class="wt-cell">×1</td>
+            <td class="car-col"><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">MyCardinia portal</div></div></td>
+            <td><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">OneCouncil portal</div></div></td>
+            <td><div class="hm-cell s3"><div class="hm-score">3</div><div class="hm-sub">Digital redevel.</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">Cardinia at parity with Casey. Both use TechOne-based portals. Dandenong's redevelopment project should close this gap.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Planning Digitisation</td>
+            <td class="wt-cell" style="color:var(--car);font-weight:800;">×2</td>
+            <td class="car-col"><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">ePlanning portal</div></div></td>
+            <td><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">TechOne planning</div></div></td>
+            <td><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">Online portal</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">All three at 4/5 — a shared strength across the corridor. Casey's TechOne integration is most complete end-to-end.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Community Engagement</td>
+            <td class="wt-cell" style="color:var(--car);font-weight:800;">×2</td>
+            <td class="car-col"><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">Creating Cardinia</div></div></td>
+            <td><div class="hm-cell s5"><div class="hm-score">5</div><div class="hm-sub">Casey Convos</div></div></td>
+            <td><div class="hm-cell s2"><div class="hm-score">2</div><div class="hm-sub">Have Your Say</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">Cardinia strong (43+ consultations). Casey's deliberative panel model (4,600 responses + PowerBI) is the target state. Dandenong has significant gap.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Digital Notice Delivery</td>
+            <td class="wt-cell">×1</td>
+            <td class="car-col"><div class="hm-cell s3"><div class="hm-score">3</div><div class="hm-sub">TechOne rollout</div></div></td>
+            <td><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">TechOne integrated</div></div></td>
+            <td><div class="hm-cell s2"><div class="hm-score">2</div><div class="hm-sub">Not evidenced</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">Cardinia's TechOne rollout will bring notice delivery to 4/5 by ~2027. Casey is already there. Dandenong has critical gap.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">GIS &amp; Spatial Services</td>
+            <td class="wt-cell">×1</td>
+            <td class="car-col"><div class="hm-cell s3"><div class="hm-score">3</div><div class="hm-sub">ArcGIS partial</div></div></td>
+            <td><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">ArcGIS + IoT</div></div></td>
+            <td><div class="hm-cell s3"><div class="hm-score">3</div><div class="hm-sub">Maps on site</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">Cardinia and Dandenong at parity (3/5). Casey's IoT sensor augmentation creates a Smart City GIS advantage. Growth corridor property mapping is a Cardinia priority.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Cloud Infrastructure Maturity</td>
+            <td class="wt-cell" style="color:var(--car);font-weight:800;">×2</td>
+            <td class="car-col"><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">TechOne SaaS</div></div></td>
+            <td><div class="hm-cell s5"><div class="hm-score">5</div><div class="hm-sub">TechOne full + IoT</div></div></td>
+            <td><div class="hm-cell s3"><div class="hm-score">3</div><div class="hm-sub">Redevelopment</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">Cardinia is on TechOne SaaS path (4/5). Full deployment to $32M scope will push to 5/5 by 2029. Casey already at 5/5.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">ERP Integration</td>
+            <td class="wt-cell" style="color:var(--car);font-weight:800;">×2</td>
+            <td class="car-col"><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">Phase 1 live; rolling</div></div></td>
+            <td><div class="hm-cell s5"><div class="hm-score">5</div><div class="hm-sub">TechOne complete</div></div></td>
+            <td><div class="hm-cell s2"><div class="hm-score">2</div><div class="hm-sub">ERP unconfirmed</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">★ Biggest gap vs Casey. Casey's TechOne is fully deployed; Cardinia is rolling out. Dandenong's ERP posture is the most exposed of the three.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Records Management</td>
+            <td class="wt-cell">×1</td>
+            <td class="car-col"><div class="hm-cell s3"><div class="hm-score">3</div><div class="hm-sub">TechOne ECM rollout</div></div></td>
+            <td><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">TechOne ECM</div></div></td>
+            <td><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">Objective ECM 2023</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">Interesting: Dandenong's Objective ECM upgrade (2023) matches Casey's records maturity. Cardinia at 3/5 — TechOne ECM rollout will align by ~2026.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Security Posture</td>
+            <td class="wt-cell">×1</td>
+            <td class="car-col"><div class="hm-cell s3"><div class="hm-score">3</div><div class="hm-sub">Review flagged gaps</div></div></td>
+            <td><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">TechOne SaaS sec.</div></div></td>
+            <td><div class="hm-cell s3"><div class="hm-score">3</div><div class="hm-sub">Digital redevel.</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">Cardinia's 2024 internal review explicitly cited "need to strengthen security." TechOne rollout reduces on-prem attack surface significantly.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Citizen Identity / SSO</td>
+            <td class="wt-cell" style="color:var(--car);font-weight:800;">×2</td>
+            <td class="car-col" style="background:#FFFBEB;"><div class="hm-cell s4" style="background:transparent;"><div class="hm-score" style="color:#92400E;">4</div><div class="hm-sub" style="color:#B45309;">★ MyProfile — BEST</div></div></td>
+            <td><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">OneCouncil CRM portal</div></div></td>
+            <td><div class="hm-cell s2"><div class="hm-score">2</div><div class="hm-sub">Not evidenced</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;"><strong style="color:var(--car-d);">★ Cardinia LEADS:</strong> MyProfile citizen SSO is the most mature unified login in this cohort. Casey's OneCouncil portal matches. Dandenong has a critical gap to close.</td>
+          </tr>
+          <tr>
+            <td class="dim-label">Staff Digital Tools</td>
+            <td class="wt-cell">×1</td>
+            <td class="car-col"><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">ABW + M365 + TechOne</div></div></td>
+            <td><div class="hm-cell s4"><div class="hm-score">4</div><div class="hm-sub">M365 + TechOne SaaS</div></div></td>
+            <td><div class="hm-cell s3"><div class="hm-score">3</div><div class="hm-sub">M365 + redevel.</div></div></td>
+            <td style="font-size:11px;color:var(--ink-light);padding:8px 12px;vertical-align:middle;">Cardinia and Casey at parity (4/5). ABW model + no-fixed-desk culture signals mature digital staff environment. Dandenong is trailing.</td>
+          </tr>
+          <!-- TOTALS -->
+          <tr class="hm-total">
+            <td class="dim-label">WEIGHTED TOTAL (/85)</td>
+            <td class="wt-cell">/85</td>
+            <td class="car-col" style="background:linear-gradient(135deg,#92400E,#D97706);">
+              <div class="hm-cell" style="background:transparent;">
+                <div class="hm-score" style="color:white;font-size:30px;">63</div>
+                <div class="hm-sub" style="color:rgba(255,255,255,.75);">74% · Rank 2</div>
+              </div>
+            </td>
+            <td style="background:var(--cas-d);">
+              <div class="hm-cell" style="background:transparent;">
+                <div class="hm-score" style="color:white;font-size:30px;">76</div>
+                <div class="hm-sub" style="color:rgba(255,255,255,.75);">89% · Rank 1 🏆</div>
+              </div>
+            </td>
+            <td style="background:var(--gd-d);">
+              <div class="hm-cell" style="background:transparent;">
+                <div class="hm-score" style="color:white;font-size:30px;">49</div>
+                <div class="hm-sub" style="color:rgba(255,255,255,.75);">58% · Rank 3</div>
+              </div>
+            </td>
+            <td class="insight-cell">Cardinia in 2nd (74%). Casey leads (89%). Dandenong 3rd (58%). Gap to Casey = 13 pts — closable by 2029 TechOne completion + Smart City layer.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ▓▓ SECTION 6 — DOMAIN MATRIX ▓▓ -->
+<section id="domain-matrix" class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">06 / Domain Matrix</div>
+    <h2 class="section-title">Application × Service Domain Coverage</h2>
+    <p class="section-desc">Which platforms are primary (●), partial (◑), or absent (—) across each service domain. Cardinia column highlighted.</p>
+
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th class="row-h" style="background:var(--ink);">Service Domain</th>
+            <th style="background:linear-gradient(135deg,#92400E,#D97706);border-left:3px solid #F59E0B;border-right:3px solid #F59E0B;">★ Cardinia<br>Shire</th>
+            <th style="background:var(--cas-d);">City of<br>Casey</th>
+            <th style="background:var(--gd-d);">Greater<br>Dandenong</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Rates &amp; Finance</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-part">◑</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Animal Management</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-part">◑</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Waste &amp; Recycling</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-part">◑</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Planning &amp; Permits</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Building Applications</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Community Engagement</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-part">◑</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Community Services</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">GIS &amp; Maps</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-part">◑</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-part">◑</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Records Management</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-part">◑</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Digital Notices</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-part">◑</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-none">—</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Citizen Identity / SSO</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-full" style="color:#92400E;">★</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-none">—</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Smart City / IoT</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-none">—</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-none">—</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Digital Equity</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-none">—</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-part">◑</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">Multilingual Services</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-none">—</div></td>
+            <td><div class="mx-cell mx-part">◑</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+          </tr>
+          <tr>
+            <td class="row-label">ERP (Integrated)</td>
+            <td style="border-left:3px solid var(--car-mid);border-right:3px solid var(--car-mid);"><div class="mx-cell mx-part">◑</div></td>
+            <td><div class="mx-cell mx-full">●</div></td>
+            <td><div class="mx-cell mx-none">—</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11.5px;color:var(--ink-light);">★ = Cardinia leads this domain (Citizen SSO best-in-cohort)  &nbsp; ● = Primary delivery  &nbsp; ◑ = Partial  &nbsp; — = Not evidenced</p>
+  </div>
+</section>
+
+<!-- ▓▓ SECTION 7 — STRATEGIC INSIGHTS ▓▓ -->
+<section id="strategic" class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">07 / Strategic Insights</div>
+    <h2 class="section-title">Cardinia — Where It Leads, Where It Lags, What It Should Do</h2>
+    <p class="section-desc">Evidence-based strategic positioning for Cardinia Shire based on the three-council comparison.</p>
+
+    <div class="cmp-grid">
+      <div class="cmp-card">
+        <div class="cmp-card-hd car">★ Where Cardinia LEADS (3-council cohort)</div>
+        <ul>
+          <li><strong>Citizen SSO / Identity (4/5)</strong> — MyProfile + MyCardinia is the most mature unified citizen login in this cohort. Neither Dandenong nor Casey exceeds this at the citizen-facing layer.</li>
+          <li><strong>Largest Digital Investment ($32M)</strong> — The TechOne programme is the single largest transformation spend in this comparison group, signalling strong executive commitment.</li>
+          <li><strong>Staff Digital Maturity (4/5)</strong> — Activity Based Working model with no fixed desks + M365 + TechOne signals one of the most modern staff environments.</li>
+          <li><strong>Community Engagement Infrastructure</strong> — Creating Cardinia (Social Pinpoint) with 43+ active consultations, citizen panels (2025), and LimeSurvey backup is a well-governed multi-tool engagement model.</li>
+          <li><strong>ERP trajectory</strong> — Phase 1 live; full TechOne rollout by 2029 will match or exceed Casey's current score (5/5).</li>
+        </ul>
+      </div>
+      <div class="cmp-card">
+        <div class="cmp-card-hd gap">⚠ Where Cardinia LAGS (vs City of Casey benchmark)</div>
+        <ul>
+          <li><strong>Smart City / IoT (0 vs 5)</strong> — Casey's Smart Casey Launchpad (since 2020) deploys IoT sensors, AI, and community data platforms. Cardinia has no equivalent programme — a ~5-year gap in smart infrastructure thinking.</li>
+          <li><strong>Community Engagement Depth (4 vs 5)</strong> — Casey's 55-member deliberative citizen panel + 4,600 responses + PowerBI API integration is more sophisticated than Cardinia's current model.</li>
+          <li><strong>ERP Completion (4 vs 5)</strong> — Casey's TechOne is fully deployed including CRM and customer portal. Cardinia's is 3 years from full scope.</li>
+          <li><strong>Online Transaction CRM (4 vs 5)</strong> — Casey's CiAnywhere includes built-in CRM for every citizen interaction. Cardinia's MyCardinia is still expanding its service list.</li>
+          <li><strong>Digital Equity (none vs active)</strong> — Casey's Digital Equity Framework and Lab address inclusion for 5,000 new families/year. Cardinia has no equivalent — a growing risk as its population diversifies.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cmp-grid">
+      <div class="cmp-card">
+        <div class="cmp-card-hd" style="color:var(--gd-d);border-color:var(--gd);">📊 What Cardinia Can Learn from Greater Dandenong</div>
+        <ul>
+          <li><strong>Objective ECM upgrade model</strong> — Dandenong's 2023 ECM upgrade focused specifically on "breaking down data silos" — a targeted intervention rather than a full platform replacement. Cardinia's TechOne approach will be more comprehensive, but the silo-focus outcome is the right objective.</li>
+          <li><strong>IT &amp; Digital Strategy as a published document</strong> — Dandenong maintains a dedicated IT &amp; Digital Strategy web page. Cardinia should publish an equivalent for transparency and community trust.</li>
+          <li><strong>Multilingual obligation planning</strong> — As Cardinia's population diversifies with growth, Google Translate integration across all digital services will become a service delivery necessity, not a nice-to-have.</li>
+        </ul>
+      </div>
+      <div class="cmp-card">
+        <div class="cmp-card-hd" style="color:var(--cas-d);border-color:var(--cas);">🌆 What Cardinia Should Adopt from Casey</div>
+        <ul>
+          <li><strong>Deliberative citizen panel model</strong> — Casey's 55-member randomly selected citizen panel provided richer, more representative input than online-only surveys. Cardinia's 2025 panel initiative is on the right path — maintain it as ongoing infrastructure.</li>
+          <li><strong>PowerBI API integration for engagement</strong> — Feeding Social Pinpoint data into internal PowerBI dashboards gives Casey real-time participation analytics. Cardinia should implement the same with its existing Social Pinpoint subscription.</li>
+          <li><strong>Digital Equity Framework</strong> — Begin planning a digital inclusion strategy for Cardinia's rapidly diversifying growth suburbs (Pakenham, Officer, Clyde North, Beaconsfield).</li>
+          <li><strong>Smart City roadmap</strong> — Begin scoping a Smart Cardinia programme (IoT, smart bins, smart roads) anchored to the $219M capital works programme as the natural trigger for sensor and data infrastructure.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <strong>Strategic Summary for Cardinia:</strong> Ranked 2nd of 3 (63/85). The $32M TechOne programme, when complete (2029), closes the ERP, cloud, records, and notice gaps — mathematically pushing Cardinia to ~72/85 (85%) — within 4 points of Casey's current benchmark. The remaining gap is the <strong>Smart City layer</strong> (IoT/AI programme) which Casey started in 2020. Cardinia should use its $219M capital works programme as the trigger to embed smart infrastructure thinking in 2026–27 planning. Cardinia's <strong>Citizen SSO advantage</strong> (MyProfile) is a strategic foundation to protect and extend — it is the integration anchor for all future digital channels.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Cardinia Shire · City of Casey · Greater Dandenong — Digital Maturity Comparison</strong><br>
+  Prepared May 2026 &nbsp;·&nbsp; Based on public-domain evidence: TechOne press releases, council websites, Social Pinpoint terms, CIO reports &nbsp;·&nbsp; Draft for discussion only<br>
+  Evidence sources: cardinia.vic.gov.au, casey.vic.gov.au, greaterdandenong.vic.gov.au, technology1.com, creating.cardinia.vic.gov.au, conversations.casey.vic.gov.au, cio.com
+</footer>
+
+<script>
+// Smooth active nav on scroll
+const sections = document.querySelectorAll('section[id]');
+const navAs    = document.querySelectorAll('.nav-a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

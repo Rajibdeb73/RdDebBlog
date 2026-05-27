@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wyndham City Council — Deep Analysis Report 2025–26</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  /* Wyndham brand palette — deep teal/navy + coral accent */
+  --wyn:        #006B6B;
+  --wyn-d:      #003E3E;
+  --wyn-mid:    #009494;
+  --wyn-l:      #E0F5F5;
+  --wyn-ll:     #F0FAFA;
+  --coral:      #E85D3A;
+  --coral-l:    #FEF0EC;
+  --gold:       #D97706;
+  --gold-l:     #FEF3C7;
+  --ink:        #0F172A;
+  --ink-mid:    #334155;
+  --ink-light:  #64748B;
+  --rule:       #E2E8F0;
+  --surface:    #F8FAFC;
+  --white:      #FFFFFF;
+  --green:      #16A34A;
+  --green-l:    #DCFCE7;
+  --red:        #DC2626;
+  --red-l:      #FEE2E2;
+  --amber:      #D97706;
+  --amber-l:    #FEF9C3;
+  --blue:       #2563EB;
+  --blue-l:     #DBEAFE;
+  --purple:     #7C3AED;
+  --purple-l:   #EDE9FE;
+  --radius:10px; --radius-lg:16px; --radius-xl:24px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.05);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.11),0 4px 10px rgba(0,0,0,.06);
+}
+
+body { font-family:'Outfit',sans-serif; background:var(--surface); color:var(--ink); font-size:14px; line-height:1.6; }
+
+/* ── COVER ──────────────────────────────────────────────── */
+.cover {
+  background:var(--wyn-d);
+  color:white; padding:60px 56px 52px; position:relative; overflow:hidden;
+}
+.cover::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 85% 15%, rgba(0,148,148,.22) 0%, transparent 55%),
+             radial-gradient(ellipse at 15% 85%, rgba(232,93,58,.12) 0%, transparent 50%);
+}
+.cover::after {
+  content:''; position:absolute; top:-80px; right:-80px;
+  width:420px; height:420px; border-radius:50%;
+  border:1px solid rgba(0,148,148,.2);
+}
+.cover-inner { position:relative; z-index:1; max-width:1280px; margin:0 auto; }
+.cover-eyebrow {
+  font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.18em;
+  text-transform:uppercase; color:rgba(255,255,255,.5);
+  display:flex; align-items:center; gap:12px; margin-bottom:18px;
+}
+.cover-eyebrow::before { content:''; width:28px; height:1px; background:var(--wyn-mid); }
+.cover h1 {
+  font-family:'Syne',sans-serif; font-size:48px; font-weight:800;
+  line-height:1.08; margin-bottom:10px; max-width:820px;
+}
+.cover h1 em { font-style:normal; color:#5EEAEA; }
+.cover-sub { font-size:15px; color:rgba(255,255,255,.65); max-width:620px; margin-bottom:36px; line-height:1.7; }
+.cover-pills { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px; }
+.cover-pill {
+  display:flex; align-items:center; gap:7px; padding:6px 16px;
+  border-radius:24px; border:1px solid rgba(255,255,255,.15);
+  font-size:12px; font-weight:500; color:rgba(255,255,255,.82);
+}
+.cover-pill.focus { background:rgba(0,148,148,.28); border-color:rgba(94,238,234,.4); color:#5EEAEA; font-weight:700; }
+.cover-pill .dot { width:7px; height:7px; border-radius:50%; }
+.cover-stat-row {
+  display:grid; grid-template-columns:repeat(5,1fr); gap:0;
+  padding-top:28px; border-top:1px solid rgba(255,255,255,.1);
+}
+.cover-stat { padding:0 24px 0 0; }
+.cover-stat:not(:last-child) { border-right:1px solid rgba(255,255,255,.1); margin-right:24px; }
+.cover-stat label { display:block; font-family:'DM Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:rgba(255,255,255,.4); margin-bottom:4px; }
+.cover-stat .sv { font-size:22px; font-weight:700; color:#fff; line-height:1; }
+.cover-stat .ss { font-size:11px; color:rgba(255,255,255,.55); margin-top:2px; }
+
+/* ── NAV ──────────────────────────────────────────────── */
+.nav { background:var(--white); border-bottom:3px solid var(--wyn); position:sticky; top:0; z-index:200; box-shadow:var(--shadow-sm); }
+.nav-inner { display:flex; overflow-x:auto; scrollbar-width:none; max-width:1280px; margin:0 auto; padding:0 32px; }
+.nav-inner::-webkit-scrollbar { display:none; }
+.nav-a {
+  display:flex; align-items:center; gap:6px; padding:13px 18px;
+  font-size:12.5px; font-weight:500; color:var(--ink-light);
+  text-decoration:none; white-space:nowrap;
+  border-bottom:3px solid transparent; margin-bottom:-3px;
+  transition:all .18s;
+}
+.nav-a:hover { color:var(--wyn); border-bottom-color:var(--wyn); background:var(--wyn-ll); }
+.nav-a.active { color:var(--wyn); border-bottom-color:var(--wyn); }
+
+/* ── WRAP / SECTION ──────────────────────────────────── */
+.wrap { max-width:1280px; margin:0 auto; padding:0 40px; }
+.section { padding:56px 0; }
+.section + .section { border-top:1px solid var(--rule); }
+.section-eyebrow {
+  font-family:'DM Mono',monospace; font-size:10px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--wyn);
+  display:flex; align-items:center; gap:10px; margin-bottom:10px;
+}
+.section-eyebrow::before { content:''; width:22px; height:2px; background:var(--wyn); }
+.section-title { font-family:'Syne',sans-serif; font-size:30px; font-weight:700; color:var(--ink); margin-bottom:10px; }
+.section-desc { font-size:14px; color:var(--ink-light); max-width:760px; line-height:1.75; margin-bottom:36px; }
+
+/* ── CARDS ──────────────────────────────────────────── */
+.card {
+  background:var(--white); border:1px solid var(--rule);
+  border-radius:var(--radius-lg); box-shadow:var(--shadow-sm);
+  padding:24px 26px;
+}
+.card-accent-wyn { border-left:4px solid var(--wyn); }
+.card-accent-coral { border-left:4px solid var(--coral); }
+.card-accent-gold { border-left:4px solid var(--gold); }
+.card-accent-green { border-left:4px solid var(--green); }
+.card-accent-purple { border-left:4px solid var(--purple); }
+.card-accent-blue { border-left:4px solid var(--blue); }
+
+/* ── GRID LAYOUTS ────────────────────────────────────── */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.g32 { display:grid; grid-template-columns:2fr 1fr; gap:18px; }
+.g23 { display:grid; grid-template-columns:1fr 2fr; gap:18px; }
+
+/* ── METRIC CARDS ────────────────────────────────────── */
+.mcard {
+  background:var(--white); border:1px solid var(--rule);
+  border-radius:var(--radius-lg); padding:20px 22px;
+  box-shadow:var(--shadow-sm);
+}
+.mcard .mc-lbl { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-light); margin-bottom:6px; }
+.mcard .mc-val { font-family:'Syne',sans-serif; font-size:28px; font-weight:700; line-height:1; margin-bottom:4px; }
+.mcard .mc-sub { font-size:12px; color:var(--ink-light); }
+.mcard.wyn .mc-val { color:var(--wyn); }
+.mcard.coral .mc-val { color:var(--coral); }
+.mcard.gold .mc-val { color:var(--gold); }
+.mcard.green .mc-val { color:var(--green); }
+.mcard.purple .mc-val { color:var(--purple); }
+.mcard.blue .mc-val { color:var(--blue); }
+
+/* ── SERVICE CATEGORY CARDS ───────────────────────────── */
+.svc-card {
+  background:var(--white); border:1px solid var(--rule);
+  border-radius:var(--radius-lg); padding:0; overflow:hidden;
+  box-shadow:var(--shadow-sm); transition:box-shadow .2s;
+}
+.svc-card:hover { box-shadow:var(--shadow-md); }
+.svc-card-head {
+  padding:18px 20px 14px; display:flex; align-items:flex-start; gap:14px;
+}
+.svc-icon {
+  width:44px; height:44px; border-radius:10px; display:flex;
+  align-items:center; justify-content:center; font-size:20px; flex-shrink:0;
+}
+.svc-card-head h3 { font-size:15px; font-weight:600; color:var(--ink); margin-bottom:2px; line-height:1.2; }
+.svc-card-head p { font-size:12px; color:var(--ink-light); line-height:1.5; }
+.svc-card-body { padding:0 20px 18px; }
+.svc-list { list-style:none; display:flex; flex-direction:column; gap:4px; }
+.svc-list li {
+  font-size:12.5px; color:var(--ink-mid); padding:4px 0 4px 16px;
+  position:relative; border-bottom:1px solid var(--rule);
+}
+.svc-list li:last-child { border-bottom:none; }
+.svc-list li::before { content:'›'; position:absolute; left:0; color:var(--wyn); font-weight:700; }
+.svc-budget { margin-top:10px; padding:8px 12px; border-radius:8px; font-size:12px; display:flex; align-items:center; gap:8px; }
+
+/* ── BUDGET BAR CHART ─────────────────────────────────── */
+.budget-chart { display:flex; flex-direction:column; gap:10px; }
+.bbar-row { display:flex; align-items:center; gap:12px; }
+.bbar-label { font-size:12.5px; color:var(--ink-mid); min-width:200px; }
+.bbar-wrap { flex:1; height:18px; background:var(--rule); border-radius:4px; overflow:hidden; position:relative; }
+.bbar-fill { height:100%; border-radius:4px; transition:width 1s ease; }
+.bbar-val { font-size:12px; font-weight:600; color:var(--ink); min-width:70px; text-align:right; font-family:'DM Mono',monospace; }
+
+/* ── CHALLENGE CARDS ─────────────────────────────────── */
+.challenge-card {
+  background:var(--white); border:1px solid var(--rule);
+  border-radius:var(--radius-lg); padding:22px 24px;
+  box-shadow:var(--shadow-sm); position:relative; overflow:hidden;
+}
+.challenge-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+}
+.challenge-card.critical::before { background:var(--red); }
+.challenge-card.high::before { background:var(--coral); }
+.challenge-card.medium::before { background:var(--gold); }
+.challenge-card.ongoing::before { background:var(--wyn); }
+.challenge-badge {
+  display:inline-block; font-size:10px; font-weight:600;
+  padding:2px 10px; border-radius:12px; margin-bottom:10px;
+  text-transform:uppercase; letter-spacing:.06em;
+}
+.badge-critical { background:var(--red-l); color:var(--red); }
+.badge-high { background:var(--coral-l); color:var(--coral); }
+.badge-medium { background:var(--amber-l); color:var(--amber); }
+.badge-ongoing { background:var(--wyn-l); color:var(--wyn); }
+.challenge-card h3 { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:8px; }
+.challenge-card p { font-size:13px; color:var(--ink-light); line-height:1.6; }
+
+/* ── TECH STACK ─────────────────────────────────────── */
+.tech-card {
+  background:var(--white); border:1px solid var(--rule);
+  border-radius:var(--radius-lg); padding:20px 22px;
+  box-shadow:var(--shadow-sm);
+}
+.tech-card h3 { font-size:13.5px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+.tech-card .tc-vendor { font-size:11px; font-weight:600; color:var(--wyn); margin-bottom:8px; font-family:'DM Mono',monospace; }
+.tech-card p { font-size:12.5px; color:var(--ink-light); line-height:1.55; }
+.tech-maturity { display:flex; align-items:center; gap:6px; margin-top:10px; }
+.tm-dot { width:8px; height:8px; border-radius:50%; }
+.tm-label { font-size:11px; font-weight:600; }
+.tm-bar { flex:1; height:6px; background:var(--rule); border-radius:3px; overflow:hidden; }
+.tm-fill { height:100%; border-radius:3px; }
+
+/* ── DIGITAL MATURITY RADAR ─────────────────────────── */
+.radar-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
+.maturity-row {
+  display:flex; align-items:center; gap:12px; padding:10px 0;
+  border-bottom:1px solid var(--rule);
+}
+.maturity-row:last-child { border-bottom:none; }
+.mat-dim { font-size:13px; color:var(--ink-mid); min-width:180px; }
+.mat-bar-wrap { flex:1; height:8px; background:var(--rule); border-radius:4px; overflow:hidden; }
+.mat-fill { height:100%; border-radius:4px; }
+.mat-score { font-size:13px; font-weight:700; min-width:30px; text-align:right; font-family:'DM Mono',monospace; }
+.mat-label { font-size:11px; font-weight:600; padding:2px 8px; border-radius:8px; min-width:80px; text-align:center; }
+
+/* ── INITIATIVE TIMELINE ─────────────────────────────── */
+.timeline { position:relative; padding-left:32px; }
+.timeline::before { content:''; position:absolute; left:10px; top:0; bottom:0; width:2px; background:var(--rule); }
+.tl-item { position:relative; margin-bottom:28px; }
+.tl-dot {
+  position:absolute; left:-32px; top:4px; width:20px; height:20px;
+  border-radius:50%; border:2px solid var(--white);
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:700; color:white;
+}
+.tl-item h4 { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+.tl-item .tl-year { font-family:'DM Mono',monospace; font-size:10px; color:var(--wyn); font-weight:600; margin-bottom:6px; display:block; }
+.tl-item p { font-size:13px; color:var(--ink-light); line-height:1.6; }
+.tl-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.tl-tag { font-size:10px; font-weight:500; padding:2px 8px; border-radius:10px; background:var(--wyn-l); color:var(--wyn-d); }
+
+/* ── CALLOUT BOXES ──────────────────────────────────── */
+.callout {
+  border-radius:var(--radius-lg); padding:22px 26px;
+  border:1px solid; margin:24px 0; font-size:13.5px; line-height:1.7;
+}
+.callout-wyn { background:var(--wyn-ll); border-color:rgba(0,107,107,.25); color:var(--wyn-d); }
+.callout-amber { background:var(--gold-l); border-color:rgba(217,119,6,.25); color:#7C4A00; }
+.callout-red { background:var(--red-l); border-color:rgba(220,38,38,.2); color:#7F1D1D; }
+.callout-green { background:var(--green-l); border-color:rgba(22,163,74,.2); color:#14532D; }
+.callout strong { font-weight:600; }
+
+/* ── COMPARISON TABLE ──────────────────────────────── */
+.comp-table { width:100%; border-collapse:collapse; font-size:13px; }
+.comp-table th {
+  background:var(--wyn-d); color:white; padding:12px 16px;
+  text-align:left; font-family:'DM Mono',monospace; font-size:10px;
+  text-transform:uppercase; letter-spacing:.1em;
+}
+.comp-table th:first-child { border-radius:var(--radius) 0 0 0; }
+.comp-table th:last-child { border-radius:0 var(--radius) 0 0; }
+.comp-table td { padding:11px 16px; border-bottom:1px solid var(--rule); vertical-align:middle; }
+.comp-table tr:hover td { background:#F0FAFA; }
+.comp-table .td-dim { font-weight:600; color:var(--ink); }
+.comp-table .td-wyn { color:var(--wyn-d); font-weight:600; background:var(--wyn-ll) !important; }
+.pill-full { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--wyn); color:white; font-size:11px; line-height:20px; text-align:center; }
+.pill-part { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--gold); color:white; font-size:11px; line-height:20px; text-align:center; }
+.pill-none { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--rule); color:var(--ink-light); font-size:11px; line-height:20px; text-align:center; }
+.pill-lead { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--coral); color:white; font-size:11px; line-height:20px; text-align:center; }
+
+/* ── STRATEGIC QUADRANT ─────────────────────────────── */
+.quad-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--rule); border-radius:var(--radius-lg); overflow:hidden; }
+.quad-cell { padding:28px 28px; }
+.quad-cell:nth-child(1) { background:#E0F5F5; border-right:2px solid var(--rule); border-bottom:2px solid var(--rule); }
+.quad-cell:nth-child(2) { background:#F0FAFA; border-bottom:2px solid var(--rule); }
+.quad-cell:nth-child(3) { background:#FEF9C3; border-right:2px solid var(--rule); }
+.quad-cell:nth-child(4) { background:#FEF0EC; }
+.quad-cell h3 { font-size:14px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.quad-cell ul { list-style:none; display:flex; flex-direction:column; gap:6px; }
+.quad-cell ul li { font-size:12.5px; color:var(--ink-mid); padding-left:16px; position:relative; line-height:1.5; }
+.quad-cell ul li::before { content:'●'; position:absolute; left:0; font-size:7px; top:5px; }
+
+/* ── ADVOCACY / RECOMMENDATIONS ─────────────────────── */
+.rec-card {
+  background:var(--white); border:1px solid var(--rule);
+  border-radius:var(--radius-lg); padding:22px 24px;
+  box-shadow:var(--shadow-sm); display:flex; gap:16px;
+}
+.rec-num {
+  width:36px; height:36px; border-radius:50%;
+  background:var(--wyn); color:white; font-weight:700;
+  font-size:15px; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.rec-body h4 { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:5px; }
+.rec-body p { font-size:13px; color:var(--ink-light); line-height:1.6; }
+.rec-body .rec-horizon { font-family:'DM Mono',monospace; font-size:10px; color:var(--wyn); font-weight:600; margin-bottom:4px; }
+
+/* ── FOOTER ─────────────────────────────────────────── */
+footer {
+  background:var(--wyn-d); color:rgba(255,255,255,.55);
+  padding:36px 40px; font-size:12px; line-height:1.7;
+  max-width:100%;
+}
+footer .fi { max-width:1280px; margin:0 auto; display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; align-items:center; }
+footer strong { color:rgba(255,255,255,.85); }
+
+/* ── RESPONSIVE ─────────────────────────────────────── */
+@media(max-width:1000px){
+  .g4{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr}
+  .g32,.g23{grid-template-columns:1fr}
+  .cover h1{font-size:32px}
+  .cover-stat-row{grid-template-columns:repeat(3,1fr)}
+  .radar-grid{grid-template-columns:1fr}
+  .quad-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .wrap{padding:0 20px}
+  .cover{padding:40px 24px}
+  .cover-stat-row{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div id="cl-nav" style="position:sticky;top:0;z-index:9999;background:#0A0E14;border-bottom:2px solid #C49A2A;padding:0;font-family:'IBM Plex Sans',system-ui,sans-serif;">
+  <div style="max-width:1240px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:44px;gap:16px;overflow:hidden;">
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;">
+      <svg style="width:16px;height:16px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="#C49A2A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:900;color:#fff;letter-spacing:-.02em;">Civic<span style="color:#C49A2A;">Lens</span></span>
+    </a>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Victoria · Wyndham City Deep Intelligence 2025–26</span>
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:6px;background:rgba(196,154,42,.15);border:1px solid rgba(196,154,42,.3);color:#C49A2A;font-size:12px;font-weight:500;text-decoration:none;white-space:nowrap;flex-shrink:0;font-family:'IBM Plex Sans',system-ui,sans-serif;">
+      ← All Dashboards
+    </a>
+  </div>
+</div>
+
+
+<!-- ▓▓ COVER ▓▓ -->
+<div class="cover">
+<div class="cover-inner">
+  <div class="cover-eyebrow">Victorian Local Government Intelligence · Enterprise Architecture Analysis</div>
+  <h1>Wyndham City Council<br><em>Deep Intelligence Report</em></h1>
+  <p class="cover-sub">A comprehensive analysis of services, budget allocation, strategic challenges, digital transformation, technology stack, and future-state recommendations for one of Australia's fastest-growing municipalities.</p>
+  <div class="cover-pills">
+    <div class="cover-pill focus"><span class="dot" style="background:#5EEAEA"></span>Wyndham City — Focus Council</div>
+    <div class="cover-pill"><span class="dot" style="background:#888"></span>Population: 337,009 (2024)</div>
+    <div class="cover-pill"><span class="dot" style="background:#888"></span>Projected: 500,000 by 2040</div>
+    <div class="cover-pill"><span class="dot" style="background:#E85D3A"></span>Australia's fastest-growing municipality</div>
+    <div class="cover-pill">Report date: May 2026</div>
+  </div>
+  <div class="cover-stat-row">
+    <div class="cover-stat">
+      <label>Total Revenue</label>
+      <div class="sv">$1.25B</div>
+      <div class="ss">FY2024 total revenue</div>
+    </div>
+    <div class="cover-stat">
+      <label>Capital Works 25/26</label>
+      <div class="sv">$165.1M</div>
+      <div class="ss">71 projects approved</div>
+    </div>
+    <div class="cover-stat">
+      <label>Rate Cap</label>
+      <div class="sv">2.75%</div>
+      <div class="ss">State-imposed (below CPI)</div>
+    </div>
+    <div class="cover-stat">
+      <label>TechOne ERP</label>
+      <div class="sv">Phase 1</div>
+      <div class="ss">On-time, on-budget ✓</div>
+    </div>
+    <div class="cover-stat">
+      <label>Smart City Award</label>
+      <div class="sv">2019</div>
+      <div class="ss">Best in ANZ — SCCA</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ▓▓ NAV ▓▓ -->
+<nav class="nav" aria-label="Report navigation">
+<div class="nav-inner">
+  <a class="nav-a active" href="#overview">01 · Overview</a>
+  <a class="nav-a" href="#services">02 · Services</a>
+  <a class="nav-a" href="#budget">03 · Budget</a>
+  <a class="nav-a" href="#challenges">04 · Challenges</a>
+  <a class="nav-a" href="#initiatives">05 · Initiatives</a>
+  <a class="nav-a" href="#technology">06 · Tech Stack</a>
+  <a class="nav-a" href="#digital">07 · Digital Maturity</a>
+  <a class="nav-a" href="#comparison">08 · Benchmarking</a>
+  <a class="nav-a" href="#strategic">09 · Strategic View</a>
+</div>
+</nav>
+
+<!-- ▓▓ 01 — OVERVIEW ▓▓ -->
+<section id="overview" class="section">
+<div class="wrap">
+  <div class="section-eyebrow">01 / Council Overview</div>
+  <h2 class="section-title">Wyndham City — Who They Are</h2>
+  <p class="section-desc">Wyndham City Council governs Melbourne's fastest-growing outer-western corridor, spanning suburbs from Werribee and Hoppers Crossing through to Point Cook, Tarneit, Wyndham Vale, and emerging greenfield estates. Its mandate: deliver services, infrastructure, and community amenity for a population growing by ~6,000 residents per year on a rate-capped revenue base.</p>
+
+  <div class="g4" style="margin-bottom:28px">
+    <div class="mcard wyn">
+      <div class="mc-lbl">Population (2024)</div>
+      <div class="mc-val">337,009</div>
+      <div class="mc-sub">+4% in the last two years</div>
+    </div>
+    <div class="mcard coral">
+      <div class="mc-lbl">Projected Population</div>
+      <div class="mc-val">500,000</div>
+      <div class="mc-sub">By 2040 — 15-year horizon</div>
+    </div>
+    <div class="mcard gold">
+      <div class="mc-lbl">Land Area</div>
+      <div class="mc-val">542 km²</div>
+      <div class="mc-sub">Largest in metropolitan Melbourne</div>
+    </div>
+    <div class="mcard green">
+      <div class="mc-lbl">Total Revenue (FY24)</div>
+      <div class="mc-val">$1.25B</div>
+      <div class="mc-sub">All income streams combined</div>
+    </div>
+    <div class="mcard purple">
+      <div class="mc-lbl">Capital Delivered FY25</div>
+      <div class="mc-val">$148.2M</div>
+      <div class="mc-sub">Infrastructure investment</div>
+    </div>
+    <div class="mcard blue">
+      <div class="mc-lbl">Capital Budget FY26</div>
+      <div class="mc-val">$165.1M</div>
+      <div class="mc-sub">71 projects across the city</div>
+    </div>
+    <div class="mcard wyn">
+      <div class="mc-lbl">Rate Cap (State-imposed)</div>
+      <div class="mc-val">2.75%</div>
+      <div class="mc-sub">Below CPI — 9th consecutive year</div>
+    </div>
+    <div class="mcard gold">
+      <div class="mc-lbl">Born Overseas</div>
+      <div class="mc-val">~40%</div>
+      <div class="mc-sub">Highly diverse community</div>
+    </div>
+  </div>
+
+  <div class="g32" style="gap:20px">
+    <div class="card card-accent-wyn">
+      <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:12px">Geographic & Demographic Context</h3>
+      <p style="font-size:13px;color:var(--ink-light);line-height:1.7;margin-bottom:14px">Wyndham spans 542 km² — the largest land area of any metropolitan council in Victoria. The municipality straddles the Urban Growth Boundary, meaning it simultaneously manages fully-serviced mature suburbs (Werribee, Hoppers Crossing) and rapidly-emerging greenfield estates (Tarneit, Truganina, Wyndham Vale, Point Cook North, Sayers Road). This dual nature — established community needs vs explosive growth edge — is the defining operational tension of everything Wyndham does.</p>
+      <p style="font-size:13px;color:var(--ink-light);line-height:1.7">The community is culturally highly diverse — approximately 40% of residents were born overseas — with large Indian, Chinese, Filipino, Sri Lankan, and Vietnamese communities. The median age is 33, significantly younger than the Melbourne metropolitan average. First home buyers and young families dominate new estate growth.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card card-accent-coral">
+        <div style="font-size:12px;font-weight:600;color:var(--coral);margin-bottom:6px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.07em">GOVERNANCE STRUCTURE</div>
+        <ul style="list-style:none;font-size:13px;color:var(--ink-mid);display:flex;flex-direction:column;gap:5px">
+          <li>● 11 elected Councillors (3 wards)</li>
+          <li>● Mayor: Councillor Preet Singh (2025–26)</li>
+          <li>● CEO: Stephen Wall</li>
+          <li>● 4 state electorates within boundary</li>
+          <li>● Council Plan 2025–29 (adopted June 2025)</li>
+          <li>● Wyndham 2050 Community Vision</li>
+        </ul>
+      </div>
+      <div class="card card-accent-gold">
+        <div style="font-size:12px;font-weight:600;color:var(--gold);margin-bottom:6px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.07em">KEY PLANNING DOCUMENTS</div>
+        <ul style="list-style:none;font-size:13px;color:var(--ink-mid);display:flex;flex-direction:column;gap:5px">
+          <li>● Council Plan 2025–29 (incl. MPHWP)</li>
+          <li>● Long Term Financial Plan 2025–2035</li>
+          <li>● Asset Management Plan</li>
+          <li>● Economic Development Strategy 2022–26</li>
+          <li>● Smart City Strategy 2019–2024</li>
+          <li>● Wyndham 2040 / Wyndham 2050 Vision</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-wyn" style="margin-top:24px">
+    <strong>Why Wyndham Matters:</strong> With $1.25 billion in total revenue and one of the largest capital works programs in Victorian local government, Wyndham City is not a typical suburban council — it is managing the equivalent of building a city within a city, adding the infrastructure demands of a medium-sized regional city every decade while subject to a rate cap that doesn't account for population growth. Every infrastructure, technology, and service decision Wyndham makes has a structural constraint baked in: do more with proportionally less revenue per head.
+  </div>
+</div>
+</section>
+
+<!-- ▓▓ 02 — SERVICES ▓▓ -->
+<section id="services" class="section">
+<div class="wrap">
+  <div class="section-eyebrow">02 / Service Portfolio</div>
+  <h2 class="section-title">What Wyndham City Delivers</h2>
+  <p class="section-desc">Wyndham delivers over 100 service lines across 12 functional directorates. Services range from children's health and early education through to major capital infrastructure, arts, sport, and economic development. Given the community's age profile — young families dominate — child, family, and community health services are disproportionately high-demand.</p>
+
+  <div class="g3" style="margin-bottom:20px">
+    <!-- Card 1: Children & Families -->
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon" style="background:#E0F5F5">🧒</div>
+        <div>
+          <h3>Children, Families & Early Years</h3>
+          <p>Highest-demand service cluster given Wyndham's young demographics — 33yr median age, high first-home-buyer density.</p>
+        </div>
+      </div>
+      <div class="svc-card-body">
+        <ul class="svc-list">
+          <li>Maternal and Child Health (MCH) — free universal consultations</li>
+          <li>3- and 4-year-old kindergarten funding and delivery</li>
+          <li>Early childhood education partnerships</li>
+          <li>Family services and child protection referrals</li>
+          <li>Children's programs in community centres</li>
+          <li>Immunisation clinics and outreach</li>
+        </ul>
+        <div class="svc-budget" style="background:#E0F5F5;color:var(--wyn-d)"><strong>Key facility:</strong> Lollypop Creek CC opened 2025 ($12.6M)</div>
+      </div>
+    </div>
+    <!-- Card 2: Roads & Infrastructure -->
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon" style="background:#DBEAFE">🛣️</div>
+        <div>
+          <h3>Roads, Transport & Infrastructure</h3>
+          <p>The largest capital expenditure category, driven by Wyndham's greenfield expansion requiring entirely new road networks.</p>
+        </div>
+      </div>
+      <div class="svc-card-body">
+        <ul class="svc-list">
+          <li>Local road construction and maintenance</li>
+          <li>Footpaths and cycling networks (Active Transport)</li>
+          <li>Traffic management and engineering</li>
+          <li>Street lighting upgrades and CCTV</li>
+          <li>Drainage and waterway management</li>
+          <li>Road resurfacing and rehabilitation program</li>
+        </ul>
+        <div class="svc-budget" style="background:#DBEAFE;color:#1E3A8A"><strong>FY25/26 allocation:</strong> $80.9M roads & footpaths</div>
+      </div>
+    </div>
+    <!-- Card 3: Parks & Open Space -->
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon" style="background:#DCFCE7">🌳</div>
+        <div>
+          <h3>Parks, Open Space & Environment</h3>
+          <p>8,000+ advanced trees planted annually; $20.8M in new open space creation and $27.7M maintenance per year.</p>
+        </div>
+      </div>
+      <div class="svc-card-body">
+        <ul class="svc-list">
+          <li>Parks and reserve maintenance</li>
+          <li>Tree planting (8,000 advanced + 6,000 tubestock/yr)</li>
+          <li>Playground design, construction, and safety</li>
+          <li>Waterways and wetland programs</li>
+          <li>Biodiversity and weed control</li>
+          <li>Environmental sustainability programs</li>
+        </ul>
+        <div class="svc-budget" style="background:#DCFCE7;color:#14532D"><strong>FY25/26:</strong> $27.7M maintenance + $20.8M new spaces</div>
+      </div>
+    </div>
+    <!-- Card 4: Community Health & Safety -->
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon" style="background:#FEF0EC">🏥</div>
+        <div>
+          <h3>Community Health, Aged & Safety</h3>
+          <p>Rapidly growing as the original greenfield cohort from 2000–2015 ages into its 40s and 50s over the next decade.</p>
+        </div>
+      </div>
+      <div class="svc-card-body">
+        <ul class="svc-list">
+          <li>Home and Community Care (HACC) programs</li>
+          <li>Aged services referral and coordination</li>
+          <li>Mental health and wellbeing programs</li>
+          <li>Public health and food safety inspections</li>
+          <li>Community safety — lighting, CCTV, patrols</li>
+          <li>Disability inclusion and access programs</li>
+        </ul>
+        <div class="svc-budget" style="background:#FEF0EC;color:#9B2C1E"><strong>Pilot:</strong> Private security patrols trialled — Truganina (2024)</div>
+      </div>
+    </div>
+    <!-- Card 5: Recreation & Leisure -->
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon" style="background:#EDE9FE">🏊</div>
+        <div>
+          <h3>Recreation, Sport & Leisure</h3>
+          <p>AquaPulse and Eagle Stadium are the flagship facilities serving Wyndham's young, active demographic.</p>
+        </div>
+      </div>
+      <div class="svc-card-body">
+        <ul class="svc-list">
+          <li>AquaPulse Aquatic Centre operations</li>
+          <li>Eagle Stadium multi-sport venue</li>
+          <li>Ovals, courts, and sports pavilion management</li>
+          <li>Sports club grants and partnership programs</li>
+          <li>Active recreation programs</li>
+          <li>Capital works: new ovals FY25/26</li>
+        </ul>
+        <div class="svc-budget" style="background:#EDE9FE;color:#4C1D95"><strong>FY24/25 delivered:</strong> $68.3M on rec/leisure facilities</div>
+      </div>
+    </div>
+    <!-- Card 6: Libraries & Community -->
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon" style="background:#FEF3C7">📚</div>
+        <div>
+          <h3>Libraries, Arts & Community Centres</h3>
+          <p>Libraries serve a dual role — traditional lending and as digital literacy hubs for a culturally diverse community.</p>
+        </div>
+      </div>
+      <div class="svc-card-body">
+        <ul class="svc-list">
+          <li>Wyndham City Libraries (multiple branches)</li>
+          <li>Digital literacy programs and free Wi-Fi</li>
+          <li>Community centre bookings and management</li>
+          <li>Arts, culture and event programming</li>
+          <li>Multicultural community events</li>
+          <li>Community grants ($2.8M+ FY26)</li>
+        </ul>
+        <div class="svc-budget" style="background:#FEF3C7;color:#7C4A00"><strong>FY25/26:</strong> $2.8M+ Community Grants Program</div>
+      </div>
+    </div>
+    <!-- Card 7: Planning & Development -->
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon" style="background:#F0FAFA">🏗️</div>
+        <div>
+          <h3>Planning & Development Services</h3>
+          <p>One of the highest-volume planning workloads in Victoria — processing thousands of planning permits annually for subdivisions, dwellings, and commercial development.</p>
+        </div>
+      </div>
+      <div class="svc-card-body">
+        <ul class="svc-list">
+          <li>Statutory planning (permits, objections, VCAT)</li>
+          <li>Strategic planning (structure plans, Precinct Plans)</li>
+          <li>Building permit and inspection services</li>
+          <li>Developer contributions collection and acquittal</li>
+          <li>GIS and land information services</li>
+          <li>Heritage, design, and urban character</li>
+        </ul>
+        <div class="svc-budget" style="background:#F0FAFA;color:var(--wyn-d)"><strong>Revenue driver:</strong> Developer contributions fund new infrastructure</div>
+      </div>
+    </div>
+    <!-- Card 8: Waste & Environment -->
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon" style="background:#DCFCE7">♻️</div>
+        <div>
+          <h3>Waste Management & Sustainability</h3>
+          <p>Kerbside collection, recycling, food organics, hard waste and sustainability programs — servicing 120,000+ households.</p>
+        </div>
+      </div>
+      <div class="svc-card-body">
+        <ul class="svc-list">
+          <li>Kerbside general, recycling, FOGO collection</li>
+          <li>Hard waste and bulky goods collection</li>
+          <li>Wyndham Recycling & Recovery Centre</li>
+          <li>Litter and graffiti management</li>
+          <li>Solar city project — council-owned solar</li>
+          <li>Sustainability reporting and programs</li>
+        </ul>
+        <div class="svc-budget" style="background:#DCFCE7;color:#14532D"><strong>Achievement:</strong> Largest rooftop solar rollout by a Victorian council</div>
+      </div>
+    </div>
+    <!-- Card 9: Economic Development -->
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon" style="background:#FEF0EC">💼</div>
+        <div>
+          <h3>Economic Development & Investment</h3>
+          <p>Attracting employment precincts to reduce Wyndham's job-deficit — 72% of residents currently commute outside the area for work.</p>
+        </div>
+      </div>
+      <div class="svc-card-body">
+        <ul class="svc-list">
+          <li>Business attraction and investment facilitation</li>
+          <li>East Werribee Employment Precinct development</li>
+          <li>Laverton North Sustainable Supply Hub</li>
+          <li>Small business support and events</li>
+          <li>Tourism promotion and visitor economy</li>
+          <li>Business grants and innovation programs</li>
+        </ul>
+        <div class="svc-budget" style="background:#FEF0EC;color:#9B2C1E"><strong>Challenge:</strong> Only 28% of residents work locally — jobs gap priority</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ▓▓ 03 — BUDGET ▓▓ -->
+<section id="budget" class="section" style="background:var(--white)">
+<div class="wrap">
+  <div class="section-eyebrow">03 / Budget Allocation</div>
+  <h2 class="section-title">How Wyndham Spends Its $165.1M Capital Budget</h2>
+  <p class="section-desc">Adopted at the Council Meeting on 24 June 2025, the FY2025–26 Annual Plan and Budget commits $165.1 million to 71 capital works projects. Total organisational revenue exceeds $1.25 billion including rates, grants, developer contributions and fees. The rate cap (2.75%) acts as a binding constraint on revenue growth while population and cost pressures grow faster.</p>
+
+  <div class="g32" style="margin-bottom:32px">
+    <div class="card">
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:20px;color:var(--ink)">Capital Works Allocation — FY2025/26 ($165.1M Total)</h3>
+      <div class="budget-chart">
+        <div class="bbar-row">
+          <div class="bbar-label">Roads, footpaths & active transport</div>
+          <div class="bbar-wrap"><div class="bbar-fill" style="width:49%;background:var(--blue)"></div></div>
+          <div class="bbar-val">$80.9M</div>
+        </div>
+        <div class="bbar-row">
+          <div class="bbar-label">Recreational & community facilities</div>
+          <div class="bbar-wrap"><div class="bbar-fill" style="width:25%;background:var(--purple)"></div></div>
+          <div class="bbar-val">~$41M</div>
+        </div>
+        <div class="bbar-row">
+          <div class="bbar-label">Parks, open space maintenance</div>
+          <div class="bbar-wrap"><div class="bbar-fill" style="width:17%;background:var(--green)"></div></div>
+          <div class="bbar-val">$27.7M</div>
+        </div>
+        <div class="bbar-row">
+          <div class="bbar-label">New open space projects</div>
+          <div class="bbar-wrap"><div class="bbar-fill" style="width:13%;background:var(--wyn)"></div></div>
+          <div class="bbar-val">$20.8M</div>
+        </div>
+        <div class="bbar-row">
+          <div class="bbar-label">Community safety (lighting, security)</div>
+          <div class="bbar-wrap"><div class="bbar-fill" style="width:6%;background:var(--coral)"></div></div>
+          <div class="bbar-val">~$9M</div>
+        </div>
+        <div class="bbar-row">
+          <div class="bbar-label">Community grants & programs</div>
+          <div class="bbar-wrap"><div class="bbar-fill" style="width:2%;background:var(--gold)"></div></div>
+          <div class="bbar-val">$2.8M+</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card card-accent-coral">
+        <div style="font-size:12px;font-weight:600;color:var(--coral);margin-bottom:8px;font-family:'DM Mono',monospace;text-transform:uppercase">REVENUE SOURCES</div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:var(--ink-mid)">
+          <div style="display:flex;justify-content:space-between"><span>Rates & charges</span><strong>Primary</strong></div>
+          <div style="display:flex;justify-content:space-between"><span>Developer contributions</span><strong>Growth-linked</strong></div>
+          <div style="display:flex;justify-content:space-between"><span>State grants</span><strong>Declining</strong></div>
+          <div style="display:flex;justify-content:space-between"><span>Federal grants</span><strong>Competitive</strong></div>
+          <div style="display:flex;justify-content:space-between"><span>User fees & charges</span><strong>Fee-set annually</strong></div>
+        </div>
+      </div>
+      <div class="card card-accent-gold">
+        <div style="font-size:12px;font-weight:600;color:var(--gold);margin-bottom:8px;font-family:'DM Mono',monospace;text-transform:uppercase">FINANCIAL RISKS</div>
+        <div style="font-size:13px;color:var(--ink-mid);display:flex;flex-direction:column;gap:6px">
+          <div>⚠ Rate cap 2.75% — 9th consecutive year below CPI</div>
+          <div>⚠ $36.16M unused reserves uncovered (2024) — governance scrutiny</div>
+          <div>⚠ Developer contributions dependent on market cycles</div>
+          <div>⚠ State/Federal grant reduction trend</div>
+          <div>⚠ EBA (Enterprise Bargaining) expires June 2026</div>
+        </div>
+      </div>
+      <div class="card card-accent-wyn">
+        <div style="font-size:12px;font-weight:600;color:var(--wyn);margin-bottom:8px;font-family:'DM Mono',monospace;text-transform:uppercase">LTFP 10-YEAR OUTLOOK</div>
+        <div style="font-size:13px;color:var(--ink-mid)">The Long Term Financial Plan 2025–2035 commits to annual budget reviews and dynamic resource allocation as population grows. Capital requirements will escalate faster than rate-capped revenue — structural deficit risk if state policy unchanged.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-amber">
+    <strong>The $36.16M Scrutiny Event (2024):</strong> A governance controversy emerged in 2024 when $36.16 million in previously unutilised budget reserves were identified. Residents demanded clarity on how these funds were overlooked and how they would address infrastructure and service gaps — particularly in older areas like Wyndham Vale, Hoppers Crossing, and Werribee South, which lack the developer contributions of newer estates. This episode underscored the tension between growth-area funding models and equity across the municipality's diverse localities.
+  </div>
+
+  <div class="g3" style="margin-top:24px">
+    <div class="card card-accent-blue">
+      <div style="font-size:12px;font-weight:600;color:var(--blue);margin-bottom:10px;font-family:'DM Mono',monospace;text-transform:uppercase">FY2024/25 DELIVERED</div>
+      <div style="font-size:13px;color:var(--ink-mid);display:flex;flex-direction:column;gap:6px">
+        <div>● $148.2M total capital works</div>
+        <div>● $29M on roads</div>
+        <div>● $68.3M rec, leisure & community</div>
+        <div>● $14.9M parks & open spaces</div>
+        <div>● $5M footpaths & cycleways</div>
+        <div>● 250 capital works projects delivered in 4-yr term</div>
+      </div>
+    </div>
+    <div class="card card-accent-green">
+      <div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:10px;font-family:'DM Mono',monospace;text-transform:uppercase">FY2025/26 KEY PROJECTS</div>
+      <div style="font-size:13px;color:var(--ink-mid);display:flex;flex-direction:column;gap:6px">
+        <div>● 71 capital works projects</div>
+        <div>● $80.9M roads & active transport</div>
+        <div>● New sports ovals</div>
+        <div>● Community centre upgrades</div>
+        <div>● Playground renewals</div>
+        <div>● $2.8M+ Community Grants</div>
+      </div>
+    </div>
+    <div class="card card-accent-purple">
+      <div style="font-size:12px;font-weight:600;color:var(--purple);margin-bottom:10px;font-family:'DM Mono',monospace;text-transform:uppercase">FY2026/27 PIPELINE</div>
+      <div style="font-size:13px;color:var(--ink-mid);display:flex;flex-direction:column;gap:6px">
+        <div>● 80+ capital projects proposed</div>
+        <div>● $60M+ roads & active transport</div>
+        <div>● State advocacy: $77.5M trains (Werribee)</div>
+        <div>● State advocacy: $14.8M Wyndham Vale rail</div>
+        <div>● State advocacy: $100M bus expansion</div>
+        <div>● Rate increase: 2.75% (state cap maintained)</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ▓▓ 04 — CHALLENGES ▓▓ -->
+<section id="challenges" class="section">
+<div class="wrap">
+  <div class="section-eyebrow">04 / Strategic Challenges</div>
+  <h2 class="section-title">The Pressures Wyndham Is Fighting</h2>
+  <p class="section-desc">Wyndham operates at the intersection of four compounding stressors: explosive population growth, a capped revenue base, aging infrastructure in established suburbs, and an underdeveloped public transport network. Each challenge amplifies the others.</p>
+
+  <div class="g2" style="margin-bottom:18px">
+    <div class="challenge-card critical">
+      <div class="challenge-badge badge-critical">Critical / Structural</div>
+      <h3>🔴 Rate Cap vs. Population Growth — The Revenue Trap</h3>
+      <p>The State Government's rate cap has been fixed at 2.75% for nine consecutive years — currently below the Consumer Price Index. The cap was designed for stable populations but takes no account of population growth. Wyndham adds ~6,000 residents per year, each demanding new services, roads, parks, and facilities. This creates a widening structural gap: service demand compounds faster than permissible revenue growth. CEO Stephen Wall publicly described it as the "most significant financial constraint" the council faces. Every efficiency the ERP unlocks is partly absorbed by this structural shortfall.</p>
+    </div>
+    <div class="challenge-card critical">
+      <div class="challenge-badge badge-critical">Critical / Infrastructure</div>
+      <h3>🔴 Public Transport Deficit — Melbourne's Largest Gap</h3>
+      <p>Wyndham has among the worst public transport coverage of any metropolitan local government area in Victoria. With 72% of residents commuting outside the municipality for work, car dependency is extreme. The Werribee Line runs infrequently; the Wyndham Vale Line serves only a fraction of the LGA; bus networks are sparse in new estates. Council has repeatedly advocated to the State Government — the 2026–27 State Budget allocated $77.5M for Werribee Line improvements and $14.8M for Wyndham Vale, but residents and council say significant infrastructure gaps remain. Without adequate public transport, the economic self-sufficiency of the municipality and environmental sustainability goals are compromised.</p>
+    </div>
+    <div class="challenge-card high">
+      <div class="challenge-badge badge-high">High / Equity</div>
+      <h3>🟠 Established Suburb Neglect — The Two-Speed Municipality</h3>
+      <p>Wyndham's funding model is heavily reliant on developer contributions, which flow from new estate development. This creates an inherent inequity: newer suburbs (Tarneit, Truganina, Wyndham Vale) attract substantial developer contribution funding for new parks, roads, and community centres, while older established suburbs (Hoppers Crossing, Werribee South, Laverton North) receive proportionally less capital investment because they no longer generate development contributions. Councillor Mia Shaw explicitly called this out during 2024/25 budget discussions. Addressing this structural inequity while maintaining growth-edge delivery is a defining governance challenge.</p>
+    </div>
+    <div class="challenge-card high">
+      <div class="challenge-badge badge-high">High / Economic</div>
+      <h3>🟠 Jobs Deficit — A Dormitory City Risk</h3>
+      <p>Only 28% of Wyndham residents work locally — 72% commute, primarily to Melbourne CBD and inner suburbs. This means Wyndham functions largely as a dormitory for other economies. The economic development challenge is not just attracting employers but sequencing employment precinct development (East Werribee, Laverton North, Truganina) ahead of or alongside residential growth. Without local employment, quality of life, transport congestion, and economic self-sufficiency all deteriorate. Council's Economic Development Strategy 2022–26 acknowledges this but progress is structurally constrained by planning timelines and market cycles.</p>
+    </div>
+    <div class="challenge-card medium">
+      <div class="challenge-badge badge-medium">Medium / Governance</div>
+      <h3>🟡 Data Silos & Operational Fragmentation</h3>
+      <p>Prior to the TechnologyOne OneCouncil implementation, Wyndham operated across siloed systems — separate databases for asset management, finance, customer requests, and workforce. This made it impossible to get a holistic view of the $160M capital works program in real time, leading to inefficiencies in work order management, customer service tracking, and financial forecasting. Phase 1 of the ERP addressed the most critical back-office silos. Phase 2 will target CRM, community engagement, and citizen-facing digital services. The underlying data governance maturity is still developing.</p>
+    </div>
+    <div class="challenge-card medium">
+      <div class="challenge-badge badge-medium">Medium / Social</div>
+      <h3>🟡 Multicultural Service Delivery & Digital Inclusion</h3>
+      <p>With ~40% of residents born overseas and a highly diverse linguistic profile (Indian sub-continent languages, Mandarin, Vietnamese, Tagalog, Arabic and others are prominent), delivering effective multilingual services is a growing obligation. While Wyndham has deployed Microsoft Translator for customer service and VR for planning, systematic digital inclusion — ensuring recently arrived communities can access online government services — is not yet a formalised Council program. As digital service delivery becomes the norm, digital exclusion risk will compound for older, newly-arrived, and lower-income residents.</p>
+    </div>
+    <div class="challenge-card ongoing">
+      <div class="challenge-badge badge-ongoing">Ongoing / External</div>
+      <h3>🔵 Cost of Living Pressures & Reduced State/Federal Funding</h3>
+      <p>Mayor Mia Shaw's 2024/25 Annual Report statement explicitly identified "cost of living pressures and reduced State and Federal funding" as making it "increasingly difficult for the sector to continue to deliver." This double pressure — community demand for cost relief while grant funding shrinks — is compressing Council's operational discretion. The grant dependency built into capital programs creates vulnerability: grants with high success probability are included in the budget; others must wait for quarterly forecast updates. As community financial stress rises, demand for Council social programs also increases.</p>
+    </div>
+    <div class="challenge-card ongoing">
+      <div class="challenge-badge badge-ongoing">Ongoing / Climate</div>
+      <h3>🔵 Climate Adaptation & Environmental Sustainability</h3>
+      <p>Wyndham's large undeveloped land area, significant agricultural zones, and proximity to Port Phillip Bay create exposure to climate risks including flood, drought, extreme heat events, and coastal erosion. The Urban Heat Island effect in high-density new estates is a growing liveability concern. Council's tree planting program (8,000 advanced trees + 6,000 tubestock annually) and solar city projects address parts of this but a comprehensive climate adaptation strategy for infrastructure is not yet publicly documented in the same depth as smart city or digital plans.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ▓▓ 05 — INITIATIVES ▓▓ -->
+<section id="initiatives" class="section" style="background:var(--white)">
+<div class="wrap">
+  <div class="section-eyebrow">05 / Strategic Initiatives</div>
+  <h2 class="section-title">Programs Defining Wyndham's Trajectory</h2>
+  <p class="section-desc">These are the flagship programs — spanning digital transformation, community infrastructure, liveability, and economic development — that will determine Wyndham's operational capacity through to 2040.</p>
+
+  <div class="g23">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--wyn)">1</div>
+        <span class="tl-year">2019 — ACTIVE / AWARD-WINNING</span>
+        <h4>Smart City Strategy 2019–2024 (Australia & NZ Best)</h4>
+        <p>Wyndham's Smart City Strategy won the top prize at the Smart Cities Council Australia New Zealand 2019 Awards — the highest recognition in the region. It articulates a community-first approach integrating IoT, AI, transport innovation, environmental monitoring, and digital engagement. The strategy was developed collaboratively with universities, businesses, and government agencies. Key delivered projects include Australia's leading smart parking system in the Werribee City Centre, the Wyndham Solar City Project (largest commercial-scale rooftop solar rollout by an Australian LGA), a city-wide Sigfox/Thinxtra IoT sensor network, and the CityLens augmented reality platform.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">IoT / Sensors</span>
+          <span class="tl-tag">Smart Parking</span>
+          <span class="tl-tag">Solar City</span>
+          <span class="tl-tag">ANZ Award Winner</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--blue)">2</div>
+        <span class="tl-year">2025 — PHASE 1 COMPLETE</span>
+        <h4>TechnologyOne OneCouncil ERP — Digital Backbone</h4>
+        <p>Contracted in 2018, Phase 1 of the OneCouncil ERP went live in 2025 — on time and on budget (a rare achievement for large ERP implementations). Within the first six weeks post-go-live, the system processed over 11,600 customer requests and created over 3,300 work orders. It provides an integrated view of the $160M+ capital works program — eliminating the manual data reconciliation that previously consumed significant staff time. The transition from fragmented legacy systems to a single source of truth is foundational to Wyndham's ability to track every dollar as population scales toward 500,000. Phase 2 will extend to CRM, citizen-facing services, and community engagement integration.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">TechOne OneCouncil</span>
+          <span class="tl-tag">SaaS ERP</span>
+          <span class="tl-tag">11,600 customer requests (wk 1–6)</span>
+          <span class="tl-tag">Phase 2 pending</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--purple)">3</div>
+        <span class="tl-year">2024–2025 — COMPLETED</span>
+        <h4>Future Wyndham — Community Vision 2050</h4>
+        <p>Wyndham's most ambitious community engagement project to date, Future Wyndham launched in 2024 and culminated in the Council Plan 2025–29 and Wyndham 2050 Community Vision. It involved over 4,500 community contributions, a randomly-selected 103-member Community Panel (meeting over six days), a Health Forum in February 2025, and public exhibition of the draft Plan in May 2025. The process informed four strategic pillars: A Welcoming, Healthy and Resilient City; A Connected and Liveable City; A Thriving Local Economy; and A Council that Listens and Leads. The deliberative panel model is a significant maturity step for Wyndham's community engagement practice.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">103-member citizen panel</span>
+          <span class="tl-tag">4,500+ contributions</span>
+          <span class="tl-tag">Council Plan 2025–29</span>
+          <span class="tl-tag">Wyndham 2050 Vision</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--green)">4</div>
+        <span class="tl-year">2022–2026 — ACTIVE</span>
+        <h4>Economic Development Strategy 2022–2026</h4>
+        <p>Council's economic self-sufficiency agenda is structured around this strategy — targeting local job creation to reduce the 72% out-commute rate. Key programs include support for the Laverton North Sustainable Supply Hub (connecting Alex Fraser Group with local education institutions for green infrastructure careers), the East Werribee Employment Precinct (designated major employment zone), and business attraction facilitation. Council's Economic Development Unit hosts networking events, provides business grants, and liaises with the State Government on precinct activation. Progress is characterised as a "2023–2024 Update" suggesting ongoing delivery rather than milestone completion.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">East Werribee Precinct</span>
+          <span class="tl-tag">Laverton North Hub</span>
+          <span class="tl-tag">Jobs creation focus</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--coral)">5</div>
+        <span class="tl-year">2024 PILOT — ONGOING</span>
+        <h4>Community Safety Initiative — Lighting & Security Patrols</h4>
+        <p>In 2024/25, Wyndham introduced a Community Safety Initiative focused on increased street lighting in public areas and a trial of private security patrols in Truganina — a newer, rapidly-growing estate with limited established community infrastructure. This represents a shift toward proactive safety infrastructure rather than reactive response. The initiative responds directly to community feedback identifying personal safety as a liveability concern in newer, less-lit estates. Results of the Truganina security patrol trial will inform whether this model is extended to other growth-edge suburbs.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">Street lighting upgrades</span>
+          <span class="tl-tag">Truganina security trial</span>
+          <span class="tl-tag">Community safety</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--gold)">6</div>
+        <span class="tl-year">2025 — OPENED</span>
+        <h4>Lollypop Creek Community Centre ($12.6M)</h4>
+        <p>Opened in 2024/25, the $12.6 million Lollypop Creek Community Centre in Werribee delivers 3- and 4-year-old kindergarten, Maternal and Child Health consulting rooms, and multipurpose community spaces. This is a flagship example of Wyndham's integrated community hub model — co-locating early childhood services, family health, and community meeting spaces in a single purpose-built facility. Stage 1 of the Jamieson Way Community Centre (Point Cook) was also completed in the same year, including expanded kindergarten outdoor play areas and new MCH rooms.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">$12.6M investment</span>
+          <span class="tl-tag">Kindergarten + MCH hub</span>
+          <span class="tl-tag">Werribee</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card" style="background:var(--wyn-ll);border-color:rgba(0,107,107,.2)">
+        <div style="font-size:12px;font-weight:700;color:var(--wyn);margin-bottom:12px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.08em">SMART CITY ACHIEVEMENTS — DELIVERED</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--wyn-d)">
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid rgba(0,107,107,.15)">
+            <strong>Smart Parking (Werribee CBD)</strong><br>
+            <span style="color:var(--ink-light);font-size:12px">One of Australia's leading smart parking systems — sensors, occupancy data, wayfinding. Reduces congestion and vehicle search time in the city centre.</span>
+          </div>
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid rgba(0,107,107,.15)">
+            <strong>Solar City Project</strong><br>
+            <span style="color:var(--ink-light);font-size:12px">Largest rollout of commercial-scale rooftop solar by an Australian local government. Reduces council operating costs and demonstrates low-carbon leadership.</span>
+          </div>
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid rgba(0,107,107,.15)">
+            <strong>Sigfox / Thinxtra IoT Network</strong><br>
+            <span style="color:var(--ink-light);font-size:12px">City-wide narrowband IoT sensor network for asset tracking, environmental monitoring, soil moisture, water management and smart bins.</span>
+          </div>
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid rgba(0,107,107,.15)">
+            <strong>CityLens (HoloLens AR Platform)</strong><br>
+            <span style="color:var(--ink-light);font-size:12px">Microsoft HoloLens + 3D city model + live IoT data = holographic city visualisation for planning, decision-making, and community engagement.</span>
+          </div>
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid rgba(0,107,107,.15)">
+            <strong>AI & VR Deployment</strong><br>
+            <span style="color:var(--ink-light);font-size:12px">Virtual reality used in planning and community consultation. Microsoft Translator multilingual virtual assistant for customer service and accessibility.</span>
+          </div>
+        </div>
+      </div>
+      <div class="card card-accent-coral">
+        <div style="font-size:12px;font-weight:700;color:var(--coral);margin-bottom:10px;font-family:'DM Mono',monospace;text-transform:uppercase">ADVOCACY PIPELINE (State/Federal)</div>
+        <div style="font-size:13px;color:var(--ink-mid);display:flex;flex-direction:column;gap:6px">
+          <div>🚂 Werribee Line: +2 peak services/hour</div>
+          <div>🚂 Wyndham Vale Line: longer 9-car trains</div>
+          <div>🚌 $100M bus network expansion</div>
+          <div>🛣️ Arterial road upgrades across 4 electorates</div>
+          <div>🏥 Mental health & HACC service investment</div>
+          <div>🏫 School infrastructure co-funding</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ▓▓ 06 — TECHNOLOGY STACK ▓▓ -->
+<section id="technology" class="section">
+<div class="wrap">
+  <div class="section-eyebrow">06 / Technology Stack</div>
+  <h2 class="section-title">Wyndham's Enterprise Technology Architecture</h2>
+  <p class="section-desc">Wyndham operates one of the most sophisticated technology portfolios in Victorian local government — spanning SaaS ERP, city-scale IoT networks, augmented reality, multilingual AI, and solar infrastructure. The revenue base ($1.25B) supports a meaningful IT investment profile, with TechnologyOne OneCouncil as the central ERP and data hub.</p>
+
+  <div class="g3" style="margin-bottom:20px">
+    <div class="tech-card">
+      <h3>TechnologyOne OneCouncil</h3>
+      <div class="tc-vendor">VENDOR: TechnologyOne (SaaS)</div>
+      <p>The core ERP platform — integrates financials, asset management, work orders, supply chain, and (future) CRM. Phase 1 live as of early 2025. 182+ councils globally on the same platform. IRAP-assessed, PROTECTED-level data classification. Mobile-enabled for field workers.</p>
+      <div class="tech-maturity">
+        <div class="tm-dot" style="background:var(--green)"></div>
+        <div class="tm-label" style="color:var(--green)">Active</div>
+        <div class="tm-bar"><div class="tm-fill" style="width:60%;background:var(--green)"></div></div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-light)">Phase 1/3</div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <h3>Sigfox / Thinxtra IoT Network</h3>
+      <div class="tc-vendor">VENDOR: Thinxtra (Sigfox ANZ)</div>
+      <p>City-wide narrowband IoT sensor network — the backbone for asset tracking, environmental monitoring, smart bins, soil moisture sensors, water management. Provides real-time data for operational decisions. Established as a permanent infrastructure layer for the municipality.</p>
+      <div class="tech-maturity">
+        <div class="tm-dot" style="background:var(--wyn)"></div>
+        <div class="tm-label" style="color:var(--wyn)">Active</div>
+        <div class="tm-bar"><div class="tm-fill" style="width:75%;background:var(--wyn)"></div></div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-light)">Expanding</div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <h3>Microsoft HoloLens — CityLens</h3>
+      <div class="tc-vendor">VENDOR: Microsoft</div>
+      <p>The CityLens AR platform merges 3D city models with live IoT data streams for holographic city visualisation. Enables planners to view pedestrian flows, traffic, air quality, water usage in 3D overlaid on the physical or model city. Council collaborates with peer councils on shared 3D city model datasets.</p>
+      <div class="tech-maturity">
+        <div class="tm-dot" style="background:var(--purple)"></div>
+        <div class="tm-label" style="color:var(--purple)">Research</div>
+        <div class="tm-bar"><div class="tm-fill" style="width:40%;background:var(--purple)"></div></div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-light)">Innovation stage</div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <h3>Microsoft Translator (Multilingual AI)</h3>
+      <div class="tc-vendor">VENDOR: Microsoft Azure Cognitive Services</div>
+      <p>Deployed as a multilingual virtual assistant for customer service and community accessibility. Enables Wyndham to serve its highly diverse population (40% born overseas) in their preferred language. Used across planning consultations and customer-facing channels.</p>
+      <div class="tech-maturity">
+        <div class="tm-dot" style="background:var(--blue)"></div>
+        <div class="tm-label" style="color:var(--blue)">Active</div>
+        <div class="tm-bar"><div class="tm-fill" style="width:65%;background:var(--blue)"></div></div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-light)">Operational</div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <h3>Social Pinpoint — The Loop</h3>
+      <div class="tc-vendor">VENDOR: Social Pinpoint</div>
+      <p>Wyndham's community engagement platform branded as "The Loop" — hosts budget consultations, community forums, smart city strategy discussions, and capital works feedback. Used for the Future Wyndham 2050 engagement project (4,500+ contributions). Supports the Budget Forum, Council Plan consultations, and ongoing community input mechanisms.</p>
+      <div class="tech-maturity">
+        <div class="tm-dot" style="background:var(--wyn)"></div>
+        <div class="tm-label" style="color:var(--wyn)">Active</div>
+        <div class="tm-bar"><div class="tm-fill" style="width:80%;background:var(--wyn)"></div></div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-light)">Mature use</div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <h3>Smart Parking System (Werribee)</h3>
+      <div class="tc-vendor">VENDOR: Smart Cities / IoT (undisclosed)</div>
+      <p>Described as "one of Australia's leading smart parking systems" — uses sensors to detect occupancy, feed real-time data to wayfinding infrastructure, and reduce vehicle search time in Werribee City Centre. A key proof-of-concept for data-driven urban management that influenced the broader smart city strategy.</p>
+      <div class="tech-maturity">
+        <div class="tm-dot" style="background:var(--gold)"></div>
+        <div class="tm-label" style="color:var(--gold)">Deployed</div>
+        <div class="tm-bar"><div class="tm-fill" style="width:85%;background:var(--gold)"></div></div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-light)">Operational</div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <h3>Rooftop Solar — Wyndham Solar City</h3>
+      <div class="tc-vendor">VENDOR: Multiple solar providers</div>
+      <p>The Wyndham Solar City Project represents the largest rollout of commercial-scale rooftop solar by any Australian local government. Panels installed across council-owned buildings — community centres, libraries, depots, and aquatic centres. Reduces operational energy costs and supports Council's net-zero carbon commitments.</p>
+      <div class="tech-maturity">
+        <div class="tm-dot" style="background:var(--green)"></div>
+        <div class="tm-label" style="color:var(--green)">Complete</div>
+        <div class="tm-bar"><div class="tm-fill" style="width:90%;background:var(--green)"></div></div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-light)">Operational</div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <h3>VR (Virtual Reality) — Planning</h3>
+      <div class="tc-vendor">VENDOR: Undisclosed (VR platform)</div>
+      <p>VR technology deployed for planning engagement — allowing residents and decision-makers to virtually experience proposed developments and infrastructure before construction. Particularly valuable for major community facilities, precinct structure plans, and contested development approvals where visual impact is at issue.</p>
+      <div class="tech-maturity">
+        <div class="tm-dot" style="background:var(--purple)"></div>
+        <div class="tm-label" style="color:var(--purple)">Active</div>
+        <div class="tm-bar"><div class="tm-fill" style="width:50%;background:var(--purple)"></div></div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-light)">Innovation</div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <h3>Drone / UAV Fleet</h3>
+      <div class="tc-vendor">VENDOR: Multiple / in-sourced</div>
+      <p>Drones deployed for weed infestation management, dumped rubbish identification, and open space amenity monitoring. UAV camera systems complement the IoT network for environmental monitoring and reduce the cost of physical inspections across Wyndham's large 542 km² land area. Part of the broader smart city implementation plan.</p>
+      <div class="tech-maturity">
+        <div class="tm-dot" style="background:var(--wyn)"></div>
+        <div class="tm-label" style="color:var(--wyn)">Active</div>
+        <div class="tm-bar"><div class="tm-fill" style="width:55%;background:var(--wyn)"></div></div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-light)">Operational</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-wyn">
+    <strong>Architecture Assessment:</strong> Wyndham's technology stack is notably advanced for a local government of its scale. The combination of a SaaS ERP (TechOne), city-scale IoT (Sigfox/Thinxtra), AR planning tools (HoloLens/CityLens), and multilingual AI represents a multi-layer digital infrastructure stack that few Victorian councils can match. The primary integration risk is between the OneCouncil ERP (back-office single source of truth) and the smart city data layer (IoT, sensors, environmental monitoring) — these currently appear to operate as separate data environments with limited cross-system integration. Phase 2 of the ERP rollout presents an opportunity to create a unified operational data fabric.
+  </div>
+</div>
+</section>
+
+<!-- ▓▓ 07 — DIGITAL MATURITY ▓▓ -->
+<section id="digital" class="section" style="background:var(--white)">
+<div class="wrap">
+  <div class="section-eyebrow">07 / Digital Maturity Assessment</div>
+  <h2 class="section-title">Where Wyndham Stands Digitally</h2>
+  <p class="section-desc">Assessed across 12 dimensions of digital maturity for local government — scored 1–5 against an evidence base of public-domain publications, council minutes, TechOne press releases, and the Smart City Strategy documentation. Wyndham's aggregate score: <strong>72/100</strong> — placing it in the upper quartile of Victorian councils.</p>
+
+  <div class="radar-grid">
+    <div>
+      <div class="card" style="padding:20px">
+        <h3 style="font-size:14px;font-weight:600;margin-bottom:16px;color:var(--ink)">Digital Maturity Scorecard</h3>
+        <div>
+          <div class="maturity-row">
+            <div class="mat-dim">ERP / Finance Systems</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:80%;background:var(--wyn)"></div></div>
+            <div class="mat-score" style="color:var(--wyn)">4/5</div>
+            <div class="mat-label" style="background:var(--wyn-l);color:var(--wyn-d)">Strong</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">Smart City / IoT</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:100%;background:var(--green)"></div></div>
+            <div class="mat-score" style="color:var(--green)">5/5</div>
+            <div class="mat-label" style="background:var(--green-l);color:#14532D">Leader ★</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">Community Engagement Digital</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:80%;background:var(--wyn)"></div></div>
+            <div class="mat-score" style="color:var(--wyn)">4/5</div>
+            <div class="mat-label" style="background:var(--wyn-l);color:var(--wyn-d)">Strong</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">Citizen-facing Online Services</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:60%;background:var(--gold)"></div></div>
+            <div class="mat-score" style="color:var(--gold)">3/5</div>
+            <div class="mat-label" style="background:var(--gold-l);color:#7C4A00">Developing</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">Multilingual / Accessibility</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:80%;background:var(--wyn)"></div></div>
+            <div class="mat-score" style="color:var(--wyn)">4/5</div>
+            <div class="mat-label" style="background:var(--wyn-l);color:var(--wyn-d)">Strong</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">Data & Analytics</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:60%;background:var(--gold)"></div></div>
+            <div class="mat-score" style="color:var(--gold)">3/5</div>
+            <div class="mat-label" style="background:var(--gold-l);color:#7C4A00">Developing</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">AI / Machine Learning</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:60%;background:var(--gold)"></div></div>
+            <div class="mat-score" style="color:var(--gold)">3/5</div>
+            <div class="mat-label" style="background:var(--gold-l);color:#7C4A00">Developing</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">Digital Equity / Inclusion</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:40%;background:var(--coral)"></div></div>
+            <div class="mat-score" style="color:var(--coral)">2/5</div>
+            <div class="mat-label" style="background:var(--coral-l);color:#9B2C1E">Gap</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">AR / Immersive Tech</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:100%;background:var(--green)"></div></div>
+            <div class="mat-score" style="color:var(--green)">5/5</div>
+            <div class="mat-label" style="background:var(--green-l);color:#14532D">Leader ★</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">GIS & Spatial Data</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:80%;background:var(--wyn)"></div></div>
+            <div class="mat-score" style="color:var(--wyn)">4/5</div>
+            <div class="mat-label" style="background:var(--wyn-l);color:var(--wyn-d)">Strong</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">Cloud Infrastructure</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:80%;background:var(--wyn)"></div></div>
+            <div class="mat-score" style="color:var(--wyn)">4/5</div>
+            <div class="mat-label" style="background:var(--wyn-l);color:var(--wyn-d)">Strong</div>
+          </div>
+          <div class="maturity-row">
+            <div class="mat-dim">Cybersecurity Posture</div>
+            <div class="mat-bar-wrap"><div class="mat-fill" style="width:80%;background:var(--wyn)"></div></div>
+            <div class="mat-score" style="color:var(--wyn)">4/5</div>
+            <div class="mat-label" style="background:var(--wyn-l);color:var(--wyn-d)">Strong</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;color:var(--ink-light)">Overall Digital Maturity Score</span>
+          <span style="font-size:20px;font-weight:700;color:var(--wyn);font-family:'Syne',sans-serif">72 / 100</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card" style="background:var(--green-l);border-color:rgba(22,163,74,.2)">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:10px;font-family:'DM Mono',monospace;text-transform:uppercase">WHERE WYNDHAM LEADS (VIC LGA cohort)</div>
+        <div style="font-size:13px;color:#14532D;display:flex;flex-direction:column;gap:6px">
+          <div>★ Smart City / IoT — Sigfox network, smart parking, solar: best-in-class ANZ (5/5)</div>
+          <div>★ AR / Immersive Tech — CityLens HoloLens: frontrunner nationally (5/5)</div>
+          <div>★ Multilingual AI — Microsoft Translator: proactive deployment (4/5)</div>
+          <div>★ VR for Planning — community consultation tool (4/5)</div>
+          <div>★ Solar Infrastructure — largest council solar rollout in Australia</div>
+          <div>★ Community Engagement Panel — 103 randomly-selected residents</div>
+        </div>
+      </div>
+      <div class="card" style="background:var(--coral-l);border-color:rgba(232,93,58,.2)">
+        <div style="font-size:12px;font-weight:700;color:var(--coral);margin-bottom:10px;font-family:'DM Mono',monospace;text-transform:uppercase">WHERE WYNDHAM LAGS</div>
+        <div style="font-size:13px;color:#9B2C1E;display:flex;flex-direction:column;gap:6px">
+          <div>⚠ Digital Equity Framework — no formalised inclusion program (2/5)</div>
+          <div>⚠ Citizen-facing CRM / Self-service — Phase 2 ERP not yet delivered (3/5)</div>
+          <div>⚠ Integrated data analytics / PowerBI — IoT + ERP data not unified</div>
+          <div>⚠ AI/ML strategy — MS Translator deployed, but no broader AI strategy published</div>
+          <div>⚠ Smart City Strategy successor — 2019–2024 strategy has expired</div>
+        </div>
+      </div>
+      <div class="card card-accent-gold">
+        <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:8px;font-family:'DM Mono',monospace;text-transform:uppercase">DIGITAL ADOPTION ADOPTION HIGHLIGHTS</div>
+        <div style="font-size:13px;color:var(--ink-mid);display:flex;flex-direction:column;gap:5px">
+          <div>● 11,600+ customer requests digitally processed (ERP wk 1–6)</div>
+          <div>● 3,300+ digital work orders created (ERP wk 1–6)</div>
+          <div>● 4,500+ online contributions to Future Wyndham</div>
+          <div>● $160M capital works program — digital end-to-end visibility</div>
+          <div>● City-wide IoT sensor network operational</div>
+          <div>● Smart parking sensor occupancy data — live</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ▓▓ 08 — BENCHMARKING ▓▓ -->
+<section id="comparison" class="section">
+<div class="wrap">
+  <div class="section-eyebrow">08 / Benchmarking</div>
+  <h2 class="section-title">Wyndham vs. Comparable Victorian Councils</h2>
+  <p class="section-desc">Benchmarked against City of Casey (SE Melbourne growth corridor, comparable population growth profile) and Cardinia Shire (adjacent eastern growth area, same Cardinia-Casey-Wyndham growth arc). Sources: public-domain council plans, TechOne press releases, annual reports.</p>
+
+  <div style="background:var(--white);border:1px solid var(--rule);border-radius:var(--radius-lg);overflow:auto;box-shadow:var(--shadow-md);margin-bottom:24px">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th style="min-width:180px">Dimension</th>
+          <th style="background:#006B6B;min-width:160px">Wyndham City ●</th>
+          <th style="min-width:160px">City of Casey</th>
+          <th style="min-width:160px">Cardinia Shire</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-dim">Population (2024)</td>
+          <td class="td-wyn">337,009</td>
+          <td>390,000+</td>
+          <td>117,000</td>
+        </tr>
+        <tr>
+          <td class="td-dim">Total Revenue</td>
+          <td class="td-wyn">$1.25B</td>
+          <td>~$1.1B</td>
+          <td>~$320M</td>
+        </tr>
+        <tr>
+          <td class="td-dim">Capital Budget FY25/26</td>
+          <td class="td-wyn">$165.1M (71 projects)</td>
+          <td>~$180M</td>
+          <td>~$219M</td>
+        </tr>
+        <tr>
+          <td class="td-dim">ERP System</td>
+          <td class="td-wyn"><span class="pill-part">◑</span> TechOne Phase 1 live</td>
+          <td><span class="pill-full">●</span> TechOne full deploy</td>
+          <td><span class="pill-part">◑</span> TechOne Phase 1</td>
+        </tr>
+        <tr>
+          <td class="td-dim">Smart City / IoT</td>
+          <td class="td-wyn"><span class="pill-lead">★</span> IoT + AR + Solar leader</td>
+          <td><span class="pill-full">●</span> Smart Casey Launchpad</td>
+          <td><span class="pill-none">—</span> No programme</td>
+        </tr>
+        <tr>
+          <td class="td-dim">Multilingual Services</td>
+          <td class="td-wyn"><span class="pill-full">●</span> MS Translator deployed</td>
+          <td><span class="pill-part">◑</span> Partial</td>
+          <td><span class="pill-none">—</span> Not evidenced</td>
+        </tr>
+        <tr>
+          <td class="td-dim">AR / Immersive Tech</td>
+          <td class="td-wyn"><span class="pill-lead">★</span> CityLens (HoloLens)</td>
+          <td><span class="pill-none">—</span> Not evidenced</td>
+          <td><span class="pill-none">—</span> Not evidenced</td>
+        </tr>
+        <tr>
+          <td class="td-dim">Community Engagement Panel</td>
+          <td class="td-wyn"><span class="pill-full">●</span> 103-member panel (2024)</td>
+          <td><span class="pill-full">●</span> 55-member panel</td>
+          <td><span class="pill-part">◑</span> Panel commenced 2025</td>
+        </tr>
+        <tr>
+          <td class="td-dim">Digital Equity Program</td>
+          <td class="td-wyn"><span class="pill-none">—</span> Not formalised</td>
+          <td><span class="pill-full">●</span> Active framework</td>
+          <td><span class="pill-none">—</span> Not evidenced</td>
+        </tr>
+        <tr>
+          <td class="td-dim">Citizen Self-Service Portal</td>
+          <td class="td-wyn"><span class="pill-part">◑</span> In development</td>
+          <td><span class="pill-full">●</span> CiAnywhere portal live</td>
+          <td><span class="pill-part">◑</span> MyCardinia expanding</td>
+        </tr>
+        <tr>
+          <td class="td-dim">Solar / Sustainability Tech</td>
+          <td class="td-wyn"><span class="pill-lead">★</span> Largest AU council solar</td>
+          <td><span class="pill-part">◑</span> Partial</td>
+          <td><span class="pill-part">◑</span> Partial</td>
+        </tr>
+        <tr>
+          <td class="td-dim">Rate Cap Constraint</td>
+          <td class="td-wyn">2.75% — binding</td>
+          <td>2.75% — binding</td>
+          <td>2.75% — binding</td>
+        </tr>
+        <tr>
+          <td class="td-dim">Jobs self-sufficiency</td>
+          <td class="td-wyn">28% (72% commute out)</td>
+          <td>~35%</td>
+          <td>~25%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:11.5px;color:var(--ink-light)">★ = Wyndham leads this domain &nbsp; ● = Full capability &nbsp; ◑ = Partial &nbsp; — = Not evidenced</p>
+</div>
+</section>
+
+<!-- ▓▓ 09 — STRATEGIC VIEW ▓▓ -->
+<section id="strategic" class="section" style="background:var(--white)">
+<div class="wrap">
+  <div class="section-eyebrow">09 / Strategic View</div>
+  <h2 class="section-title">Where Wyndham Leads, Lags, and Must Act</h2>
+  <p class="section-desc">Evidence-based strategic positioning — structured as a four-quadrant view of strengths, gaps, opportunities, and risks — plus 8 priority recommendations for Wyndham's digital and operational trajectory through to 2030.</p>
+
+  <div class="quad-grid" style="margin-bottom:32px">
+    <div class="quad-cell">
+      <h3 style="color:var(--wyn-d)">🏆 STRENGTHS — What Wyndham owns</h3>
+      <ul>
+        <li style="color:var(--wyn-d)"><strong>Smart City Leadership:</strong> Award-winning 2019 strategy, IoT network, smart parking, solar city, CityLens AR — best-in-class ANZ position not replicated by Casey or Cardinia.</li>
+        <li style="color:var(--wyn-d)"><strong>TechOne ERP — on time, on budget:</strong> Phase 1 delivered. 11,600 requests and 3,300 work orders in first 6 weeks confirms operational value. Rare implementation success story.</li>
+        <li style="color:var(--wyn-d)"><strong>Multilingual AI (MS Translator):</strong> Proactive deployment serving a 40%-overseas-born community. Neither Casey nor Cardinia match this.</li>
+        <li style="color:var(--wyn-d)"><strong>Revenue scale ($1.25B):</strong> Supports meaningful technology investment unlike smaller rural/regional councils.</li>
+        <li style="color:var(--wyn-d)"><strong>Community engagement depth:</strong> 103-person deliberative panel + 4,500 contributions + The Loop platform = genuine participation infrastructure.</li>
+      </ul>
+    </div>
+    <div class="quad-cell">
+      <h3 style="color:var(--wyn-d)">📈 OPPORTUNITIES — What Wyndham can capture</h3>
+      <ul>
+        <li style="color:var(--wyn-d)"><strong>Unified data fabric:</strong> Integrate IoT sensor data with TechOne ERP into a single operational dashboard. Currently siloed — merging them unlocks predictive asset maintenance and real-time service analytics.</li>
+        <li style="color:var(--wyn-d)"><strong>Smart City Strategy 2025–2035:</strong> The 2019–2024 strategy has expired. Wyndham should publish a successor strategy to maintain ANZ leadership — particularly in AI-augmented service delivery and autonomous transport readiness.</li>
+        <li style="color:var(--wyn-d)"><strong>Digital inclusion program:</strong> Formalise a digital equity framework for newly-arrived, elderly, and low-income residents before the service delivery gap becomes a political liability.</li>
+        <li style="color:var(--wyn-d)"><strong>East Werribee employment precinct:</strong> Accelerate activation to reduce 72% out-commute rate — every local job reduces peak transport pressure and improves liveability scores.</li>
+        <li style="color:var(--wyn-d)"><strong>ERP Phase 2 — citizen self-service:</strong> Deploy CRM and citizen portal to match Casey's CiAnywhere capability and reduce call-centre load by enabling digital transactions.</li>
+      </ul>
+    </div>
+    <div class="quad-cell">
+      <h3 style="color:#7C4A00">⚠ GAPS — Where Wyndham must close ground</h3>
+      <ul>
+        <li style="color:#7C4A00"><strong>Digital Equity (0/5):</strong> No formalised program exists. Casey's Digital Equity Framework and Lab addresses inclusion for 5,000+ new families per year. Wyndham's growth trajectory demands an equivalent.</li>
+        <li style="color:#7C4A00"><strong>Citizen self-service portal:</strong> Casey's CiAnywhere is the benchmark. Wyndham's ERP Phase 2 must prioritise citizen-facing CRM and online transaction capability.</li>
+        <li style="color:#7C4A00"><strong>Smart City strategy successor:</strong> The 2019–2024 strategy has no published replacement. Without a successor strategy, the smart city programme risks fragmentation and loss of institutional momentum.</li>
+        <li style="color:#7C4A00"><strong>AI/ML governance framework:</strong> Wyndham deploys AI tools (MS Translator, AI-driven planning) but has no publicly documented AI governance policy or ethical AI framework. This is an emerging governance risk.</li>
+        <li style="color:#7C4A00"><strong>PowerBI / integrated analytics:</strong> IoT data and ERP data are not visibly integrated into a common analytics layer. Real-time service performance dashboards for public accountability are not evidenced.</li>
+      </ul>
+    </div>
+    <div class="quad-cell">
+      <h3 style="color:#9B2C1E">🔴 RISKS — What could derail Wyndham</h3>
+      <ul>
+        <li style="color:#9B2C1E"><strong>Rate cap structural deficit:</strong> If the 2.75% cap continues for another decade, Wyndham's ability to fund services for 500,000 residents deteriorates each year. This is not a technology risk — it is a governance and advocacy risk requiring State policy change.</li>
+        <li style="color:#9B2C1E"><strong>Infrastructure equity litigation:</strong> The gap between developer-funded new suburbs and rate-funded established suburbs creates equity litigation risk. If not addressed, VCAT challenges or community legal action could emerge.</li>
+        <li style="color:#9B2C1E"><strong>ERP Phase 2 complexity:</strong> Citizen-facing ERP deployments (CRM, self-service portals) are demonstrably harder than back-office implementations. Phase 2 has greater risk of delay and scope creep.</li>
+        <li style="color:#9B2C1E"><strong>Smart City strategy vacuum:</strong> The expired 2019–2024 strategy creates a policy vacuum. Without a published successor, budget advocacy for smart city projects becomes harder and momentum with partner universities and agencies weakens.</li>
+        <li style="color:#9B2C1E"><strong>Public transport failure:</strong> If State Government doesn't adequately fund Werribee and Wyndham Vale rail improvements, car dependency will entrench further — increasing both carbon footprint and resident dissatisfaction.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif;font-size:22px;margin-bottom:20px;color:var(--ink)">Priority Recommendations — 8 Actions for Wyndham 2025–2030</h3>
+  <div class="g2" style="gap:14px">
+    <div class="rec-card">
+      <div class="rec-num">1</div>
+      <div class="rec-body">
+        <div class="rec-horizon">HORIZON: 2025–2026</div>
+        <h4>Publish Smart City Strategy 2025–2035</h4>
+        <p>The 2019–2024 strategy has expired. Wyndham should publish a successor strategy — anchored to the Wyndham 2050 Vision — that incorporates AI-augmented service delivery, autonomous transport readiness, expanded IoT coverage, and a Smart Wyndham Innovation Lab. This maintains ANZ leadership and provides budget advocacy infrastructure for the next decade.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">2</div>
+      <div class="rec-body">
+        <div class="rec-horizon">HORIZON: 2025–2027</div>
+        <h4>Deliver ERP Phase 2 — Citizen Self-Service Portal</h4>
+        <p>Phase 1 secured the back-office data foundation. Phase 2 must deliver CRM and a citizen-facing portal that enables residents to log requests, track service delivery, and transact online — matching City of Casey's CiAnywhere standard. This reduces call-centre volume and improves citizen satisfaction scores.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">3</div>
+      <div class="rec-body">
+        <div class="rec-horizon">HORIZON: 2026</div>
+        <h4>Establish Digital Equity Framework</h4>
+        <p>Create a formal Digital Inclusion Strategy — modelled on Casey's Digital Equity Framework — covering free digital literacy programs, public Wi-Fi in community centres and libraries, targeted outreach to newly-arrived communities, and digital device access programs. With ~40% of residents born overseas, this is an equity obligation, not an optional extra.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">4</div>
+      <div class="rec-body">
+        <div class="rec-horizon">HORIZON: 2026–2027</div>
+        <h4>Build Unified Data & Analytics Platform</h4>
+        <p>Integrate IoT sensor data (Sigfox network, smart parking, environmental monitors) with TechOne ERP operational data into a unified PowerBI or equivalent analytics layer. Publish a public-facing performance dashboard for capital works delivery, service response times, and environmental indicators — increasing accountability and supporting evidence-based resource allocation.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">5</div>
+      <div class="rec-body">
+        <div class="rec-horizon">HORIZON: 2026–2028</div>
+        <h4>Develop & Publish AI Governance Policy</h4>
+        <p>Wyndham deploys AI tools (MS Translator, planning AI, smart city analytics) but lacks a published AI governance and ethics framework. Publish an AI Policy covering data sovereignty, algorithmic transparency, bias prevention, and citizen rights — before the deployment portfolio grows to a scale where governance gaps create political risk.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">6</div>
+      <div class="rec-body">
+        <div class="rec-horizon">HORIZON: 2026–2030</div>
+        <h4>Accelerate East Werribee Employment Precinct</h4>
+        <p>The 72% out-commute rate is Wyndham's most significant quality-of-life gap. The East Werribee Employment Precinct must be activated with urgency — leveraging Council's economic development unit, State planning approvals, and Federal investment attraction. Every 5% reduction in the out-commute rate reduces road congestion, improves environmental outcomes, and lifts local economic self-sufficiency.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">7</div>
+      <div class="rec-body">
+        <div class="rec-horizon">HORIZON: 2025–2026 (Advocacy)</div>
+        <h4>Intensify State Advocacy on Rate Cap Reform</h4>
+        <p>The 2.75% rate cap applied uniformly to all councils — regardless of population growth — is systemically inequitable. Wyndham should lead a coalition of growth-area councils (Casey, Cardinia, Melton, Whittlesea) to advocate for a population-adjusted rate cap mechanism. This is the single policy change that would most improve Wyndham's long-term financial sustainability.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">8</div>
+      <div class="rec-body">
+        <div class="rec-horizon">HORIZON: 2026–2027</div>
+        <h4>Formalise Established Suburb Equity Mechanism</h4>
+        <p>Create a transparent, formula-driven reinvestment mechanism that directs a proportion of developer contributions from growth-edge suburbs to capital renewal in established areas (Hoppers Crossing, Werribee South, Laverton North). This addresses the governance scrutiny surfaced in 2024 and builds cross-community trust in the equity of resource allocation.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-wyn" style="margin-top:32px">
+    <strong>Strategic Summary — Wyndham 2025:</strong> Wyndham City is operating at the frontier of Victorian local government digital capability — its Smart City IoT network, AR planning tools, and solar infrastructure are genuinely best-in-class nationally. The TechOne Phase 1 ERP delivery, on time and on budget, is a significant organisational achievement. The council's primary strategic gaps are not in technology ambition but in <strong>program completion</strong> (Phase 2 ERP, Smart City successor strategy), <strong>equity formalisation</strong> (digital inclusion, established suburb reinvestment), and the structural <strong>fiscal constraint</strong> of the state-imposed rate cap. Closing these gaps by 2030 positions Wyndham as the model growth-corridor council for Australia — not just Victoria.
+  </div>
+</div>
+</section>
+
+<footer>
+<div class="fi">
+  <div><strong>Wyndham City Council — Deep Analysis Report</strong><br>Enterprise Architecture Intelligence · May 2026</div>
+  <div style="text-align:right">
+    Evidence: wyndham.vic.gov.au · technology1.com · insidelocalgovernment.com.au · govtechreview.com.au · channellife.com.au · smartcity.org.au · miragenews.com · viccouncils.asn.au<br>
+    Public-domain evidence only · Draft for discussion · Population growth projections per Council's own published estimates
+  </div>
+</div>
+</footer>
+
+<script>
+const sections = document.querySelectorAll('section[id]');
+const navAs = document.querySelectorAll('.nav-a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, { threshold: 0.2 });
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
