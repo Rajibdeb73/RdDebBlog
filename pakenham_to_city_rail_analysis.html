@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pakenham to the City — Rail Intelligence Report 2026 | CivicLens</title>
+<meta name="description" content="CivicLens analysis of Pakenham & Cranbourne line commuters, the Metro Tunnel 'Big Switch', the challenges of the new underground routing, and why Victoria chose the tunnel and a Sunshine airport superhub over direct connections.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --ink:#08111A; --ink2:#1B2A38; --ink3:#364F64; --ink4:#607D90; --ink5:#9BB4C2;
+  --paper:#F4EFE6; --p2:#EBE4D8; --p3:#DDD6C8; --white:#FFF; --rule:#D2C9B8;
+  --gold:#C2941A; --gold2:#F0B429; --goldl:#FFFBEB;
+  --pak:#0881A8; --pakd:#164E63; --pakl:#E0F9FF;
+  --red:#B91C1C; --redl:#FEE2E2;
+  --grn:#15803D; --grnl:#DCFCE7;
+  --amb:#92400E; --ambl:#FEF3C7;
+  --blu:#1D4ED8; --blul:#DBEAFE;
+  --r:8px; --rl:14px; --rxl:22px;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --sh1:0 1px 3px rgba(8,17,26,.08),0 1px 2px rgba(8,17,26,.05);
+  --sh2:0 6px 20px rgba(8,17,26,.10),0 2px 6px rgba(8,17,26,.06);
+}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.65;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding:0 34px}
+em{font-style:normal;color:var(--pak)}
+.serif{font-family:var(--serif)}
+
+/* ── MAST ── */
+.mast{background:var(--ink);border-bottom:3px solid var(--gold)}
+.mast-in{max-width:1180px;margin:0 auto;padding:26px 34px 20px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px}
+.ms-top{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+.ms-date{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.32);letter-spacing:.07em;text-transform:uppercase}
+.ms-free{font-family:var(--mono);font-size:10px;color:var(--gold2);border:1px solid rgba(240,180,41,.35);padding:2px 9px;border-radius:20px}
+.mast-logo{font-family:var(--serif);font-size:clamp(38px,7vw,68px);font-weight:900;color:var(--white);letter-spacing:-.03em;line-height:1}
+.mast-logo span{color:var(--gold2)}
+.mast-tagline{font-size:11.5px;color:rgba(255,255,255,.35);font-family:var(--mono);margin-top:6px}
+.mast-pin{background:rgba(8,129,168,.16);border:1px solid rgba(8,129,168,.4);border-radius:var(--rl);padding:10px 16px;text-align:center;flex-shrink:0}
+.mp-l{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.4);margin-bottom:3px}
+.mp-v{font-size:13px;font-weight:600;color:#4FD3F5}
+
+/* ── NAV ── */
+.nav{background:var(--ink);position:sticky;top:0;z-index:400;border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-in{max-width:1180px;margin:0 auto;padding:0 26px;display:flex;overflow-x:auto;scrollbar-width:none}
+.nav-in::-webkit-scrollbar{display:none}
+.nb{flex-shrink:0;padding:13px 15px;font-family:var(--sans);font-size:12.5px;font-weight:500;color:rgba(255,255,255,.4);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;transition:all .18s;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:7px}
+.nb:hover{color:#fff}
+.nb.active{color:var(--gold2);border-bottom-color:var(--gold2)}
+
+/* ── LEDE ── */
+.lede{background:var(--ink);color:#fff;padding:48px 0 54px;position:relative;overflow:hidden}
+.lede::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 82% 12%,rgba(8,129,168,.28),transparent 55%),radial-gradient(ellipse at 12% 92%,rgba(194,148,26,.12),transparent 50%)}
+.lede-in{position:relative;z-index:1}
+.lede-k{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.17em;color:var(--gold2);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.lede-k::before{content:'';width:26px;height:1px;background:var(--gold2)}
+.lede-h{font-family:var(--serif);font-size:clamp(28px,5.4vw,52px);font-weight:900;line-height:1.08;letter-spacing:-.025em;margin-bottom:18px;max-width:880px}
+.lede-p{font-size:15.5px;color:rgba(255,255,255,.72);max-width:680px;line-height:1.8;margin-bottom:34px}
+.lede-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid rgba(255,255,255,.12);padding-top:26px}
+.ls{padding-right:22px}
+.ls:not(:last-child){border-right:1px solid rgba(255,255,255,.1);margin-right:22px}
+.ls .v{font-family:var(--serif);font-size:30px;font-weight:900;color:#fff;line-height:1}
+.ls .v.tl{color:#4FD3F5}
+.ls .v.gd{color:var(--gold2)}
+.ls .l{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:6px;line-height:1.4}
+
+/* ── SECTION ── */
+.sec{padding:52px 0}
+.sec+.sec{border-top:1px solid var(--rule)}
+.ey{font-family:var(--mono);font-size:10px;letter-spacing:.17em;text-transform:uppercase;display:flex;align-items:center;gap:9px;margin-bottom:12px;color:var(--pak)}
+.ey::before{content:'';width:22px;height:2px;background:var(--pak)}
+.ey.gd{color:var(--gold)}.ey.gd::before{background:var(--gold)}
+.ey.rd{color:var(--red)}.ey.rd::before{background:var(--red)}
+.sh{font-family:var(--serif);font-size:clamp(23px,3.6vw,36px);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
+.sd{font-size:14.5px;color:var(--ink3);line-height:1.8;max-width:720px;margin-bottom:32px}
+p.body{font-size:14.5px;color:var(--ink2);line-height:1.85;max-width:760px;margin-bottom:16px}
+p.body a{color:var(--pak);text-decoration:none;border-bottom:1px solid rgba(8,129,168,.35)}
+
+/* ── CARDS / GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.g32{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;align-items:start}
+.card{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);box-shadow:var(--sh1);padding:22px 24px}
+.card.pak{border-left:4px solid var(--pak)}
+.card.gold{border-left:4px solid var(--gold)}
+.card.red{border-left:4px solid var(--red)}
+.card.grn{border-left:4px solid var(--grn)}
+
+.mcard{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);padding:18px 20px;box-shadow:var(--sh1)}
+.mcard .l{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:7px}
+.mcard .v{font-family:var(--serif);font-size:27px;font-weight:900;line-height:1;margin-bottom:5px;color:var(--pak)}
+.mcard.gd .v{color:var(--gold)}
+.mcard.rd .v{color:var(--red)}
+.mcard.gr .v{color:var(--grn)}
+.mcard .s{font-size:11.5px;color:var(--ink4);line-height:1.45}
+
+.chartbox{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);box-shadow:var(--sh1);padding:20px 22px}
+.chartbox h4{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:3px}
+.chartbox .cap{font-size:11.5px;color:var(--ink4);margin-bottom:16px;font-family:var(--mono)}
+.cwrap{position:relative;height:290px}
+
+/* ── CHALLENGE ── */
+.ch{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);box-shadow:var(--sh1);padding:20px 22px;position:relative;overflow:hidden}
+.ch::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.ch.crit::before{background:var(--red)}
+.ch.high::before{background:var(--gold)}
+.ch.mod::before{background:var(--pak)}
+.ch-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:20px;margin-bottom:11px;font-weight:500}
+.ch-tag.crit{background:var(--redl);color:var(--red)}
+.ch-tag.high{background:var(--ambl);color:var(--amb)}
+.ch-tag.mod{background:var(--pakl);color:var(--pakd)}
+.ch h3{font-size:15.5px;font-weight:600;margin-bottom:8px;line-height:1.3}
+.ch p{font-size:13px;color:var(--ink3);line-height:1.7}
+
+/* ── QUOTE ── */
+.quote{background:var(--ink);color:#fff;border-radius:var(--rl);padding:26px 30px;position:relative;overflow:hidden}
+.quote::before{content:'\201C';position:absolute;top:-6px;left:16px;font-family:var(--serif);font-size:90px;color:rgba(79,211,245,.18);line-height:1}
+.quote p{font-family:var(--serif);font-size:17px;font-style:italic;line-height:1.6;position:relative;z-index:1;margin-bottom:14px}
+.quote .who{font-size:12px;color:#4FD3F5;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.quote .who span{color:rgba(255,255,255,.45)}
+
+/* ── TABLE ── */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);overflow:hidden}
+.tbl thead th{background:var(--ink);color:#fff;text-align:left;padding:12px 15px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+.tbl tbody td{padding:11px 15px;border-bottom:1px solid var(--rule);color:var(--ink2);vertical-align:top}
+.tbl tbody tr:last-child td{border-bottom:none}
+.tbl tbody tr:nth-child(even){background:var(--goldl)}
+.tbl .num{font-family:var(--mono);font-weight:500}
+.pos{color:var(--grn);font-weight:600}.neg{color:var(--red);font-weight:600}
+
+/* ── STEP / rationale ── */
+.step{display:flex;gap:16px;margin-bottom:18px}
+.step-n{width:34px;height:34px;border-radius:50%;background:var(--pak);color:#fff;font-family:var(--serif);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.step-b h3{font-size:15px;font-weight:600;margin-bottom:5px}
+.step-b p{font-size:13.5px;color:var(--ink3);line-height:1.7}
+
+/* ── verdict ── */
+.verdict{background:linear-gradient(135deg,var(--pakd),var(--ink));color:#fff;border-radius:var(--rxl);padding:38px 40px;position:relative;overflow:hidden}
+.verdict::after{content:'';position:absolute;top:-70px;right:-70px;width:340px;height:340px;border-radius:50%;border:1px solid rgba(79,211,245,.22)}
+.verdict .ey{color:#4FD3F5}.verdict .ey::before{background:#4FD3F5}
+.verdict h2{font-family:var(--serif);font-size:clamp(22px,3vw,30px);font-weight:900;line-height:1.2;margin-bottom:16px;max-width:760px;position:relative;z-index:1}
+.verdict p{font-size:14.5px;color:rgba(255,255,255,.78);line-height:1.85;max-width:720px;margin-bottom:14px;position:relative;z-index:1}
+
+/* ── FOOT ── */
+.foot{background:var(--ink);color:rgba(255,255,255,.5);padding:40px 0 46px;font-size:12.5px;line-height:1.8}
+.foot .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.foot b{color:#fff;font-family:var(--serif);font-size:15px;font-weight:900}
+.foot b span{color:var(--gold2)}
+.foot a{color:#4FD3F5;text-decoration:none}
+.src{font-size:11.5px;color:var(--ink4);line-height:1.9}
+.src a{color:var(--pak);text-decoration:none}
+.disc{font-size:11px;color:var(--ink4);font-style:italic;margin-top:8px;max-width:760px}
+.mb0{margin-bottom:0}
+h2.blk{font-family:var(--serif);font-size:20px;font-weight:700;margin:6px 0 14px}
+@media(max-width:820px){
+  .g2,.g3,.g4,.g32{grid-template-columns:1fr}
+  .lede-stats{grid-template-columns:1fr 1fr;gap:18px}
+  .ls{border-right:none!important;margin-right:0!important;padding-right:0}
+}
+</style>
+</head>
+<body>
+
+<!-- MAST -->
+<header class="mast">
+  <div class="mast-in">
+    <div>
+      <div class="ms-top">
+        <span class="ms-date">Rail Intelligence · August 2026</span>
+        <span class="ms-free">FREE · INDEPENDENT</span>
+      </div>
+      <div class="mast-logo">Civic<span>Lens</span></div>
+      <div class="mast-tagline">Your council. Your corridor. Made legible.</div>
+    </div>
+    <div class="mast-pin">
+      <div class="mp-l">Corridor Focus</div>
+      <div class="mp-v">Pakenham → Melbourne CBD</div>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav"><div class="nav-in">
+  <a class="nb active" href="#top">Overview</a>
+  <a class="nb" href="#who">Who Rides</a>
+  <a class="nb" href="#switch">The Big Switch</a>
+  <a class="nb" href="#challenges">Challenges</a>
+  <a class="nb" href="#voices">Commuter Voices</a>
+  <a class="nb" href="#vline">V/Line Gippsland</a>
+  <a class="nb" href="#why">Why the Tunnel</a>
+  <a class="nb" href="#airport">Airport &amp; Sunshine</a>
+  <a class="nb" href="#verdict">CivicLens Verdict</a>
+  <a class="nb" href="#sources">Sources</a>
+</div></nav>
+
+<!-- LEDE -->
+<section class="lede" id="top">
+  <div class="wrap lede-in">
+    <div class="lede-k">Metro Tunnel · The Big Switch · What it means for the South-East</div>
+    <h1 class="lede-h">Pakenham to the city got a new tunnel. For many commuters, it also got <em>longer</em>.</h1>
+    <p class="lede-p">On 1 February 2026 Melbourne's $13.5bn Metro Tunnel fully opened, permanently rerouting the Cranbourne and East Pakenham lines underground through the CBD. It is the biggest network change in 40 years — and on Victoria's busiest rail corridor, the winners and losers are already sharply drawn. This is the CivicLens read on who rides, what broke, and why the government chose this over a City Loop route or a direct airport line.</p>
+    <div class="lede-stats">
+      <div class="ls"><div class="v tl">~20M</div><div class="l">Annual boardings on the Pakenham/Cranbourne corridor — the busiest in Melbourne</div></div>
+      <div class="ls"><div class="v">+13–40</div><div class="l">Extra minutes a day reported by south-east commuters after the switch</div></div>
+      <div class="ls"><div class="v gd">700+</div><div class="l">Signatures on the petition to restore City Loop &amp; Richmond access</div></div>
+      <div class="ls"><div class="v">0</div><div class="l">Direct Pakenham-to-Airport lines planned — both feed the same tunnel spine</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO RIDES -->
+<section class="sec" id="who"><div class="wrap">
+  <div class="ey">01 · The Ridership</div>
+  <h2 class="sh">Who actually rides Pakenham → City</h2>
+  <p class="sd">Before judging the change, it helps to size the corridor. The Pakenham and Cranbourne lines share tracks from Dandenong inward and together form the single heaviest artery on Melbourne's metropolitan network — carrying more people than the entire Belgrave/Lilydale group.</p>
+
+  <div class="g4" style="margin-bottom:26px">
+    <div class="mcard"><div class="l">Corridor boardings</div><div class="v">~20M</div><div class="s">per year, Pakenham + Cranbourne combined — #1 in Melbourne</div></div>
+    <div class="mcard gd"><div class="l">Network share</div><div class="v">~11%</div><div class="s">of Melbourne's 182.5M annual rail trips (2023–24)</div></div>
+    <div class="mcard"><div class="l">Cranbourne vs Pakenham</div><div class="v">+50%</div><div class="s">Cranbourne branch carries ~50% more than the Pakenham branch</div></div>
+    <div class="mcard rd"><div class="l">Cranbourne → City Loop</div><div class="v">~1,400</div><div class="s">commuters/working day whose destination was a City Loop station (FY24/25, DTP)</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="chartbox">
+      <h4>Melbourne's busiest corridors</h4>
+      <div class="cap">Approx. annual boardings by line group</div>
+      <div class="cwrap"><canvas id="cPatronage"></canvas></div>
+    </div>
+    <div class="card pak">
+      <h2 class="blk">Two rider types on one line</h2>
+      <p class="body">The corridor blends two very different journeys. <strong>Metropolitan commuters</strong> — from Pakenham, Officer, Beaconsfield, Berwick and the Casey growth suburbs — make the daily one-hour-plus haul into the CBD for work, study and events. On top of them sit <strong>V/Line Gippsland passengers</strong> from Traralgon, Morwell, Warragul and Drouin, whose regional trains share the same corridor into Southern Cross and Flinders Street.</p>
+      <p class="body mb0">That mix matters: a routing decision optimised for one group can quietly penalise the other. The Metro Tunnel switch is exactly such a decision — and it landed hardest on the outer-suburban metropolitan commuter with a destination in the old City Loop.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- THE BIG SWITCH -->
+<section class="sec" id="switch"><div class="wrap">
+  <div class="ey gd">02 · What Changed</div>
+  <h2 class="sh">The "Big Switch": from City Loop to the Metro Tunnel</h2>
+  <p class="sd">The change residents call "the new train underline pass" is the Metro Tunnel — a twin 9km bore under the CBD with five new underground stations. Cranbourne and East Pakenham services no longer run into the City Loop. They dive into the tunnel and continue north-west to become the Sunbury line.</p>
+
+  <div class="g32">
+    <div>
+      <table class="tbl">
+        <thead><tr><th>Before (City Loop era)</th><th>After (1 Feb 2026)</th></tr></thead>
+        <tbody>
+          <tr><td>Ran into <strong>Flinders St, Southern Cross &amp; City Loop</strong> (Parliament, Melbourne Central, Flagstaff)</td><td>Runs through <strong>Town Hall, State Library, Anzac, Parkville, Arden</strong> then on to Sunbury</td></tr>
+          <tr><td>One-seat ride to <strong>Richmond, South Yarra, Caulfield</strong></td><td>Bypasses Richmond &amp; South Yarra — <span class="neg">change at Caulfield</span> to reach them</td></tr>
+          <tr><td>Direct to <strong>MCG / sports precinct</strong> via Richmond</td><td>No direct Richmond — interchange required for footy, cricket, tennis, concerts</td></tr>
+          <tr><td>Terminated in the loop; capacity constrained</td><td>Through-routed; peak trains as often as <span class="pos">every 3 min</span> Dandenong–CBD</td></tr>
+          <tr><td>No rail link to Parkville biomedical precinct</td><td><span class="pos">New</span> direct access to hospitals &amp; universities at Parkville / State Library</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card gold">
+      <h2 class="blk">The switch in numbers</h2>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div><div style="font-family:var(--serif);font-size:24px;font-weight:900;color:var(--gold)">$13.5bn</div><div style="font-size:12.5px;color:var(--ink3)">Total Metro Tunnel project cost</div></div>
+        <div><div style="font-family:var(--serif);font-size:24px;font-weight:900;color:var(--pak)">5</div><div style="font-size:12.5px;color:var(--ink3)">New underground CBD stations</div></div>
+        <div><div style="font-family:var(--serif);font-size:24px;font-weight:900;color:var(--pak)">70,000</div><div style="font-size:12.5px;color:var(--ink3)">Passengers on opening day (30 Nov 2025)</div></div>
+        <div><div style="font-family:var(--serif);font-size:24px;font-weight:900;color:var(--gold)">1,200</div><div style="font-size:12.5px;color:var(--ink3)">Extra weekly services the government says the corridor gained</div></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- CHALLENGES -->
+<section class="sec" id="challenges"><div class="wrap">
+  <div class="ey rd">03 · The Challenges</div>
+  <h2 class="sh">What commuters are struggling with</h2>
+  <p class="sd">Within days of the full switch, local Facebook groups and Star News mastheads filled with the same complaints. CivicLens has grouped them by severity. The common thread: a network optimised for throughput removed the <em>one-seat ride</em> that most outer-suburban riders actually depended on.</p>
+
+  <div class="g3" style="margin-bottom:18px">
+    <div class="ch crit"><span class="ch-tag crit">● Critical</span><h3>Lost direct City Loop &amp; Richmond access</h3><p>Cranbourne/East Pakenham trains no longer serve Richmond, South Yarra or the City Loop. To reach them, passengers must change at Caulfield or backtrack from Town Hall — a structural loss of the one-seat ride the majority relied on.</p></div>
+    <div class="ch crit"><span class="ch-tag crit">● Critical</span><h3>Longer journeys, forced interchange</h3><p>A Beaconsfield→Southern Cross trip rose from ~1h07 to 1h20–1h30. Cranbourne→Richmond went from ~53 min to ~1h15 via a Malvern change. The CRRA reports 20–40 extra minutes a day for affected riders.</p></div>
+    <div class="ch high"><span class="ch-tag high">▲ High</span><h3>Accessibility &amp; interchange burden</h3><p>Transfers at Caulfield mean disembarking, crossing via the underpass and climbing to another platform on tight connections. Town Hall adds a ~280m walk and two flights of escalators — hard for people with mobility issues, prams or luggage.</p></div>
+    <div class="ch high"><span class="ch-tag high">▲ High</span><h3>Events &amp; MCG cut off</h3><p>The sports and events precinct at Richmond — footy, cricket, tennis, concerts — sits on the south-east's own side of the city, yet now requires an interchange. A frequent, visible pain point for families.</p></div>
+    <div class="ch mod"><span class="ch-tag mod">◆ Moderate</span><h3>Crowding at transfer nodes</h3><p>Riders report "piling off" at Caulfield and Town Hall onto stopping trains, concentrating crowds and dwell time at the new interchange points during peak.</p></div>
+    <div class="ch mod"><span class="ch-tag mod">◆ Moderate</span><h3>Cold-weather waits &amp; wayfinding</h3><p>Short, mistimed connections have left passengers waiting up to 20 minutes for the "connecting" service, with confusion over new transfer points adding stress to an already long commute.</p></div>
+  </div>
+
+  <div class="g2">
+    <div class="chartbox">
+      <h4>The time penalty, before vs after</h4>
+      <div class="cap">Reported one-way journey times (minutes)</div>
+      <div class="cwrap"><canvas id="cTime"></canvas></div>
+    </div>
+    <div class="card">
+      <h2 class="blk">It isn't all loss — the winners</h2>
+      <p class="body">CivicLens is careful not to flatten the picture. The CRRA's own framing is "winners and losers." Genuine <strong>winners</strong> are riders bound for the new tunnel stations: the Parkville hospital-and-university precinct, State Library / RMIT, and Town Hall for the eastern CBD — destinations that never had rail before. For them trips are more direct, more reliable, and far more frequent.</p>
+      <p class="body mb0">The <strong>losers</strong> are the larger group whose destination was the old City Loop, Richmond or Southern Cross for onward V/Line and interstate travel. The switch traded their one-seat convenience for network-wide capacity. Whether that trade is fair is now a live political question.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- VOICES -->
+<section class="sec" id="voices"><div class="wrap">
+  <div class="ey">04 · Commuter Voices &amp; the Petition</div>
+  <h2 class="sh">The community pushback</h2>
+  <p class="sd">A parliamentary petition — launched by Beaconsfield commuter Kylie Robinson and sponsored by Berwick MP Brad Battin — had gathered more than 700 signatures by mid-2026, seeking to restore City Loop and Richmond access. It remains open until 31 August 2026 before being tabled for a government response.</p>
+
+  <div class="g2" style="margin-bottom:18px">
+    <div class="quote">
+      <p>My experience is just that it takes me 13 to 23 minutes longer. I'm stopping at more stations. I have to walk 280 metres to transit at Town Hall… For somebody with a disability, it's not even direct.</p>
+      <div class="who">Kylie Robinson <span>· Beaconsfield commuter, petition organiser</span></div>
+    </div>
+    <div class="quote">
+      <p>Right now, the pain is falling most heavily on south-east commuters who've lost their one-seat ride into the City Loop and key inner-city stations… it's adding 20 to 40 minutes a day.</p>
+      <div class="who">Anthony Tassone <span>· President, Casey Residents &amp; Ratepayers Association</span></div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="quote">
+      <p>We were required to disembark at Caulfield… sprint through the gates, travel through the underpass, and return up to another platform to make our supposed 'connecting' City Loop train. On our return we waited a further 20 minutes in cold weather.</p>
+      <div class="who">Nicole Edgar <span>· Narre Warren South — proposes 2-in-3 trains keep the City Loop route</span></div>
+    </div>
+    <div class="card grn">
+      <h2 class="blk">The government's answer</h2>
+      <p class="body">The Department of Transport and Planning responds that the City Loop was <strong>full</strong>: "Because we built the Metro Tunnel, we've delivered 1,200 extra weekly services on the Cranbourne, Pakenham and Sunbury lines, while creating room for more trains right across Melbourne's rail network."</p>
+      <p class="body mb0">Its advice to affected riders: interchange to City Loop and Richmond services at connected stations or transfer at Caulfield. On this reading, the individual inconvenience is the price of untangling the network's busiest bottleneck.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- VLINE -->
+<section class="sec" id="vline"><div class="wrap">
+  <div class="ey">05 · V/Line Gippsland</div>
+  <h2 class="sh">What it means for regional passengers</h2>
+  <div class="g32">
+    <div>
+      <p class="body">Gippsland's V/Line trains share the Pakenham corridor, so residents naturally ask whether they too were rerouted. The answer, per the Minister for Transport Infrastructure: <strong>no.</strong> There are no current plans to transfer Gippsland passengers onto metropolitan services at Pakenham East. V/Line Gippsland trains continue to originate and terminate at <strong>Southern Cross or Flinders Street</strong> — the very stations the metro switch moved away from.</p>
+      <p class="body mb0">The net effect is subtle. Gippsland riders keep their direct city terminals, and gain <em>easier</em> access to the new Metro Tunnel precincts by interchanging: a trip to Victoria University in Footscray, for example, drops from three services to two. But it also means the region's mainline and the metro corridor now diverge in their CBD logic — one still loops to the traditional termini, the other burrows through the tunnel.</p>
+    </div>
+    <div class="card pak">
+      <h2 class="blk">Gippsland at a glance</h2>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;font-size:13.5px;color:var(--ink2)">
+        <li>🚆 <strong>Unchanged termini</strong> — Southern Cross / Flinders Street</li>
+        <li>🔁 <strong>No forced metro transfer</strong> at Pakenham East</li>
+        <li>⏱️ <strong>Footscray in 2 services, not 3</strong> via tunnel interchange</li>
+        <li>🏥 <strong>New reach</strong> to Parkville precinct through connections</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- WHY THE TUNNEL -->
+<section class="sec" id="why"><div class="wrap">
+  <div class="ey gd">06 · The Rationale</div>
+  <h2 class="sh">Why the government went for the tunnel</h2>
+  <p class="sd">The recurring resident question is "why change something that worked?" The engineering answer is that it <em>didn't</em> work at scale — the City Loop had run out of room, and no amount of extra Pakenham/Cranbourne trains could be added without stealing paths from other lines.</p>
+
+  <div style="max-width:820px;margin-bottom:26px">
+    <div class="step"><div class="step-n">1</div><div class="step-b"><h3>The City Loop was full</h3><p>The four-track loop, opened in the 1980s, had reached capacity. On the busiest corridor in Melbourne, the only way to add services was to stop feeding trains into a saturated loop — which is precisely what the tunnel does.</p></div></div>
+    <div class="step"><div class="step-n">2</div><div class="step-b"><h3>A through-running "spine" beats a terminating loop</h3><p>By joining Cranbourne/Pakenham in the south-east to Sunbury in the north-west, trains pass <em>through</em> the CBD instead of terminating in it. That frees platform capacity at Flinders Street and Southern Cross and lets trains run as often as every 2–3 minutes.</p></div></div>
+    <div class="step"><div class="step-n">3</div><div class="step-b"><h3>New destinations that never had rail</h3><p>The tunnel deliberately routes under the Parkville biomedical precinct and the education spine — connecting Victorians to hospitals, universities and jobs "never before accessed by rail," in the DTP's words.</p></div></div>
+    <div class="step"><div class="step-n">4</div><div class="step-b"><h3>Capacity released across the whole network</h3><p>Because three lines left the loop, paths opened for <em>other</em> lines to run more often. The benefit is network-wide and largely invisible to the individual Pakenham rider who only feels their own longer trip.</p></div></div>
+  </div>
+
+  <div class="card red mb0" style="max-width:820px">
+    <h2 class="blk">The CivicLens caveat</h2>
+    <p class="body mb0">The logic is sound at the system level, but it externalised a real cost onto a specific, identifiable group: outer south-east commuters with City Loop or Richmond destinations. Nicole Edgar's "2-in-3 trains keep the loop" proposal shows a middle path was conceivable. The unanswered governance question is whether that trade-off was adequately consulted, communicated and mitigated — or simply engineered and announced.</p>
+  </div>
+</div></section>
+
+<!-- AIRPORT -->
+<section class="sec" id="airport"><div class="wrap">
+  <div class="ey">07 · The Airport Question</div>
+  <h2 class="sh">Why not a direct line to Melbourne Airport?</h2>
+  <p class="sd">Residents often pose the tunnel decision against the airport rail that Melbourne has waited on for over 50 years: why pour billions into a CBD tunnel and a Sunshine "superhub" instead of a direct, express airport connection? The two projects are, in fact, deliberately joined — and the answer reveals the government's whole network philosophy.</p>
+
+  <div class="g2" style="margin-bottom:22px">
+    <div class="card pak">
+      <h2 class="blk">The airport line routes via Sunshine — on purpose</h2>
+      <p class="body">Melbourne Airport Rail will run the airport into the CBD <strong>via Sunshine and Footscray, through the same Metro Tunnel</strong>, reaching Town Hall in around 30 minutes. Rather than a dedicated express, Sunshine becomes a "superhub" interchange where airport, metro and regional trains meet.</p>
+      <p class="body mb0">The stated rationale: pre-COVID, <strong>more than 40%</strong> of the 20,000+ daily trips to the airport came from Ballarat, Bendigo and Geelong. A Sunshine route serves those regional Victorians — not just CBD-bound flyers — and unlocks the Western Rail Plan and future Melton electrification. The government's line: it "benefits most Victorians."</p>
+    </div>
+    <div class="card gold">
+      <h2 class="blk">Why there's still no train — the delays</h2>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:11px;font-size:13px;color:var(--ink2)">
+        <li><strong>2018</strong> — announced, targeting 2029 completion</li>
+        <li><strong>2023</strong> — paused amid an above-vs-below-ground station dispute with Melbourne Airport</li>
+        <li><strong>Mid-2024</strong> — resolved; airport agrees to an elevated station</li>
+        <li><strong>2026</strong> — construction restarts; Sunshine superhub build begins</li>
+        <li><strong>~2030</strong> — Stage 1 (West Footscray–Albion rail untangling) due to complete first</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card mb0" style="max-width:900px">
+    <h2 class="blk">The connection Pakenham residents should see</h2>
+    <p class="body">Here is the point the two debates share. A "direct Pakenham-to-Airport" line was never on the table because Melbourne isn't being built as a set of point-to-point express lines. It is being built around <strong>one shared CBD spine — the Metro Tunnel — fed from both ends</strong>: the south-east (Pakenham/Cranbourne) in, the north-west (Sunbury, and later the airport and regional lines via Sunshine) out.</p>
+    <p class="body mb0">That is why Pakenham commuters lost their one-seat ride, and why airport passengers will interchange at Sunshine: the network's design bet is on <em>high-frequency corridors with hub interchanges</em>, not on preserving every direct journey. Whether that bet serves outer-suburban residents as well as it serves the system is the question CivicLens will keep asking.</p>
+  </div>
+</div></section>
+
+<!-- VERDICT -->
+<section class="sec" id="verdict"><div class="wrap">
+  <div class="verdict">
+    <div class="ey">CivicLens Verdict</div>
+    <h2>A network-level win that quietly billed an outer-suburban minority for the upgrade.</h2>
+    <p>The Metro Tunnel is a genuine generational advance: it untangles Melbourne's busiest corridor, adds capacity across the whole network, and finally puts the Parkville health and education precinct on the rail map. On the numbers, the government's case holds.</p>
+    <p>But on the busiest corridor in the state, the switch removed the one-seat ride to the City Loop, Richmond and Southern Cross that most Pakenham and Cranbourne riders actually used — adding 13 to 40 minutes a day, an interchange, a 280-metre walk and two flights of escalators. The airport-rail decision follows the same philosophy: shared tunnel spine, hub interchange at Sunshine, no direct express. It is coherent system design. The open question is governance — whether the trade-off was consulted and mitigated, or engineered and announced — and whether a mixed service pattern could still soften the blow for the outer south-east.</p>
+  </div>
+</div></section>
+
+<!-- SOURCES -->
+<section class="sec" id="sources"><div class="wrap">
+  <div class="ey gd">Methodology &amp; Sources</div>
+  <h2 class="sh">Where this comes from</h2>
+  <p class="sd">CivicLens compiles publicly available data and reporting. Figures are drawn from Victorian government transport pages, station patronage datasets and local Star News reporting carrying direct Department of Transport and Planning statements and commuter accounts. Journey-time figures are as reported by named commuters and the CRRA.</p>
+  <div class="src" style="max-width:900px">
+    1. <a href="https://bigbuild.vic.gov.au/projects/metro-tunnel/about/benefits">Metro Tunnel benefits &amp; overview — Victoria's Big Build</a><br>
+    2. <a href="https://transport.vic.gov.au/news-and-resources/projects/metro-tunnel/more-ways-to-move/cranbourne-pakenham">Cranbourne &amp; Pakenham lines move through the new Metro Tunnel — Transport Victoria</a><br>
+    3. <a href="https://berwicknews.starcommunity.com.au/news/2026-02-05/casey-commuters-say-metro-tunnel-trips-now-harder/">Casey commuters say Metro Tunnel trips now harder — Berwick Star News (5 Feb 2026)</a><br>
+    4. <a href="https://pakenhamnews.starcommunity.com.au/news/2026-05-31/south-east-commuters-demand-city-loop-return/">South east commuters demand City Loop return — Pakenham Officer Star News (31 May 2026)</a><br>
+    5. <a href="https://www.thegazette.com.au/news/no-plans-to-change-gippsland-vline-services-to-melbourne">No plans to change Gippsland V/Line services to Melbourne — Warragul &amp; Drouin Gazette</a><br>
+    6. <a href="https://philipmallis.com/2025/10/23/railway-station-patronage-for-melbourne-and-victoria-2008-2025/">Railway station patronage for Melbourne &amp; Victoria 2008–2025 — Philip Mallis</a><br>
+    7. <a href="https://www.premier.vic.gov.au/sunshine-supercharged-melbourne-airport-rail-link-targets-take">Sunshine supercharged as Melbourne Airport Rail Link targets take off — Premier of Victoria</a><br>
+    8. <a href="https://bigbuild.vic.gov.au/projects/melbourne-airport-rail">Melbourne Airport Rail overview &amp; Sunshine superhub — Victoria's Big Build</a><br>
+    9. <a href="https://en.wikipedia.org/wiki/Metro_Tunnel">Metro Tunnel — Wikipedia (project cost, opening dates)</a><br>
+    10. <a href="https://en.wikipedia.org/wiki/Melbourne_Airport_railway_station">Melbourne Airport rail — dispute &amp; timeline (Wikipedia)</a>
+  </div>
+  <p class="disc">CivicLens is an independent, free civic-data publication with no commercial relationship to any council, transport agency or vendor. Journey times and per-day time penalties are commuter- and association-reported, not audited timetable measurements, and are presented as lived experience. Patronage figures are approximate and rounded from public datasets.</p>
+</div></section>
+
+<!-- FOOT -->
+<footer class="foot"><div class="wrap">
+  <div>
+    <b>Civic<span>Lens</span></b>
+    <div style="margin-top:8px">Victorian local government &amp; infrastructure intelligence.<br>Your council. Your corridor. Made legible.</div>
+  </div>
+  <div>
+    Report: Pakenham → City Rail Intelligence · August 2026<br>
+    Corridor: Pakenham / Cranbourne · Metro Tunnel · Melbourne Airport Rail<br>
+    Independent · Free · No commercial affiliations
+  </div>
+</div></footer>
+
+<script>
+const NAVY='#08111A',INK3='#364F64',PAK='#0881A8',PAKD='#164E63',GOLD='#C2941A',GOLD2='#F0B429',RED='#B91C1C',GRN='#15803D',RULE='#D2C9B8';
+Chart.defaults.font.family="'IBM Plex Sans',sans-serif";
+Chart.defaults.font.size=12;Chart.defaults.color=INK3;
+
+new Chart(document.getElementById('cPatronage'),{
+  type:'bar',
+  data:{labels:['Pakenham /\nCranbourne','Belgrave /\nLilydale','Frankston','Craigieburn'],
+    datasets:[{label:'Annual boardings (millions)',data:[20,17,13,11],
+      backgroundColor:[PAK,'#5AA9C4','#9BB4C2','#C7D6DD'],borderRadius:6,maxBarThickness:64}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>c.parsed.y+'M boardings/yr'}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:'Millions / year'},grid:{color:'#EAE3D6'}},
+      x:{grid:{display:false}}}}
+});
+
+new Chart(document.getElementById('cTime'),{
+  type:'bar',
+  data:{labels:['Beaconsfield →\nSouthern Cross','Cranbourne →\nRichmond'],
+    datasets:[
+      {label:'Before',data:[67,53],backgroundColor:GRN,borderRadius:5,maxBarThickness:46},
+      {label:'After (reported)',data:[85,75],backgroundColor:RED,borderRadius:5,maxBarThickness:46}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y+' min'}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:'Minutes (one way)'},grid:{color:'#EAE3D6'}},
+      x:{grid:{display:false}}}}
+});
+
+// nav active-on-scroll
+const secs=[...document.querySelectorAll('section[id]')],nbs=[...document.querySelectorAll('.nb')];
+const byId=id=>nbs.find(n=>n.getAttribute('href')==='#'+id);
+addEventListener('scroll',()=>{let cur='top';for(const s of secs){if(scrollY>=s.offsetTop-90)cur=s.id;}nbs.forEach(n=>n.classList.remove('active'));const a=byId(cur);if(a)a.classList.add('active');},{passive:true});
+</script>
+</body>
+</html>
