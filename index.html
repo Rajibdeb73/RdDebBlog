@@ -342,28 +342,20 @@ footer{background:var(--ink);border-top:3px solid var(--gold);padding:28px 52px;
       <div class="mp-v">📍 Cardinia Shire &amp; Pakenham</div>
     </div>
   </div>
-  <nav class="nav" aria-label="Main navigation">
-    <button class="nb active"  onclick="go('home')"     data-tab="home">Home</button>
-    <button class="nb loc"     onclick="openReport('Cardinia_Shire_Council_Deep_Analysis.html')" data-tab="cardinia"><span class="npill np-live">Live</span> ★ Cardinia Shire</button>
-    <button class="nb loc"     onclick="openReport('pakenham_smb_analysis.html')" data-tab="pakenham"><span class="npill np-live">Live</span> ★ Pakenham</button>
-    <button class="nb"         onclick="go('victoria')" data-tab="victoria"><span class="npill np-live">Live</span> Victoria Dashboard</button>
-    <button class="nb"         onclick="go('wyndham')"  data-tab="wyndham"><span class="npill np-live">Live</span> Wyndham City</button>
-    <button class="nb"         onclick="go('colac')"    data-tab="colac"><span class="npill np-live">Live</span> Colac Otway &amp; SW Vic</button>
-    <button class="nb"         onclick="go('federal')"  data-tab="federal"><span class="npill np-soon">Future</span> Federal</button>
-    <button class="nb"         onclick="go('state')"    data-tab="state"><span class="npill np-soon">Future</span> State Gov</button>
-    <button class="nb"         onclick="go('author')"   data-tab="author">About the Author</button>
+  <nav class="nav" id="mainNav" aria-label="Main navigation">
+    <button class="nb active" onclick="go('home')" data-tab="home">Home</button>
+    <!-- publication tabs are injected here by renderPublications(), newest first -->
+    <button class="nb" id="navVictoria" onclick="go('victoria')" data-tab="victoria"><span class="npill np-live">Live</span> Victoria Dashboard</button>
+    <button class="nb" onclick="go('author')" data-tab="author">About the Author</button>
   </nav>
 </header>
 
 <div class="sticky" id="sticky">
-  <div class="sticky-i">
+  <div class="sticky-i" id="stickyNav">
     <div class="sticky-logo">Civic<span>Lens</span></div>
-    <button class="nb" onclick="go('home')"     data-stab="home">Home</button>
-    <button class="nb loc" onclick="openReport('Cardinia_Shire_Council_Deep_Analysis.html')" data-stab="cardinia">★ Cardinia</button>
-    <button class="nb loc" onclick="openReport('pakenham_smb_analysis.html')" data-stab="pakenham">★ Pakenham</button>
-    <button class="nb" onclick="go('victoria')" data-stab="victoria">Victoria</button>
-    <button class="nb" onclick="go('wyndham')"  data-stab="wyndham">Wyndham</button>
-    <button class="nb" onclick="go('colac')"    data-stab="colac">SW Vic</button>
+    <button class="nb" onclick="go('home')" data-stab="home">Home</button>
+    <!-- publication tabs injected here by renderPublications() -->
+    <button class="nb" id="stickyVictoria" onclick="go('victoria')" data-stab="victoria">Victoria</button>
   </div>
 </div>
 
@@ -383,17 +375,13 @@ footer{background:var(--ink);border-top:3px solid var(--gold);padding:28px 52px;
           <div class="lpt"><div class="lpt-dot">✓</div>Federal and State dashboards planned once Victorian council coverage matures</div>
         </div>
         <div class="lede-btns">
-          <button class="btn-g" onclick="openReport('Cardinia_Shire_Council_Deep_Analysis.html')">★ Cardinia Deep Dive →</button>
+          <button class="btn-g" id="ledeCta" onclick="openReport('Cardinia_Shire_Council_Deep_Analysis.html')">★ Latest report →</button>
           <button class="btn-ghost" onclick="go('victoria')">All Victorian Councils</button>
         </div>
       </div>
       <div class="ls">
-        <div class="ls-h">Active dashboards — click to jump</div>
-        <div class="ji car" onclick="go('cardinia')"><div class="ji-dot" style="background:#FCD34D"></div><div class="ji-i"><div class="ji-n">★ Cardinia Shire</div><div class="ji-s">Deep Intelligence · Budget · Digital</div></div><div class="ji-a">›</div></div>
-        <div class="ji pak" onclick="go('pakenham')"><div class="ji-dot" style="background:#67E8F9"></div><div class="ji-i"><div class="ji-n">★ Pakenham</div><div class="ji-s">82 businesses · AI review engine</div></div><div class="ji-a">›</div></div>
-        <div class="ji wyn" onclick="go('wyndham')"><div class="ji-dot" style="background:#C4B5FD"></div><div class="ji-i"><div class="ji-n">Wyndham City</div><div class="ji-s">Deep Intelligence · $165M capital</div></div><div class="ji-a">›</div></div>
-        <div class="ji col" onclick="go('colac')"><div class="ji-dot" style="background:#6EE7B7"></div><div class="ji-i"><div class="ji-n">Colac Otway &amp; SW Vic</div><div class="ji-s">App landscape · 6-council study</div></div><div class="ji-a">›</div></div>
-        <div class="ji vic" onclick="go('victoria')"><div class="ji-dot" style="background:#7DD3FC"></div><div class="ji-i"><div class="ji-n">Victoria Dashboard</div><div class="ji-s">All reports · Add new councils</div></div><div class="ji-a">›</div></div>
+        <div class="ls-h">Latest publications — click to open</div>
+        <div id="pubJump"></div>
       </div>
     </div>
   </div>
@@ -401,43 +389,12 @@ footer{background:var(--ink);border-top:3px solid var(--gold);padding:28px 52px;
     <div class="sec">
       <div class="ey ey-g rev">What is live right now</div>
       <h2 class="sh rev">Published dashboards &amp; reports</h2>
-      <p class="sd rev">Six active Victorian local government studies — two with deep local focus on Cardinia Shire and Pakenham.</p>
-      <div class="sg rev">
-        <div class="sc" onclick="openReport('Cardinia_Shire_Council_Deep_Analysis.html')"><div class="sc-bar" style="background:linear-gradient(90deg,var(--card),var(--car))"></div><div class="sc-body"><div class="sc-ico">🏗️</div><div class="sc-name">Cardinia Shire Council</div><div class="sc-sub">Deep Intelligence · Budget · Digital Maturity · Benchmarking</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--car)">63/100</div><div class="sc-lbl">Digital maturity</div></div><span class="sc-badge b-local">★ Local</span></div></div>
-        <div class="sc" onclick="openReport('pakenham_smb_analysis.html')"><div class="sc-bar" style="background:linear-gradient(90deg,var(--pakd),var(--pak))"></div><div class="sc-body"><div class="sc-ico">☕</div><div class="sc-name">Pakenham SMB Intelligence</div><div class="sc-sub">82 businesses · 12 categories · AI review engine</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--pak)">4.57★</div><div class="sc-lbl">Average rating</div></div><span class="sc-badge b-local">★ Local</span></div></div>
-        <div class="sc" onclick="openReport('Wyndham_City_Council_Deep_Analysis.html')"><div class="sc-bar" style="background:linear-gradient(90deg,var(--wynd),var(--wyn))"></div><div class="sc-body"><div class="sc-ico">🌆</div><div class="sc-name">Wyndham City Council</div><div class="sc-sub">Deep Intelligence · $165.1M capital · Smart City 2019</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--wyn)">337K</div><div class="sc-lbl">Population</div></div><span class="sc-badge b-live">Live</span></div></div>
-        <div class="sc" onclick="go('victoria')"><div class="sc-bar" style="background:linear-gradient(90deg,var(--car),var(--pak),var(--wyn))"></div><div class="sc-body"><div class="sc-ico">📊</div><div class="sc-name">SE Melbourne 3-Council Comparison</div><div class="sc-sub">Cardinia · Casey · Greater Dandenong · Heat map</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--cas)">4.5/5</div><div class="sc-lbl">Casey benchmark</div></div><span class="sc-badge b-live">Live</span></div></div>
-        <div class="sc" onclick="go('colac')"><div class="sc-bar" style="background:var(--col)"></div><div class="sc-body"><div class="sc-ico">🌿</div><div class="sc-name">Colac Otway &amp; SW Victoria</div><div class="sc-sub">App landscape · 6-council comparison · G21 Alliance</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--col)">6</div><div class="sc-lbl">LGAs studied</div></div><span class="sc-badge b-live">Live</span></div></div>
-        <div class="sc" onclick="go('victoria')" style="border-style:dashed"><div class="sc-bar" style="background:var(--rule)"></div><div class="sc-body"><div class="sc-ico">➕</div><div class="sc-name">Add a New Council</div><div class="sc-sub">Suggest a Victorian LGA for the next deep study</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--ink5)">Open</div><div class="sc-lbl">Nominations</div></div><span class="sc-badge b-soon">Suggest</span></div></div>
-      </div>
+      <p class="sd rev">Every published report, newest first. This list is generated automatically from the reports in the repository — publish a new HTML and it appears here on its own.</p>
+      <div class="sg rev" id="pubGrid"></div>
     </div>
   </div>
 </div>
 
-<!-- CARDINIA -->
-<div id="panel-cardinia" class="panel">
-  <div style="display:flex;align-items:center;justify-content:center;min-height:60vh;padding:48px 24px;">
-    <div style="text-align:center;max-width:480px;">
-      <div style="font-size:48px;margin-bottom:16px;">🏗️</div>
-      <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#0A0E14;margin-bottom:10px;">Redirecting to Cardinia Deep Intelligence…</h2>
-      <p style="font-size:14px;color:#6B8299;line-height:1.7;margin-bottom:24px;">You're being taken to the full Cardinia Shire Council intelligence report.</p>
-      <a href="Cardinia_Shire_Council_Deep_Analysis.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:8px;background:#C47A2A;color:#fff;font-size:14px;font-weight:600;text-decoration:none;">Open Report →</a>
-    </div>
-  </div>
-  <script>if(document.getElementById('panel-cardinia').classList.contains('active'))setTimeout(()=>location.href='Cardinia_Shire_Council_Deep_Analysis.html',300);</script>
-</div>
-<!-- PAKENHAM -->
-<div id="panel-pakenham" class="panel">
-  <div style="display:flex;align-items:center;justify-content:center;min-height:60vh;padding:48px 24px;">
-    <div style="text-align:center;max-width:480px;">
-      <div style="font-size:48px;margin-bottom:16px;">☕</div>
-      <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#0A0E14;margin-bottom:10px;">Redirecting to Pakenham SMB Intelligence…</h2>
-      <p style="font-size:14px;color:#6B8299;line-height:1.7;margin-bottom:24px;">You're being taken to the full Pakenham business review intelligence report.</p>
-      <a href="pakenham_smb_analysis.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:8px;background:#0891B2;color:#fff;font-size:14px;font-weight:600;text-decoration:none;">Open Report →</a>
-    </div>
-  </div>
-  <script>if(document.getElementById('panel-pakenham').classList.contains('active'))setTimeout(()=>location.href='pakenham_smb_analysis.html',300);</script>
-</div>
 <!-- VICTORIA DASHBOARD -->
 <div id="panel-victoria" class="panel">
   <div class="wrap">
@@ -576,70 +533,6 @@ footer{background:var(--ink);border-top:3px solid var(--gold);padding:28px 52px;
 </div>
 
 <!-- WYNDHAM -->
-<div id="panel-wyndham" class="panel">
-  <div style="display:flex;align-items:center;justify-content:center;min-height:60vh;padding:48px 24px;">
-    <div style="text-align:center;max-width:480px;">
-      <div style="font-size:48px;margin-bottom:16px;">🌆</div>
-      <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#0A0E14;margin-bottom:10px;">Redirecting to Wyndham City Deep Intelligence…</h2>
-      <p style="font-size:14px;color:#6B8299;line-height:1.7;margin-bottom:24px;">You're being taken to the full Wyndham City Council intelligence report.</p>
-      <a href="Wyndham_City_Council_Deep_Analysis.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:8px;background:#7C3AED;color:#fff;font-size:14px;font-weight:600;text-decoration:none;">Open Report →</a>
-    </div>
-  </div>
-  <script>if(document.getElementById('panel-wyndham').classList.contains('active'))setTimeout(()=>location.href='Wyndham_City_Council_Deep_Analysis.html',300);</script>
-</div>
-<!-- COLAC / SW VIC -->
-<div id="panel-colac" class="panel">
-  <div class="wrap">
-    <div class="sec">
-      <div class="ey rev" style="color:var(--col);--ey-before:var(--col)"><span style="width:18px;height:1.5px;background:var(--col);display:inline-block;margin-right:9px"></span>South West Victoria Study Group</div>
-      <h2 class="sh rev">Colac Otway &amp; South West Victoria</h2>
-      <p class="sd rev">The most comprehensive application landscape study in this collection — 6 Victorian LGAs across the G21 Alliance, with 40+ service mappings, governance risk registers, duplication zones, and strategic roadmaps.</p>
-      <div class="rg rev">
-        <div class="rc"><div class="rc-bar" style="background:var(--col)"></div><div class="rc-head"><div class="rc-type" style="color:var(--col)">App Landscape v2 · May 2026</div><h3>Colac Otway — Application Landscape &amp; Rationalisation</h3></div><div class="rc-body"><p>9-section analysis. 21-app estate. 40+ service maps. 5 duplication zones. 10 risks. 12 recommendations. Embedded Excel data template.</p><div class="rtags"><span class="rt rt-html">HTML + Excel</span><span class="rt rt-vic">SW Victoria</span></div><div class="ract"><span class="rbtn-cs"><span class="cs-dot"></span>Coming Soon</span><span class="rbtn-cs"><span class="cs-dot"></span>Coming Soon</span></div></div></div>
-        <div class="rc"><div class="rc-bar" style="background:linear-gradient(90deg,#005A70,#2563A8,#7B3FA8,var(--car),#0E7490,var(--cas))"></div><div class="rc-head"><div class="rc-type" style="color:#7B3FA8">6-Council Study · May 2026</div><h3>Six-Council Victorian Comparison</h3></div><div class="rc-body"><p>Colac Otway · Surf Coast · Corangamite · Cardinia · Casey · Dandenong. Application estates, maturity bars, 6-council weighted heat map.</p><div class="rtags"><span class="rt rt-html">Interactive HTML</span><span class="rt rt-vic">6 LGAs</span></div><div class="ract"><span class="rbtn-cs"><span class="cs-dot"></span>Coming Soon</span></div></div></div>
-        <div class="rc"><div class="rc-bar" style="background:linear-gradient(90deg,#B91C1C,#E8941A,#15803D)"></div><div class="rc-head"><div class="rc-type" style="color:#B91C1C">PowerPoint · 15 Slides</div><h3>Colac Otway — Challenges, Optimisation &amp; Peer Learning</h3></div><div class="rc-body"><p>Five challenges. Five quick wins. Five lessons from Surf Coast &amp; Corangamite. Three-horizon roadmap. G21 regional collaboration.</p><div class="rtags"><span class="rt rt-ppt">PPTX 15 Slides</span><span class="rt rt-vic">Strategy</span></div><div class="ract"><span class="rbtn-cs"><span class="cs-dot"></span>Coming Soon</span></div></div></div>
-        <div class="rc"><div class="rc-bar" style="background:var(--col)"></div><div class="rc-head"><div class="rc-type" style="color:var(--col)">v1 Archive</div><h3>Colac Otway — Original Application Landscape</h3></div><div class="rc-body"><p>Original 7-section analysis: 6-layer architecture diagram, service mappings, duplication radar, domain matrix, risk register, 12 recommendations.</p><div class="rtags"><span class="rt rt-html">HTML Archive</span><span class="rt rt-vic">v1</span></div><div class="ract"><span class="rbtn-cs"><span class="cs-dot"></span>Coming Soon</span></div></div></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- FEDERAL FUTURE -->
-<div id="panel-federal" class="panel">
-  <div class="wrap"><div class="sec">
-    <div class="fb">
-      <div class="fb-ico">🇦🇺</div>
-      <h2 class="fb-h">Federal Government Dashboard — On the Roadmap</h2>
-      <p class="fb-sub">The CivicLens Federal Dashboard will cover the Australian Government's digital estate, federal budget infrastructure allocation by state, Services Australia performance, Digital Transformation Agency maturity, and OECD digital government benchmarking. Victorian local government coverage comes first — federal content publishes once council coverage matures.</p>
-      <div class="fb-tl">
-        <div class="fbt"><span class="fbt-w">Q3 2026</span><span class="fbt-t">Federal ICT &amp; Digital Maturity</span></div>
-        <div class="fbt"><span class="fbt-w">Q3 2026</span><span class="fbt-t">Infrastructure Investment by State</span></div>
-        <div class="fbt"><span class="fbt-w">Q4 2026</span><span class="fbt-t">Services Australia Analysis</span></div>
-        <div class="fbt"><span class="fbt-w">Q4 2026</span><span class="fbt-t">OECD Digital Gov Benchmark</span></div>
-      </div>
-    </div>
-    <div style="text-align:center"><button class="btn-g" onclick="go('victoria')">← Return to Active Victorian Studies</button></div>
-  </div></div>
-</div>
-
-<!-- STATE FUTURE -->
-<div id="panel-state" class="panel">
-  <div class="wrap"><div class="sec">
-    <div class="fb">
-      <div class="fb-ico">🏛️</div>
-      <h2 class="fb-h">State Government Dashboards — On the Roadmap</h2>
-      <p class="fb-sub">State dashboards will cover Victoria's whole-of-government digital estate (Service Victoria, Vic Roads, DEECA, planning reform), benchmarked against Service NSW — Australia's digital government benchmark. Victorian local government coverage comes first.</p>
-      <div class="fb-tl">
-        <div class="fbt"><span class="fbt-w">Q3 2026</span><span class="fbt-t">Victorian Digital Gov Strategy</span></div>
-        <div class="fbt"><span class="fbt-w">Q3 2026</span><span class="fbt-t">Victorian Planning System</span></div>
-        <div class="fbt"><span class="fbt-w">Q4 2026</span><span class="fbt-t">NSW Service NSW Benchmark</span></div>
-        <div class="fbt"><span class="fbt-w">2027</span><span class="fbt-t">QLD · SA · WA</span></div>
-      </div>
-    </div>
-    <div style="text-align:center"><button class="btn-g" onclick="go('victoria')">← Return to Active Victorian Studies</button></div>
-  </div></div>
-</div>
-
 <!-- AUTHOR -->
 <div id="panel-author" class="panel">
   <div class="wrap">
@@ -677,26 +570,103 @@ footer{background:var(--ink);border-top:3px solid var(--gold);padding:28px 52px;
     <div class="fn">Free. Independent. Built from public data. Making Victorian local government legible for every resident. Primary local focus: Cardinia Shire and Pakenham.</div>
     <div class="flinks">
       <a onclick="go('home')" style="cursor:pointer">Home</a>
-      <a onclick="go('victoria')" style="cursor:pointer">Reports</a>
+      <a onclick="go('home')" style="cursor:pointer">Reports</a>
+      <a onclick="go('victoria')" style="cursor:pointer">Victoria</a>
       <a onclick="go('author')" style="cursor:pointer">Author</a>
       <a href="https://www.linkedin.com/in/rajib-deb/" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </div>
 </footer>
 
+<!-- Auto-generated publications manifest (built by build-publications.js / the GitHub Action) -->
+<script src="publications.js"></script>
 <script>
-const TABS=["home","cardinia","pakenham","victoria","wyndham","colac","federal","state","author"];
+/* Static in-page panels. Everything else is a published report, opened via openReport(). */
+const TABS=["home","victoria","author"];
 function openReport(url){ window.location.href = url; }
 function go(id){
-  if(id==='cardinia'){openReport('Cardinia_Shire_Council_Deep_Analysis.html');return;}
-  if(id==='pakenham'){openReport('pakenham_smb_analysis.html');return;}
-  if(id==='wyndham'){openReport('Wyndham_City_Council_Deep_Analysis.html');return;}
   document.querySelectorAll(".nb").forEach(b=>b.classList.toggle("active",b.dataset.tab===id||b.dataset.stab===id));
   document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="panel-"+id));
   history.replaceState(null,"","#"+id);
   window.scrollTo({top:0,behavior:"smooth"});
   rev();
 }
+
+/* ---- Publication-driven rendering ------------------------------------ */
+function escapeHtml(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function hexToRgba(hex,a){const n=(hex||"#364F64").replace("#","");const r=parseInt(n.slice(0,2),16),g=parseInt(n.slice(2,4),16),b=parseInt(n.slice(4,6),16);return `rgba(${r},${g},${b},${a})`;}
+function lighten(hex,amt){const n=(hex||"#607D90").replace("#","");const r=parseInt(n.slice(0,2),16),g=parseInt(n.slice(2,4),16),b=parseInt(n.slice(4,6),16);const L=c=>Math.round(c+(255-c)*amt);return `rgb(${L(r)},${L(g)},${L(b)})`;}
+function fmtDate(iso){if(!iso)return "";const p=iso.split("-").map(Number);const mo=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][p[1]-1];return (p[2]&&mo)?`${p[2]} ${mo} ${p[0]}`:iso;}
+function isLocal(p){return /local/i.test(p.badge||"");}
+
+function navBtn(p){
+  const b=document.createElement("button");
+  b.className="nb loc";b.dataset.file=p.file;
+  b.onclick=()=>openReport(p.file);
+  b.innerHTML=`<span class="npill np-live">${escapeHtml(p.badge||"Live")}</span> ${escapeHtml(p.nav||p.title)}`;
+  return b;
+}
+function stickyBtn(p){
+  const b=document.createElement("button");
+  b.className="nb loc";b.onclick=()=>openReport(p.file);
+  b.textContent=p.nav||p.title;
+  return b;
+}
+function gridCard(p){
+  const el=document.createElement("div");
+  el.className="sc";el.onclick=()=>openReport(p.file);
+  const badgeCls=isLocal(p)?"b-local":"b-live";
+  const badgeTxt=isLocal(p)?"★ Local":escapeHtml(p.badge||"Live");
+  const foot=p.metric
+    ? `<div class="sc-num" style="color:${p.accent2}">${escapeHtml(p.metric)}</div><div class="sc-lbl">${escapeHtml(p.metricLabel||"")}</div>`
+    : `<div class="sc-lbl">Published</div>`;
+  el.innerHTML=
+    `<div class="sc-bar" style="background:linear-gradient(90deg,${p.accent},${p.accent2})"></div>`+
+    `<div class="sc-body"><div class="sc-ico">${p.icon||"📄"}</div>`+
+    `<div class="sc-name">${escapeHtml(p.title)}</div>`+
+    `<div class="sc-sub">${escapeHtml(p.desc||"")}</div>`+
+    `<div style="font-family:var(--mono);font-size:9.5px;color:var(--ink5);margin-top:7px;letter-spacing:.04em">🗓 ${fmtDate(p.date)||"Undated"}</div></div>`+
+    `<div class="sc-foot"><div>${foot}</div><span class="sc-badge ${badgeCls}">${badgeTxt}</span></div>`;
+  return el;
+}
+function jumpItem(p){
+  const el=document.createElement("div");
+  el.className="ji";
+  el.style.background=hexToRgba(p.accent2,.14);
+  el.style.borderColor=hexToRgba(p.accent2,.24);
+  el.style.border="1px solid "+hexToRgba(p.accent2,.24);
+  el.onclick=()=>openReport(p.file);
+  el.innerHTML=`<div class="ji-dot" style="background:${p.accent2}"></div>`+
+    `<div class="ji-i"><div class="ji-n" style="color:${lighten(p.accent2,.5)}">${escapeHtml(p.nav||p.title)}</div>`+
+    `<div class="ji-s">${escapeHtml(p.desc||"")}</div></div><div class="ji-a">›</div>`;
+  return el;
+}
+function addCard(){
+  const el=document.createElement("div");
+  el.className="sc";el.style.borderStyle="dashed";el.onclick=()=>go("victoria");
+  el.innerHTML=`<div class="sc-bar" style="background:var(--rule)"></div><div class="sc-body"><div class="sc-ico">➕</div><div class="sc-name">Add a New Council</div><div class="sc-sub">Suggest a Victorian LGA for the next deep study</div></div><div class="sc-foot"><div><div class="sc-num" style="color:var(--ink5)">Open</div><div class="sc-lbl">Nominations</div></div><span class="sc-badge b-soon">Suggest</span></div>`;
+  return el;
+}
+function renderPublications(){
+  const pubs=Array.isArray(window.PUBLICATIONS)?window.PUBLICATIONS.slice():[];
+  const grid=document.getElementById("pubGrid");
+  const jump=document.getElementById("pubJump");
+  const nav=document.getElementById("mainNav"),navAnchor=document.getElementById("navVictoria");
+  const sticky=document.getElementById("stickyNav"),stickyAnchor=document.getElementById("stickyVictoria");
+  if(grid)grid.innerHTML="";if(jump)jump.innerHTML="";
+  pubs.forEach(p=>{
+    if(nav&&navAnchor)nav.insertBefore(navBtn(p),navAnchor);
+    if(sticky&&stickyAnchor)sticky.insertBefore(stickyBtn(p),stickyAnchor);
+    if(grid)grid.appendChild(gridCard(p));
+    if(jump)jump.appendChild(jumpItem(p));
+  });
+  if(grid)grid.appendChild(addCard());
+  if(grid&&!pubs.length)grid.insertAdjacentHTML("afterbegin",'<div style="grid-column:1/-1;padding:22px;text-align:center;color:var(--ink4);font-size:13px">No publications found yet. Run <code>node build-publications.js</code> to generate the manifest.</div>');
+  const cta=document.getElementById("ledeCta");
+  if(cta&&pubs[0]){cta.onclick=()=>openReport(pubs[0].file);cta.innerHTML=`${pubs[0].icon||"★"} ${escapeHtml(pubs[0].nav||pubs[0].title)} →`;}
+}
+renderPublications();
+
 const h=location.hash.slice(1);
 if(TABS.includes(h))go(h);
 const stk=document.getElementById("sticky");

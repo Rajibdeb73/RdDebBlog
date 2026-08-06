@@ -1,0 +1,48 @@
+name: Build publications manifest
+
+# Regenerates publications.js / publications.json from the pub: meta tags in
+# every *.html report, then commits the result. This is what makes a newly
+# published HTML show up on the index dashboard automatically — just push it.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.html'
+      - 'build-publications.js'
+      - '.github/workflows/build-publications.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-publications
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history so git-date fallback works
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate manifest
+        run: node build-publications.js
+
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain publications.js publications.json)" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add publications.js publications.json
+            git commit -m "chore: rebuild publications manifest [skip ci]"
+            git push
+          else
+            echo "Manifest already up to date."
+          fi
