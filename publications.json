@@ -1,5 +1,24 @@
 [
   {
+    "file": "pakenham_to_city_rail_analysis.html",
+    "title": "Pakenham → City — Rail Intelligence Report",
+    "nav": "★ Pakenham Rail",
+    "date": "2026-08-06",
+    "desc": "Metro Tunnel \"Big Switch\" · +13–40 min penalty · 700+ signature petition · V/Line Gippsland impact",
+    "category": "Pakenham",
+    "tags": [
+      "Rail",
+      "Metro Tunnel",
+      "Commuter Impact"
+    ],
+    "icon": "🚆",
+    "accent": "#164E63",
+    "accent2": "#0881A8",
+    "metric": "~20M",
+    "metricLabel": "Boardings/yr",
+    "badge": "Local"
+  },
+  {
     "file": "Cardinia_Shire_Council_Deep_Analysis.html",
     "title": "Cardinia Shire Council — Deep Intelligence",
     "nav": "★ Cardinia Shire",
