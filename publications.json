@@ -1,5 +1,25 @@
 [
   {
+    "file": "cranbourne_pakenham_commute_report.html",
+    "title": "Cranbourne & Pakenham → City — The 3-Hour Commute",
+    "nav": "★ 3-Hr Commute",
+    "date": "2026-09-03",
+    "desc": "Frequency cliff beyond Dandenong · two-track constraint · Metro Tunnel appraisal · global lessons · Now/Next/Later roadmap",
+    "category": "Pakenham",
+    "tags": [
+      "Rail",
+      "Metro Tunnel",
+      "Frequency",
+      "Roadmap"
+    ],
+    "icon": "🚆",
+    "accent": "#14273D",
+    "accent2": "#2A78D6",
+    "metric": "~3 hrs",
+    "metricLabel": "Daily commute",
+    "badge": "Local"
+  },
+  {
     "file": "pakenham_to_city_rail_analysis.html",
     "title": "Pakenham → City — Rail Intelligence Report",
     "nav": "★ Pakenham Rail",

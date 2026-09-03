@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 3-Hour Commute</title>
+<meta name="pub:title" content="Cranbourne & Pakenham → City — The 3-Hour Commute">
+<meta name="pub:nav" content="★ 3-Hr Commute">
+<meta name="pub:date" content="2026-09-03">
+<meta name="pub:desc" content="Frequency cliff beyond Dandenong · two-track constraint · Metro Tunnel appraisal · global lessons · Now/Next/Later roadmap">
+<meta name="pub:category" content="Pakenham">
+<meta name="pub:tags" content="Rail, Metro Tunnel, Frequency, Roadmap">
+<meta name="pub:icon" content="🚆">
+<meta name="pub:accent" content="#14273D">
+<meta name="pub:accent2" content="#2A78D6">
+<meta name="pub:metric" content="~3 hrs">
+<meta name="pub:metricLabel" content="Daily commute">
+<meta name="pub:badge" content="Local">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#e9edf1;
+    --surface:#fbfcfd;
+    --surface-2:#f3f6f8;
+    --ink:#14273d;
+    --ink-2:#485a6b;
+    --muted:#8a97a3;
+    --line:#d8dfe6;
+    --line-strong:#c3ccd5;
+    --accent:#e0810c;      /* signal amber */
+    --rail:#2a78d6;        /* transit blue (series 1) */
+    --teal:#1baf7a;        /* solution (series 3) */
+    --brick:#d64533;       /* cost / friction */
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e34948;
+    --grid:#e1e5ea; --axis:#c3ccd5;
+    --shadow:0 1px 2px rgba(20,39,61,.05),0 8px 24px rgba(20,39,61,.06);
+    --maxw:1120px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --paper:#0c1117;
+      --surface:#151d26;
+      --surface-2:#111922;
+      --ink:#eef3f8;
+      --ink-2:#aebbc7;
+      --muted:#7e8b97;
+      --line:#243039;
+      --line-strong:#31404c;
+      --accent:#f2a62e;
+      --rail:#3987e5;
+      --teal:#199e70;
+      --brick:#e5674f;
+      --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#e66767;
+      --grid:#222d37; --axis:#31404c;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --paper:#0c1117; --surface:#151d26; --surface-2:#111922;
+    --ink:#eef3f8; --ink-2:#aebbc7; --muted:#7e8b97;
+    --line:#243039; --line-strong:#31404c;
+    --accent:#f2a62e; --rail:#3987e5; --teal:#199e70; --brick:#e5674f;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#e66767;
+    --grid:#222d37; --axis:#31404c;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:16px;line-height:1.62;letter-spacing:.005em;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif;color:var(--ink);text-wrap:balance;margin:0}
+  a{color:var(--rail);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  /* ---------- Masthead ---------- */
+  header.masthead{
+    background:linear-gradient(180deg,var(--surface),var(--surface-2));
+    border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:16px 0;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:12px;font-family:"IBM Plex Mono",monospace;
+    font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+  .brand .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+  .meta-right{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);text-align:right}
+  .hero{padding:52px 0 40px}
+  .kicker{display:inline-flex;align-items:center;gap:10px;margin-bottom:20px}
+  .kicker .rule{width:34px;height:2px;background:var(--accent)}
+  h1.title{font-size:clamp(38px,6.4vw,74px);line-height:1.02;font-weight:800;letter-spacing:-.02em}
+  h1.title .hl{color:var(--accent)}
+  .dek{margin-top:22px;max-width:60ch;font-size:clamp(17px,2.1vw,20px);color:var(--ink-2);line-height:1.55}
+  .route{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:26px;
+    font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-2)}
+  .route .stn{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:var(--surface);
+    border:1px solid var(--line);border-radius:999px}
+  .route .stn i{width:9px;height:9px;border-radius:50%;background:var(--rail);display:inline-block}
+  .route .arw{color:var(--muted)}
+
+  /* ---------- Stat band ---------- */
+  .statband{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    background:var(--surface);margin-top:28px}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr)}
+  .stat{padding:26px 22px;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:none}
+  .stat .n{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(26px,3.4vw,38px);
+    line-height:1;letter-spacing:-.02em;color:var(--ink)}
+  .stat .n small{font-size:.5em;font-weight:600;color:var(--muted);letter-spacing:0}
+  .stat .l{margin-top:10px;font-size:13px;color:var(--ink-2);line-height:1.4}
+  .stat.accent .n{color:var(--accent)}
+  .stat.brick .n{color:var(--brick)}
+  .stat.teal .n{color:var(--teal)}
+
+  /* ---------- Sections ---------- */
+  section{padding:60px 0}
+  section + section{border-top:1px solid var(--line)}
+  .sec-head{max-width:74ch;margin-bottom:34px}
+  .sec-head .eyebrow{display:block;margin-bottom:14px}
+  h2{font-size:clamp(26px,3.6vw,40px);font-weight:800;letter-spacing:-.015em;line-height:1.08}
+  .sec-head p{margin:16px 0 0;color:var(--ink-2);font-size:17px;max-width:66ch}
+  p{margin:0 0 18px}
+  .lead{font-size:18px;color:var(--ink)}
+  .body-col{max-width:68ch}
+  .body-col p{color:var(--ink-2)}
+  .body-col strong{color:var(--ink);font-weight:600}
+
+  /* ---------- Figure / cards ---------- */
+  .figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    padding:24px 24px 18px;box-shadow:var(--shadow)}
+  .figure .cap{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px}
+  .figure h3{font-size:18px;font-weight:700}
+  .figure .src{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+  .figure .note{margin:12px 2px 4px;font-size:13px;color:var(--muted);line-height:1.5}
+  figure{margin:0}
+  svg{display:block;width:100%;height:auto;overflow:visible}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+  .grid2.wide-left{grid-template-columns:1.2fr .8fr}
+
+  /* chart text */
+  .c-label{font-family:"IBM Plex Mono",monospace;font-size:12px;fill:var(--ink-2)}
+  .c-val{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;fill:var(--ink)}
+  .c-axis{font-family:"IBM Plex Mono",monospace;font-size:11px;fill:var(--muted)}
+  .c-grid{stroke:var(--grid);stroke-width:1}
+  .c-base{stroke:var(--axis);stroke-width:1.5}
+  .bar-s1{fill:var(--s1)} .bar-s2{fill:var(--s2)} .bar-accent{fill:var(--accent)}
+  .bar-teal{fill:var(--teal)} .bar-brick{fill:var(--brick)} .bar-muted{fill:var(--line-strong)}
+
+  /* corridor schematic */
+  .corridor .trunk{stroke:var(--rail);stroke-width:6;stroke-linecap:round}
+  .corridor .branch{stroke-width:6;stroke-linecap:round;fill:none}
+  .corridor .b-cran{stroke:var(--s3)}
+  .corridor .b-pak{stroke:var(--s2)}
+  .corridor .stn{fill:var(--surface);stroke:var(--ink);stroke-width:2.5}
+  .corridor .stn-l{font-family:"IBM Plex Mono",monospace;font-size:12px;fill:var(--ink);font-weight:600}
+  .corridor .freq{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600}
+  .corridor .freq-good{fill:var(--teal)}
+  .corridor .freq-bad{fill:var(--brick)}
+  .corridor .seg-sub{font-family:"Public Sans",sans-serif;font-size:12px;fill:var(--ink-2)}
+
+  /* track diagram */
+  .trk-seg-con{fill:color-mix(in srgb,var(--brick) 12%,transparent)}
+  .trk-seg-warn{fill:color-mix(in srgb,var(--accent) 14%,transparent)}
+  .trk-seg-ok{fill:color-mix(in srgb,var(--teal) 15%,transparent)}
+  .trk-num{font-family:"Archivo",sans-serif;font-weight:800;fill:var(--ink)}
+  .trk-sub{font-family:"IBM Plex Mono",monospace;font-size:10.5px;fill:var(--ink-2)}
+  .trk-line{stroke:var(--rail);stroke-width:3;fill:none}
+  .trk-ghost{stroke:var(--muted);stroke-width:2;stroke-dasharray:3 5;fill:none;opacity:.55}
+  .trk-div{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:3 3}
+  .trk-stn{fill:var(--surface);stroke:var(--ink);stroke-width:2}
+  .trk-stn-l{font-family:"IBM Plex Mono",monospace;font-size:11px;fill:var(--ink);font-weight:600}
+  .hcs-good{fill:var(--teal)} .hcs-con{fill:var(--line-strong)}
+  .hcs-l{font-family:"IBM Plex Mono",monospace;font-size:11px;fill:var(--ink-2)}
+  .train-stop{fill:var(--s1)} .train-exp{fill:var(--s2)}
+  .train-l{font-family:"IBM Plex Mono",monospace;font-size:10px;fill:#fff;font-weight:600}
+  .panel-t{font-family:"Archivo",sans-serif;font-weight:700;font-size:14px;fill:var(--ink)}
+  .panel-cap{font-family:"Public Sans",sans-serif;font-size:12px;fill:var(--ink-2)}
+  .xmark{stroke:var(--brick);stroke-width:3;stroke-linecap:round}
+  .ok-tick{stroke:var(--teal);stroke-width:3;stroke-linecap:round;fill:none}
+
+  /* callout / pull */
+  .pull{border-left:3px solid var(--accent);padding:6px 0 6px 22px;margin:26px 0;
+    font-family:"Archivo",sans-serif;font-weight:600;font-size:clamp(20px,2.6vw,26px);
+    line-height:1.28;color:var(--ink);letter-spacing:-.01em;max-width:24ch}
+  .pull .by{display:block;margin-top:10px;font-family:"IBM Plex Mono",monospace;font-size:12px;
+    font-weight:500;letter-spacing:.04em;color:var(--muted);text-transform:none}
+
+  /* impact chips */
+  .chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:8px}
+  .chip{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .chip .ico{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;margin-bottom:12px;
+    background:color-mix(in srgb,var(--brick) 14%,transparent)}
+  .chip .ico svg{width:18px;height:18px;stroke:var(--brick);fill:none;stroke-width:2}
+  .chip h4{font-size:15px;font-weight:700;margin-bottom:6px}
+  .chip p{font-size:13.5px;color:var(--ink-2);margin:0}
+
+  /* journey table */
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+  th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line)}
+  th{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--muted);background:var(--surface-2)}
+  td{color:var(--ink-2)}
+  td.k{color:var(--ink);font-weight:600}
+  tr:last-child td{border-bottom:none}
+  td .tnum{color:var(--ink)}
+
+  /* case studies */
+  .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .case{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    box-shadow:var(--shadow);display:flex;flex-direction:column}
+  .case .band{padding:18px 22px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .case .band .city{font-family:"Archivo",sans-serif;font-weight:800;font-size:19px}
+  .case .band .flag{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+  .case .big{padding:20px 22px 6px}
+  .case .big .n{font-family:"Archivo",sans-serif;font-weight:800;font-size:34px;line-height:1;
+    letter-spacing:-.02em;color:var(--rail)}
+  .case .big .u{font-size:13px;color:var(--ink-2);margin-top:8px}
+  .case .body{padding:8px 22px 22px;font-size:14px;color:var(--ink-2)}
+  .case .body .did{font-weight:600;color:var(--ink)}
+  .case .lesson{margin-top:auto;padding:16px 22px;background:var(--surface-2);border-top:1px solid var(--line);
+    font-size:13.5px;color:var(--ink)}
+  .case .lesson b{color:var(--accent);font-family:"IBM Plex Mono",monospace;font-size:11px;
+    letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:5px}
+
+  /* roadmap */
+  .road{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .lane{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px 22px 22px}
+  .lane .hd{display:flex;align-items:center;gap:12px;padding:18px 0 14px;border-bottom:1px solid var(--line);
+    position:sticky}
+  .lane .hd .n{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12px;letter-spacing:.1em;
+    text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .lane.now .hd .n{color:var(--teal);background:color-mix(in srgb,var(--teal) 14%,transparent)}
+  .lane.next .hd .n{color:var(--rail);background:color-mix(in srgb,var(--rail) 14%,transparent)}
+  .lane.later .hd .n{color:var(--accent);background:color-mix(in srgb,var(--accent) 15%,transparent)}
+  .lane .hd h3{font-size:15px;font-weight:700}
+  .lane ul{list-style:none;margin:16px 0 0;padding:0}
+  .lane li{position:relative;padding:0 0 16px 24px;font-size:14px;color:var(--ink-2);line-height:1.5}
+  .lane li:before{content:"";position:absolute;left:2px;top:7px;width:8px;height:8px;border-radius:50%;
+    background:var(--accent)}
+  .lane.now li:before{background:var(--teal)}
+  .lane.next li:before{background:var(--rail)}
+  .lane li b{color:var(--ink);font-weight:600}
+
+  /* takeaways */
+  .takeaways{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;counter-reset:tk}
+  .tk{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 24px;
+    display:flex;gap:18px;align-items:flex-start}
+  .tk:before{counter-increment:tk;content:counter(tk,decimal-leading-zero);
+    font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:14px;color:var(--accent);
+    padding-top:3px}
+  .tk h4{font-size:16px;font-weight:700;margin-bottom:5px}
+  .tk p{font-size:14px;color:var(--ink-2);margin:0}
+
+  /* footer / sources */
+  footer{background:var(--surface);border-top:1px solid var(--line);padding:48px 0 60px;margin-top:0}
+  footer h3{font-size:14px;font-family:"IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:18px}
+  .srcs{columns:2;column-gap:40px;font-size:13px;line-height:1.5}
+  .srcs a{display:block;margin-bottom:11px;break-inside:avoid;color:var(--ink-2)}
+  .srcs a:hover{color:var(--rail)}
+  .disc{margin-top:30px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);max-width:80ch}
+
+  /* tooltip */
+  #tip{position:fixed;pointer-events:none;z-index:50;background:var(--ink);color:var(--paper);
+    font-family:"IBM Plex Mono",monospace;font-size:12px;padding:7px 10px;border-radius:8px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;transition:opacity .12s;max-width:240px;line-height:1.4}
+  .hoverable{cursor:default}
+  .hoverable:hover{filter:brightness(1.06)}
+
+  @media (max-width:860px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .stat:nth-child(2){border-right:none}
+    .grid2,.grid2.wide-left{grid-template-columns:1fr}
+    .cases,.road{grid-template-columns:1fr}
+    .takeaways{grid-template-columns:1fr}
+    .srcs{columns:1}
+    .meta-right{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><span class="dot"></span>CivicLens · Corridor Study</div>
+      <div class="meta-right">South-East Melbourne · Rail &amp; Road<br>Prepared September 2026</div>
+    </div>
+    <div class="hero">
+      <div class="kicker"><span class="rule"></span><span class="eyebrow">Cranbourne &amp; Pakenham → Melbourne CBD</span></div>
+      <h1 class="title">The <span class="hl">3-hour</span> commute that the map<br>never shows you.</h1>
+      <p class="dek">Every weekday, tens of thousands of people leave one of Australia's fastest-growing corridors and spend the better part of an hour&nbsp;— often more&nbsp;— getting to work in the city. This is what that costs them, what it costs the economy, and how other complex cities fixed the same problem.</p>
+      <div class="route">
+        <span class="stn"><i></i>Cranbourne / Clyde</span>
+        <span class="arw">──▶</span>
+        <span class="stn"><i></i>Dandenong</span>
+        <span class="arw">──▶</span>
+        <span class="stn"><i></i>Caulfield</span>
+        <span class="arw">──▶</span>
+        <span class="stn"><i></i>Melbourne CBD</span>
+      </div>
+    </div>
+  </div>
+  <div class="statband">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat"><div class="n tnum">405,415</div><div class="l">Residents in the City of Casey — Victoria's most populous council</div></div>
+        <div class="stat accent"><div class="n tnum">1:13<small> h:mm</small></div><div class="l">Average Pakenham → city-centre train journey, one way</div></div>
+        <div class="stat brick"><div class="n tnum">$5,253<small>/yr</small></div><div class="l">Value of a Melbourne worker's commuting time, per person</div></div>
+        <div class="stat brick"><div class="n tnum">$10.4<small>B</small></div><div class="l">Projected annual road-congestion cost, Melbourne &amp; Geelong, 2031</div></div>
+        <div class="stat teal"><div class="n tnum">+39,000</div><div class="l">Extra peak passengers/day enabled by the new Metro Tunnel</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ 1. THE CORRIDOR ============ -->
+<section id="corridor">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">01 — The corridor and its people</span>
+      <h2>A city the size of Canberra is being built at the end of the line</h2>
+      <p>The Cranbourne and Pakenham lines serve Melbourne's outer south-east: the councils of Casey and Cardinia. It is the last affordable frontier for family homes in Melbourne, and it is filling up faster than almost anywhere in the country.</p>
+    </div>
+
+    <div class="grid2 wide-left">
+      <div class="body-col">
+        <p class="lead">The <strong>City of Casey passed 400,000 residents in 2024</strong> — the most populous local government area in Victoria — and it is still adding around <strong>13,000 people a year</strong>. On current projections it reaches roughly <strong>550,000 by 2041</strong>, about the size of today's Canberra.</p>
+        <p>Neighbouring <strong>Cardinia Shire</strong>, home to Pakenham, is one of Victoria's fastest-growing municipalities on the same trajectory. Together the two councils form a classic "growth corridor": housing is delivered years ahead of the transport, schools and jobs that are meant to accompany it.</p>
+        <p>The catch is geography. Jobs are still overwhelmingly concentrated in central Melbourne and the inner south-east, 40–60&nbsp;km away. So growth on the fringe converts directly into <strong>long, one-directional peak travel</strong> — outbound in the morning, inbound at night — on exactly the corridors least able to absorb it.</p>
+        <p>The sharpest example is <strong>Clyde and Clyde North</strong>, among the fastest-growing suburbs in Casey. They have <em>no train station at all</em>. Residents drive or catch a bus to Cranbourne, which is where the pressure on car parks, feeder roads and platform crowding begins.</p>
+      </div>
+
+      <div class="figure hoverable">
+        <div class="cap"><h3>Casey's population trajectory</h3><span class="src">.id / ABS</span></div>
+        <figure>
+          <svg viewBox="0 0 460 300" role="img" aria-label="Line chart: City of Casey population rising from 405,000 in 2024 to a projected 550,000 in 2041.">
+            <!-- gridlines -->
+            <g class="c-grid">
+              <line x1="70" y1="60" x2="440" y2="60"/>
+              <line x1="70" y1="110" x2="440" y2="110"/>
+              <line x1="70" y1="160" x2="440" y2="160"/>
+              <line x1="70" y1="210" x2="440" y2="210"/>
+            </g>
+            <!-- y axis labels (thousands) -->
+            <g class="c-axis" text-anchor="end">
+              <text x="60" y="64">600k</text>
+              <text x="60" y="114">500k</text>
+              <text x="60" y="164">400k</text>
+              <text x="60" y="214">300k</text>
+            </g>
+            <!-- area + line: map 300k->y260 ... 600k->y60  (100k = 66.67px, base y for value: y=260-(val-300)/100*66.67) -->
+            <!-- 2024=405 ->193 ; 2029=445 ->166.7 ; 2034=490 ->136.7 ; 2041=550 ->96.7 -->
+            <path d="M70,193 L193,166.7 L316,136.7 L440,96.7 L440,260 L70,260 Z" fill="var(--rail)" fill-opacity="0.10"/>
+            <polyline points="70,193 193,166.7 316,136.7 440,96.7" fill="none" stroke="var(--rail)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <g>
+              <circle cx="70" cy="193" r="4.5" fill="var(--rail)"/>
+              <circle cx="440" cy="96.7" r="5" fill="var(--surface)" stroke="var(--rail)" stroke-width="2.5"/>
+            </g>
+            <!-- point labels -->
+            <text class="c-val" x="70" y="181" text-anchor="start">405k</text>
+            <text class="c-val" x="440" y="86" text-anchor="end">550k</text>
+            <!-- x labels -->
+            <g class="c-axis" text-anchor="middle">
+              <text x="70" y="278">2024</text>
+              <text x="255" y="278">2033</text>
+              <text x="440" y="278">2041</text>
+            </g>
+          </svg>
+        </figure>
+        <p class="note">Most populous LGA in Victoria and still growing ~3.4% a year. Housing arrives first; rail capacity is retrofitted afterward.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. THE DAILY CHALLENGE ============ -->
+<section id="time">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">02 — The daily challenge · time</span>
+      <h2>Melburnians already give up 4½ working weeks a year to the commute</h2>
+      <p>Averages hide the fringe. The corridor's real problem is not the average trip — it's the collapse in service the moment you travel beyond Dandenong, where most of this growth actually lives.</p>
+    </div>
+
+    <div class="grid2">
+      <div class="figure hoverable">
+        <div class="cap"><h3>Weekly commuting time, capital cities</h3><span class="src">The Australia Institute</span></div>
+        <figure>
+          <svg viewBox="0 0 700 300" role="img" aria-label="Bar chart of average weekly commuting time by Australian capital. Sydney 4h43, Melbourne 4h22, Brisbane 3h58, Perth 3h43, Adelaide 3h34, Canberra 2h29.">
+            <!-- bars: x start 118, scale 490/283min -> 1.731 px/min ; rows -->
+            <g>
+              <!-- Sydney 283 -->
+              <text class="c-label" x="108" y="46" text-anchor="end">Sydney</text>
+              <rect class="bar-muted hoverable" data-tip="Sydney · 4h 43m per week" x="118" y="35" width="490" height="22" rx="4"/>
+              <text class="c-val" x="616" y="51">4:43</text>
+              <!-- Melbourne 262 (highlight) -->
+              <text class="c-label" x="108" y="88" text-anchor="end" style="fill:var(--ink);font-weight:600">Melbourne</text>
+              <rect class="bar-accent hoverable" data-tip="Melbourne · 4h 22m per week ≈ 227 hours a year" x="118" y="77" width="454" height="22" rx="4"/>
+              <text class="c-val" x="580" y="93">4:22</text>
+              <!-- Brisbane 238 -->
+              <text class="c-label" x="108" y="130" text-anchor="end">Brisbane</text>
+              <rect class="bar-muted hoverable" data-tip="Brisbane · 3h 58m per week" x="118" y="119" width="412" height="22" rx="4"/>
+              <text class="c-val" x="538" y="135">3:58</text>
+              <!-- Perth 223 -->
+              <text class="c-label" x="108" y="172" text-anchor="end">Perth</text>
+              <rect class="bar-muted hoverable" data-tip="Perth · 3h 43m per week" x="118" y="161" width="386" height="22" rx="4"/>
+              <text class="c-val" x="512" y="177">3:43</text>
+              <!-- Adelaide 214 -->
+              <text class="c-label" x="108" y="214" text-anchor="end">Adelaide</text>
+              <rect class="bar-muted hoverable" data-tip="Adelaide · 3h 34m per week" x="118" y="203" width="371" height="22" rx="4"/>
+              <text class="c-val" x="497" y="219">3:34</text>
+              <!-- Canberra 149 -->
+              <text class="c-label" x="108" y="256" text-anchor="end">Canberra</text>
+              <rect class="bar-muted hoverable" data-tip="Canberra · 2h 29m per week" x="118" y="245" width="258" height="22" rx="4"/>
+              <text class="c-val" x="384" y="261">2:29</text>
+            </g>
+            <line class="c-base" x1="118" y1="30" x2="118" y2="272"/>
+          </svg>
+        </figure>
+        <p class="note">Melbourne's 4h22m/week is ~<span class="tnum">227</span> hours a year — about 4½ standard working weeks. Outer-suburban workers sit well above the city average.</p>
+      </div>
+
+      <div class="body-col">
+        <p class="lead">The line itself is not slow on paper. <strong>Pakenham to the city centre averages about 1&nbsp;hour 13&nbsp;minutes</strong>; the Cranbourne line runs roughly <strong>57&nbsp;minutes end-to-end</strong>. Door-to-door — walk or drive to the station, park, wait, ride, then walk to the office — a fringe commuter routinely spends <strong>2½ to 3 hours a day</strong> in transit.</p>
+        <p>The hidden failure is <strong>frequency, not speed</strong>. On the trunk between Dandenong and the city, the two lines interleave to about every <strong>3–4 minutes</strong> in peak. But each branch <em>beyond</em> Dandenong carries only its own trains, so frequency roughly halves — about every <strong>8 minutes in peak</strong>, and every <strong>20 minutes off-peak</strong>. Outside the rush, missing one means a 20-minute wait.</p>
+        <p>That mismatch is why "turn up and go" stops at Dandenong, and why the growth corridor still plans its whole day around a timetable.</p>
+        <div class="pull">A fast line with a slow timetable is a slow line.<span class="by">— the frequency gap beyond Dandenong</span></div>
+      </div>
+    </div>
+
+    <!-- Corridor schematic -->
+    <div class="figure hoverable" style="margin-top:26px">
+      <div class="cap"><h3>Where the service falls off — the frequency cliff beyond Dandenong</h3><span class="src">PTV timetables</span></div>
+      <figure>
+        <svg viewBox="0 0 960 240" class="corridor" role="img" aria-label="Schematic of the corridor showing 3 to 4 minute peak frequency on the trunk from the city to Dandenong, then dropping to about 20 minutes beyond Dandenong to Cranbourne and Pakenham.">
+          <!-- trunk: city (x=90) to Dandenong (x=560) at y=110 -->
+          <line class="trunk" x1="90" y1="110" x2="560" y2="110"/>
+          <!-- branches from Dandenong -->
+          <path class="branch b-cran" d="M560,110 C660,110 700,150 880,168"/>
+          <path class="branch b-pak" d="M560,110 C660,110 700,70 880,52"/>
+          <!-- stations on trunk -->
+          <g>
+            <circle class="stn" cx="90" cy="110" r="8"/><text class="stn-l" x="90" y="140" text-anchor="middle">CBD</text>
+            <circle class="stn" cx="325" cy="110" r="7"/><text class="stn-l" x="325" y="140" text-anchor="middle">Caulfield</text>
+            <circle class="stn" cx="560" cy="110" r="9" style="stroke:var(--accent);stroke-width:3"/><text class="stn-l" x="560" y="140" text-anchor="middle" style="fill:var(--accent)">Dandenong</text>
+          </g>
+          <!-- branch endpoints -->
+          <circle class="stn" cx="880" cy="52" r="8" style="stroke:var(--s2)"/><text class="stn-l" x="880" y="44" text-anchor="middle" style="fill:var(--s2)">Pakenham</text>
+          <circle class="stn" cx="880" cy="168" r="8" style="stroke:var(--s3)"/><text class="stn-l" x="880" y="192" text-anchor="middle" style="fill:var(--s3)">Cranbourne</text>
+          <text class="stn-l" x="905" y="20" text-anchor="middle" style="fill:var(--muted);font-size:11px">Clyde: no station</text>
+          <!-- frequency callouts -->
+          <text class="freq freq-good" x="325" y="86" text-anchor="middle">every 3–4 min</text>
+          <text class="seg-sub" x="325" y="66" text-anchor="middle">combined · peak</text>
+          <text class="freq freq-bad" x="720" y="120" text-anchor="middle">every ~8 min</text>
+          <text class="seg-sub" x="720" y="140" text-anchor="middle">per line · peak</text>
+          <!-- divider marker at Dandenong -->
+          <line x1="560" y1="150" x2="560" y2="200" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="3 3"/>
+        </svg>
+      </figure>
+      <p class="note">Frequency is strongest on the trunk and roughly halves on each branch beyond Dandenong. And it degrades off-peak: the trunk drops to every 10 minutes and each branch to every 20. But even the trunk is only <strong>two tracks</strong> — the next section shows why that is the deeper constraint on both speed and capacity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. ECONOMIC COST ============ -->
+<section id="cost">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">03 — The daily challenge · money</span>
+      <h2>Time in traffic is revenue that never gets earned</h2>
+      <p>Congestion is not a nuisance line-item; it is a structural tax on the whole metropolitan economy — and on current settings it is set to roughly double.</p>
+    </div>
+
+    <div class="grid2">
+      <div class="body-col">
+        <p class="lead">Road congestion cost Melbourne and Geelong about <strong>$5.5&nbsp;billion a year in 2016</strong>. Without further investment, Infrastructure Australia projected that figure would climb to roughly <strong>$10.4&nbsp;billion by 2031</strong> — an effective doubling, driven overwhelmingly by growth corridors like the south-east.</p>
+        <p>That is the economy-wide bill: lost hours, delayed freight, wasted fuel, and the productive work that simply never happens because people are sitting still. Public-transport crowding adds tens of millions more (about <strong>$75&nbsp;million</strong> in 2016) in slower, less reliable trips.</p>
+        <p>Brought down to a person: a Melbourne commuter's travel time is worth about <strong>$109 a week — $5,253 a year</strong> — in wage-equivalent terms. Across every Australian worker, commuting consumes over <strong>$21.7&nbsp;billion</strong> of value annually. A household in Clyde or Pakenham, with a longer-than-average trip, sits at the painful end of that distribution.</p>
+        <p>For a growth corridor, this is the core economic argument: <strong>every minute of travel time removed is capacity returned to the labour market</strong> — more reachable jobs, larger catchments for employers, and higher participation, especially for the second earner in a household.</p>
+      </div>
+
+      <div>
+        <div class="figure hoverable">
+          <div class="cap"><h3>Melbourne &amp; Geelong congestion cost</h3><span class="src">Infrastructure Australia</span></div>
+          <figure>
+            <svg viewBox="0 0 420 300" role="img" aria-label="Bar chart: road congestion cost rising from $5.5 billion in 2016 to a projected $10.4 billion in 2031.">
+              <g class="c-grid">
+                <line x1="70" y1="60" x2="400" y2="60"/>
+                <line x1="70" y1="110" x2="400" y2="110"/>
+                <line x1="70" y1="160" x2="400" y2="160"/>
+                <line x1="70" y1="210" x2="400" y2="210"/>
+              </g>
+              <g class="c-axis" text-anchor="end">
+                <text x="60" y="64">$12B</text>
+                <text x="60" y="114">$8B</text>
+                <text x="60" y="164">$4B</text>
+                <text x="60" y="214">$0</text>
+              </g>
+              <!-- base y=260 ; scale: $12B over 200px -> 16.67px per $B -->
+              <!-- 2016 =5.5 -> h=91.7 ; y=168.3 -->
+              <rect class="bar-muted hoverable" data-tip="2016 · $5.5B / year" x="120" y="168.3" width="90" height="91.7" rx="4"/>
+              <text class="c-val" x="165" y="158" text-anchor="middle">$5.5B</text>
+              <text class="c-axis" x="165" y="278" text-anchor="middle">2016</text>
+              <!-- 2031 =10.4 -> h=173.4 ; y=86.6 -->
+              <rect class="bar-brick hoverable" data-tip="2031 · $10.4B / year (projected, no further action)" x="270" y="86.6" width="90" height="173.4" rx="4"/>
+              <text class="c-val" x="315" y="76" text-anchor="middle" style="fill:var(--brick)">$10.4B</text>
+              <text class="c-axis" x="315" y="278" text-anchor="middle">2031 (proj.)</text>
+              <line class="c-base" x1="70" y1="260" x2="400" y2="260"/>
+              <!-- arrow -->
+              <text class="c-label" x="235" y="128" text-anchor="middle" style="fill:var(--brick);font-weight:600">≈ ×1.9</text>
+            </svg>
+          </figure>
+          <p class="note">Doubling in 15 years on a "do-nothing" path. Public-transport investment is what bends this curve.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. HUMAN IMPACT ============ -->
+<section id="human">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">04 — The daily challenge · people</span>
+      <h2>The cost that never shows up on a spreadsheet</h2>
+      <p>Long commutes are one of the most robust predictors of lower wellbeing in the research literature. The hours don't just disappear from the economy — they disappear from family life.</p>
+    </div>
+    <div class="chips">
+      <div class="chip">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a7 7 0 0 1 14 0c0 5.5-7 10-7 10z"/><circle cx="12" cy="11" r="2.4"/></svg></div>
+        <h4>Physical stress</h4>
+        <p>Long commutes are linked to raised blood pressure, musculoskeletal pain and lower frustration tolerance — the body pays for the queue.</p>
+      </div>
+      <div class="chip">
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h4>Time with family</h4>
+        <p>Around one in five full-time fathers of young children spend more time commuting than interacting with their kids.</p>
+      </div>
+      <div class="chip">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 20v-4a8 8 0 0 1 16 0v4"/><circle cx="12" cy="7" r="3"/></svg></div>
+        <h4>Social withdrawal</h4>
+        <p>Longer trips correlate with less socialising, less community involvement and lower satisfaction with free time.</p>
+      </div>
+      <div class="chip">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h4l2 6 4-14 2 8h5"/></svg></div>
+        <h4>Mental load</h4>
+        <p>Longitudinal Australian cohort evidence associates longer commuting time with poorer mental-health scores and heightened anxiety.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:22px;max-width:80ch">This is a sensitive area. The point is not to diagnose individuals but to show that on any accounting — economic or human — the corridor's travel burden is a cost worth capital to remove.</p>
+  </div>
+</section>
+
+<!-- ============ 5. ALREADY UNDERWAY ============ -->
+<section id="underway">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">05 — What is already being done</span>
+      <h2>Melbourne has spent a decade rebuilding this corridor — but the payoff is uneven</h2>
+      <p>The south-east is, in fact, one of the world's larger live case studies in fixing a congested rail corridor. Three big moves have already landed.</p>
+    </div>
+
+    <div class="grid2 wide-left">
+      <div class="body-col">
+        <p><strong>1 · Level crossings removed.</strong> The notorious road-rail conflicts along the Dandenong corridor — the "boom-gate down 40% of peak hour" problem — have been eliminated, most famously by the elevated "skyrail" between Caulfield and Dandenong. Roads and rail no longer throttle each other.</p>
+        <p><strong>2 · Bigger, more frequent trains.</strong> New <strong>High Capacity Metro Trains</strong> carry up to <strong>1,380 passengers</strong> per seven-car set, and the single track between Dandenong South and Cranbourne was duplicated in 2022, unlocking 10-minute peak frequencies on the Cranbourne branch.</p>
+        <p><strong>3 · The Metro Tunnel.</strong> Opened <strong>1 February 2026</strong>, it pulls the Cranbourne and Pakenham lines out of the old City Loop and runs them through five new stations — Arden, Parkville, State Library, Town Hall and Anzac — straight through to the Sunbury line. New high-capacity signalling lets trains in the tunnel core run as close as 40 seconds apart — but that signalling reaches only to Clayton. Beyond it, the entire growth corridor still runs on conventional signals (see next section).</p>
+        <p>The payoff is capacity: room for about <strong>39,000 extra passengers in each peak period every day</strong>, rising by a further ~41,000 if ten-car trains are introduced. It is the single biggest uplift the corridor has ever received.</p>
+      </div>
+
+      <div class="figure hoverable">
+        <div class="cap"><h3>Peak capacity unlocked by the Metro Tunnel</h3><span class="src">Metro Tunnel / VAGO</span></div>
+        <figure>
+          <svg viewBox="0 0 420 300" role="img" aria-label="Bar chart: extra peak passengers per day, plus 39,000 with seven-car trains and up to plus 80,000 with ten-car trains.">
+            <g class="c-grid">
+              <line x1="70" y1="70" x2="400" y2="70"/>
+              <line x1="70" y1="130" x2="400" y2="130"/>
+              <line x1="70" y1="190" x2="400" y2="190"/>
+            </g>
+            <g class="c-axis" text-anchor="end">
+              <text x="60" y="74">80k</text>
+              <text x="60" y="134">40k</text>
+              <text x="60" y="194">0</text>
+            </g>
+            <!-- base y=250 ; scale 80k over 180px -> 2.25px per 1k -->
+            <!-- 39k -> h=87.75 -> y=162.25 -->
+            <rect class="bar-teal hoverable" data-tip="+39,000 extra peak passengers/day — 7-car HCMT, from Feb 2026" x="120" y="162.25" width="90" height="87.75" rx="4"/>
+            <text class="c-val" x="165" y="152" text-anchor="middle" style="fill:var(--teal)">+39,000</text>
+            <text class="c-axis" x="165" y="268" text-anchor="middle">7-car (now)</text>
+            <!-- 80k -> h=180 -> y=70 -->
+            <rect class="bar-s1 hoverable" data-tip="+80,000 total — with 10-car trains (future)" x="270" y="70" width="90" height="180" rx="4"/>
+            <text class="c-val" x="315" y="60" text-anchor="middle">+80,000</text>
+            <text class="c-axis" x="315" y="268" text-anchor="middle">10-car (future)</text>
+            <line class="c-base" x1="70" y1="250" x2="400" y2="250"/>
+          </svg>
+        </figure>
+        <p class="note">Extra peak passengers carried per day. The tunnel is the enabler; ten-car trains are the still-untapped upside.</p>
+      </div>
+    </div>
+
+    <div class="tbl-wrap" style="margin-top:26px">
+      <table>
+        <thead><tr><th>Line</th><th>Length</th><th>Journey to city</th><th>Peak (trunk, combined)</th><th>Off-peak (per line)</th><th>Train capacity</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Cranbourne</td><td><span class="tnum">43.9 km</span></td><td><span class="tnum">~57 min</span> end-to-end</td><td><span class="tnum">3–4 min</span></td><td><span class="tnum">~20 min</span></td><td><span class="tnum">1,380</span> (7-car HCMT)</td></tr>
+          <tr><td class="k">Pakenham</td><td><span class="tnum">58.8 km</span>, 24 stns</td><td><span class="tnum">~1 h 13 min</span></td><td><span class="tnum">3–4 min</span></td><td><span class="tnum">~20 min</span></td><td><span class="tnum">1,380</span> (7-car HCMT)</td></tr>
+          <tr><td class="k">Clyde / Clyde Nth</td><td>—</td><td>Bus + drive to Cranbourne</td><td>—</td><td>No rail</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. THE TWO-TRACK TRUTH ============ -->
+<section id="tracks">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">06 — The engineering reality</span>
+      <h2>The two-track truth — and whether "express" can actually fix it</h2>
+      <p>Frequency and crowding are symptoms. The underlying constraint is the track itself: almost the entire corridor is just <strong>two tracks</strong>, shared by both lines, with metro-grade signalling that stops well short of the growth area. That is what caps speed — and what makes the obvious "run expresses" idea harder than it looks.</p>
+    </div>
+
+    <!-- Diagram A: track count along the corridor -->
+    <div class="figure hoverable">
+      <div class="cap"><h3>How many tracks, and how far the modern signalling reaches</h3><span class="src">LXRP · Metro Tunnel · wongm.com</span></div>
+      <figure>
+        <svg viewBox="0 0 960 280" role="img" aria-label="Diagram of the corridor showing two tracks from Cranbourne/Pakenham through Dandenong, Clayton and Caulfield, a two-track pinch to South Yarra, then four-plus tracks into the city. High-capacity signalling only reaches Clayton; beyond it is conventional signalling.">
+          <!-- track-count blocks -->
+          <rect class="trk-seg-con"  x="70"  y="30" width="270" height="44" rx="7"/>
+          <rect class="trk-seg-warn" x="340" y="30" width="320" height="44" rx="7"/>
+          <rect class="trk-seg-con"  x="660" y="30" width="130" height="44" rx="7"/>
+          <rect class="trk-seg-ok"   x="790" y="30" width="110" height="44" rx="7"/>
+          <g text-anchor="middle">
+            <text class="trk-num" x="205" y="64" font-size="26">2</text>
+            <text class="trk-num" x="500" y="64" font-size="26">2</text>
+            <text class="trk-num" x="725" y="64" font-size="26">2</text>
+            <text class="trk-num" x="845" y="64" font-size="26">4+</text>
+            <text class="trk-sub" x="205" y="92">outer growth corridor</text>
+            <text class="trk-sub" x="500" y="92">skyrail · provision for 4, only 2 laid</text>
+            <text class="trk-sub" x="725" y="92">the pinch</text>
+            <text class="trk-sub" x="845" y="92">inner tracks</text>
+          </g>
+          <!-- segment dividers -->
+          <g class="trk-div">
+            <line x1="340" y1="76" x2="340" y2="172"/>
+            <line x1="660" y1="76" x2="660" y2="172"/>
+            <line x1="790" y1="76" x2="790" y2="172"/>
+          </g>
+          <!-- ghost provision for 4 on skyrail -->
+          <line class="trk-ghost" x1="340" y1="140" x2="660" y2="140"/>
+          <line class="trk-ghost" x1="340" y1="170" x2="660" y2="170"/>
+          <text class="trk-sub" x="500" y="132" text-anchor="middle" fill="var(--muted)">space designed for 2 more tracks</text>
+          <!-- main track pair -->
+          <line class="trk-line" x1="70" y1="150" x2="900" y2="150"/>
+          <line class="trk-line" x1="70" y1="160" x2="900" y2="160"/>
+          <!-- extra inner tracks near city -->
+          <line class="trk-line" x1="790" y1="140" x2="900" y2="140"/>
+          <line class="trk-line" x1="790" y1="170" x2="900" y2="170"/>
+          <!-- stations -->
+          <g>
+            <circle class="trk-stn" cx="70"  cy="155" r="6"/>
+            <circle class="trk-stn" cx="340" cy="155" r="7" style="stroke:var(--accent);stroke-width:3"/>
+            <circle class="trk-stn" cx="500" cy="155" r="7" style="stroke:var(--teal);stroke-width:3"/>
+            <circle class="trk-stn" cx="660" cy="155" r="6"/>
+            <circle class="trk-stn" cx="790" cy="155" r="6"/>
+            <circle class="trk-stn" cx="900" cy="155" r="6"/>
+          </g>
+          <g class="trk-stn-l">
+            <text x="70"  y="184" text-anchor="start">Cranbourne / Pakenham</text>
+            <text x="340" y="184" text-anchor="middle" style="fill:var(--accent)">Dandenong</text>
+            <text x="500" y="184" text-anchor="middle" style="fill:var(--teal)">Clayton</text>
+            <text x="660" y="184" text-anchor="middle">Caulfield</text>
+            <text x="790" y="184" text-anchor="middle">Sth Yarra</text>
+            <text x="900" y="184" text-anchor="end">City</text>
+          </g>
+          <!-- HCS coverage bar -->
+          <rect class="hcs-con"  x="70"  y="208" width="430" height="15" rx="4"/>
+          <rect class="hcs-good" x="500" y="208" width="400" height="15" rx="4"/>
+          <line class="trk-div" x1="500" y1="200" x2="500" y2="248" style="stroke:var(--teal)"/>
+          <g>
+            <text class="hcs-l" x="285" y="243" text-anchor="middle">conventional signals</text>
+            <text class="hcs-l" x="700" y="243" text-anchor="middle" style="fill:var(--teal)">high-capacity signalling</text>
+            <text class="hcs-l" x="500" y="266" text-anchor="middle" style="fill:var(--teal);font-weight:600">▲ metro-grade signalling ends at Clayton</text>
+          </g>
+        </svg>
+      </figure>
+      <p class="note">Three "2"s and a "4+": the corridor is double-track almost the whole way. The elevated Caulfield–Dandenong rebuild removed level crossings but was laid as two tracks (with provision for four). And the high-capacity signalling that makes 2-minute headways possible was descoped to end at Clayton — the growth corridor beyond it still runs conventional signals.</p>
+    </div>
+
+    <div class="grid2" style="margin-top:26px">
+      <div class="body-col">
+        <p class="lead">So the corridor was never "world-class to Dandenong." It is a busy <strong>two-track railway</strong> that both the Cranbourne and Pakenham lines have to share — every train, express or stopping, runs on the same pair of rails.</p>
+        <p>The <strong>skyrail</strong> was a genuine win on one axis: it removed the level crossings where boom gates were down for large chunks of peak hour, ending the road-versus-rail conflict. But it added <em>no</em> extra tracks. A $1&nbsp;billion plan to add a third track (Caulfield–Dandenong) was floated back in 2006 and repeatedly cut back; the once-in-a-generation chance to build four tracks while the corridor was torn up was not taken.</p>
+        <p>Then the signalling was scaled back too — from a planned Watergardens–Dandenong rollout to just West Footscray–Clayton. Beyond Clayton, the newest, most crowded part of the network runs on the oldest technology.</p>
+        <p>This is why the honest diagnosis is <strong>both/and</strong>: the corridor needs more track <em>and</em> smarter timetabling. As transport scholar Paul&nbsp;Mees argued, a two-track railway run with disciplined, repeating patterns can carry far more than Melbourne extracts from it — but there are hard physical limits you cannot time-table your way around.</p>
+      </div>
+      <div>
+        <div class="pull" style="margin-top:6px">You cannot run a fast express past a slow stopper if there is no third rail to pass on.<span class="by">— the overtaking problem, in one line</span></div>
+        <div class="figure" style="margin-top:20px;padding:20px 22px">
+          <div class="cap"><h3 style="font-size:15px">The express idea, stated plainly</h3></div>
+          <p class="note" style="margin-top:4px">Your proposal: <strong>all-stations to Dandenong, then express to the city.</strong> It is exactly how a well-run zonal railway <em>should</em> serve a long outer corridor — the question is whether today's two tracks can deliver it. The diagram below shows why not, and what would.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diagram B: overtaking problem + flighting -->
+    <div class="figure hoverable" style="margin-top:26px">
+      <div class="cap"><h3>Why "express from Dandenong" stalls on two tracks — and the time-slicing workaround</h3><span class="src">Analysis after Mees (2007)</span></div>
+      <figure>
+        <svg viewBox="0 0 960 250" role="img" aria-label="Two panels. Left: on a single pair of tracks an express train from Dandenong catches the all-stops train ahead and cannot pass, marked with a cross. Right: time-slicing groups the stopping trains together, then releases an express into the clear gap behind them.">
+          <!-- panel divider -->
+          <line x1="480" y1="30" x2="480" y2="230" stroke="var(--line)" stroke-width="1"/>
+
+          <!-- PANEL 1 -->
+          <text class="panel-t" x="40" y="42">1 · Two tracks — the express stalls</text>
+          <line class="trk-line" x1="55" y1="120" x2="440" y2="120"/>
+          <line class="trk-line" x1="55" y1="128" x2="440" y2="128"/>
+          <text class="trk-stn-l" x="55" y="152" text-anchor="start" style="fill:var(--accent)">Dandenong</text>
+          <text class="trk-stn-l" x="440" y="152" text-anchor="end">City →</text>
+          <!-- express behind -->
+          <rect class="train-exp" x="95" y="108" width="70" height="26" rx="4"/>
+          <text class="train-l" x="130" y="125" text-anchor="middle">EXPRESS</text>
+          <!-- stopper ahead -->
+          <rect class="train-stop" x="320" y="108" width="78" height="26" rx="4"/>
+          <text class="train-l" x="359" y="125" text-anchor="middle">ALL-STOPS</text>
+          <!-- can't pass X -->
+          <g class="xmark"><line x1="235" y1="106" x2="263" y2="134"/><line x1="263" y1="106" x2="235" y2="134"/></g>
+          <text class="panel-cap" x="249" y="96" text-anchor="middle" style="fill:var(--brick);font-weight:600">can't pass</text>
+          <text class="panel-cap" x="40" y="188">The express catches the stopper within minutes and is</text>
+          <text class="panel-cap" x="40" y="206">stuck behind it to Caulfield — so it saves almost nothing.</text>
+
+          <!-- PANEL 2 -->
+          <text class="panel-t" x="520" y="42">2 · Time-slicing (flighting) — batch, then release</text>
+          <line class="trk-line" x1="525" y1="120" x2="915" y2="120"/>
+          <line class="trk-line" x1="525" y1="128" x2="915" y2="128"/>
+          <text class="trk-stn-l" x="525" y="152" text-anchor="start" style="fill:var(--accent)">Dandenong</text>
+          <text class="trk-stn-l" x="915" y="152" text-anchor="end">City →</text>
+          <!-- flight of stoppers bunched -->
+          <rect class="train-stop" x="770" y="109" width="40" height="24" rx="3"/><text class="train-l" x="790" y="125" text-anchor="middle">S</text>
+          <rect class="train-stop" x="815" y="109" width="40" height="24" rx="3"/><text class="train-l" x="835" y="125" text-anchor="middle">S</text>
+          <rect class="train-stop" x="860" y="109" width="40" height="24" rx="3"/><text class="train-l" x="880" y="125" text-anchor="middle">S</text>
+          <!-- express released into the gap -->
+          <rect class="train-exp" x="560" y="109" width="60" height="24" rx="3"/><text class="train-l" x="590" y="125" text-anchor="middle">EXP</text>
+          <!-- gap indicator -->
+          <path d="M632,150 L758,150" stroke="var(--teal)" stroke-width="1.5" marker-start="url(#a)" marker-end="url(#a)"/>
+          <text class="panel-cap" x="695" y="168" text-anchor="middle" style="fill:var(--teal)">clear gap</text>
+          <text class="panel-cap" x="520" y="188">Group the stoppers, hold the express, then release it into</text>
+          <text class="panel-cap" x="520" y="206">the clear window: a faster outer trip — but bigger gaps,</text>
+          <text class="panel-cap" x="520" y="224">lower total frequency, and no room for error.</text>
+          <defs><marker id="a" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><circle cx="3.5" cy="3.5" r="2.5" fill="var(--teal)"/></marker></defs>
+        </svg>
+      </figure>
+      <p class="note">Time-slicing needs no new concrete — it is a timetable change — but it trades away the even, turn-up-and-go frequency the Metro Tunnel was built to deliver. It buys speed with headway. The complete fix restores both by adding a rail to overtake on.</p>
+    </div>
+
+    <!-- Verdict table -->
+    <div class="sec-head" style="margin:44px 0 18px"><span class="eyebrow">The verdict</span><h2 style="font-size:clamp(22px,3vw,30px)">Four ways to give the outer corridor a faster trip</h2></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Option</th><th>What it is</th><th>New track?</th><th>Speed gain for outer trips</th><th>The catch</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k">Time-slicing / flighting</td>
+            <td>Group stoppers, then release an express in the gap — a pure timetable change</td>
+            <td>No</td>
+            <td>Moderate</td>
+            <td>Lower, uneven frequency; fragile to any delay; partly undoes metro-style service</td>
+          </tr>
+          <tr>
+            <td class="k">Targeted overtaking loops</td>
+            <td>Short 3rd-track sections (e.g. Westall, Clayton, Springvale) so an express can pass a stopper</td>
+            <td>Some</td>
+            <td>Good</td>
+            <td>Cheaper than full four-tracking but still major works; helps one direction at a time</td>
+          </tr>
+          <tr>
+            <td class="k">Four-track + fix the pinch</td>
+            <td>Dedicated express pair Dandenong→Caulfield <em>and</em> unblock Caulfield–Sth&nbsp;Yarra</td>
+            <td>Yes (major)</td>
+            <td>High — 15+ min saved</td>
+            <td>Costly; the inner-city pinch must be solved too or downstream gains are wasted</td>
+          </tr>
+          <tr>
+            <td class="k">Extend HCS past Clayton</td>
+            <td>Push metro-grade signalling out to Dandenong and the branches</td>
+            <td>No (signalling)</td>
+            <td>Frequency, not speed</td>
+            <td>Was descoped; now needs a future project to fund it</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:16px;max-width:82ch">Bottom line: <strong>your express instinct is right, and time-slicing can deliver a version of it now</strong> — but only as a trade against frequency. The reason it feels like it "should just work" and doesn't is the missing third rail. The durable answer is overtaking capacity plus signalling that actually reaches the growth corridor; flighting is the interim move while that is built.</p>
+  </div>
+</section>
+
+<!-- ============ 7. CRITICAL APPRAISAL ============ -->
+<section id="appraisal">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">07 — A critical appraisal</span>
+      <h2>Is the tunnel actually paying off for Casey and Cardinia?</h2>
+      <p>A fair challenge deserves a fair answer. The charge: <strong>$12.8–14 billion was spent, and the outer south-east got almost nothing for it</strong> — off-peak trains still come every 10 minutes to Dandenong and every 20 to Pakenham, exactly as before. The benchmark below shows how far that sits from what "metro" frequency means elsewhere.</p>
+    </div>
+
+    <!-- Frequency benchmark chart -->
+    <div class="figure hoverable">
+      <div class="cap"><h3>Minutes between trains — the growth corridor vs the world's metros</h3><span class="src">TfL · Sydney Metro · PTV</span></div>
+      <figure>
+        <svg viewBox="0 0 720 380" role="img" aria-label="Grouped bar chart of minutes between trains, peak and off-peak. London Victoria line 1.7 peak / 3 off-peak; London Elizabeth core 2.5 / 5; Sydney Metro 4 / 10; Melbourne trunk 3.5 / 10; Pakenham-Cranbourne per line 8 peak / 20 off-peak.">
+          <!-- legend -->
+          <g>
+            <rect class="bar-s1" x="210" y="14" width="14" height="14" rx="3"/>
+            <text class="c-label" x="230" y="26">peak</text>
+            <rect class="bar-accent" x="286" y="14" width="14" height="14" rx="3"/>
+            <text class="c-label" x="306" y="26">off-peak</text>
+            <text class="c-axis" x="700" y="26" text-anchor="end">minutes between trains — lower is better</text>
+          </g>
+          <!-- gridlines + x labels -->
+          <g class="c-grid">
+            <line x1="332.5" y1="44" x2="332.5" y2="345"/>
+            <line x1="455"   y1="44" x2="455"   y2="345"/>
+            <line x1="577.5" y1="44" x2="577.5" y2="345"/>
+            <line x1="700"   y1="44" x2="700"   y2="345"/>
+          </g>
+          <g class="c-axis" text-anchor="middle">
+            <text x="332.5" y="362">5</text>
+            <text x="455" y="362">10</text>
+            <text x="577.5" y="362">15</text>
+            <text x="700" y="362">20 min</text>
+          </g>
+          <!-- rows -->
+          <!-- helper: xstart=210 scale=24.5 -->
+          <g>
+            <!-- Row1 Victoria c=70 -->
+            <text class="c-label" x="200" y="66" text-anchor="end">London — Victoria</text>
+            <rect class="bar-s1" x="210" y="51" width="41.65" height="17" rx="3"/><text class="c-val" x="257" y="65">1.7</text>
+            <rect class="bar-accent" x="210" y="72" width="73.5" height="17" rx="3"/><text class="c-val" x="289" y="86">3</text>
+            <!-- Row2 Elizabeth c=132 -->
+            <text class="c-label" x="200" y="128" text-anchor="end">London — Elizabeth</text>
+            <rect class="bar-s1" x="210" y="113" width="61.25" height="17" rx="3"/><text class="c-val" x="277" y="127">2.5</text>
+            <rect class="bar-accent" x="210" y="134" width="122.5" height="17" rx="3"/><text class="c-val" x="338" y="148">5</text>
+            <!-- Row3 Sydney Metro c=194 -->
+            <text class="c-label" x="200" y="190" text-anchor="end">Sydney Metro</text>
+            <rect class="bar-s1" x="210" y="175" width="98" height="17" rx="3"/><text class="c-val" x="314" y="189">4</text>
+            <rect class="bar-accent" x="210" y="196" width="245" height="17" rx="3"/><text class="c-val" x="461" y="210">10</text>
+            <!-- Row4 Melb trunk c=256 (highlight) -->
+            <text class="c-label" x="200" y="252" text-anchor="end" style="fill:var(--brick);font-weight:600">Melb trunk*</text>
+            <rect class="bar-s1" x="210" y="237" width="85.75" height="17" rx="3"/><text class="c-val" x="302" y="251">3.5</text>
+            <rect class="bar-accent" x="210" y="258" width="245" height="17" rx="3"/><text class="c-val" x="461" y="272">10</text>
+            <!-- Row5 Pakenham/Cranbourne c=318 (highlight, worst) -->
+            <text class="c-label" x="200" y="314" text-anchor="end" style="fill:var(--brick);font-weight:600">Pakenham/Cranbourne†</text>
+            <rect class="bar-brick" x="210" y="299" width="196" height="17" rx="3"/><text class="c-val" x="412" y="313" style="fill:var(--brick)">8</text>
+            <rect class="bar-brick" x="210" y="320" width="490" height="17" rx="3" opacity="0.55"/><text class="c-val" x="700" y="334" text-anchor="end" style="fill:#fff">20</text>
+          </g>
+          <line class="c-base" x1="210" y1="44" x2="210" y2="345"/>
+        </svg>
+      </figure>
+      <p class="note">*Combined Cranbourne + Pakenham on the Dandenong–City trunk, peak. †Per line, outer sections. The trunk holds its own against Sydney Metro in <em>peak</em> — but off-peak, and out where the people live, the corridor runs at 2× Sydney Metro's off-peak gap and roughly 10× a London tube. <strong>Caveat:</strong> these are line-level published frequencies, and it isn't perfectly like-for-like — the Victoria, Elizabeth and Sydney Metro lines are purpose-built, grade-separated metros with signalling end-to-end, not 58 km suburban lines on shared two-track. That difference is part of <em>why</em> Melbourne can't simply dial the frequency up.</p>
+    </div>
+
+    <!-- Two-column balanced critique -->
+    <div class="grid2" style="margin-top:28px">
+      <div class="figure" style="border-top:3px solid var(--brick)">
+        <div class="cap"><h3 style="color:var(--brick)">Where the critique is right</h3></div>
+        <div class="body-col" style="max-width:none">
+          <p><strong>Off-peak didn't move.</strong> A multi-billion-dollar tunnel opened and daytime frequency to the corridor is unchanged — every 10 min to Dandenong, every 20 per line. Riders noticed, and said so.</p>
+          <p><strong>The benefit landed inner, not outer.</strong> The five new stations — Parkville, State Library, Town Hall, Arden, Anzac — serve hospitals, universities and the CBD. Real value, but not for a Clyde or Pakenham commuter.</p>
+          <p><strong>"Metro" frequency can't even reach you.</strong> High-capacity signalling stops at Clayton; beyond it, the growth corridor is physically capped by 1970s-era signals and two tracks.</p>
+          <p><strong>The global gap is not small.</strong> Sydney Metro runs off-peak twice as often; London's busiest lines, ten times. Melbourne branded this "metro" — the outer corridor doesn't get metro service.</p>
+        </div>
+      </div>
+      <div class="figure" style="border-top:3px solid var(--teal)">
+        <div class="cap"><h3 style="color:var(--teal)">Where it's fairer to the tunnel</h3></div>
+        <div class="body-col" style="max-width:none">
+          <p><strong>It did add real capacity.</strong> Room for ~39,000 more peak passengers a day, and it untangled Cranbourne/Pakenham from the City Loop — which lifts reliability across the whole line.</p>
+          <p><strong>It's an enabling asset, back-loaded.</strong> Big rail pays off over decades. London's Elizabeth line took two years to beat forecasts; judging a 100-year tube at 18 months is premature.</p>
+          <p><strong>The CBD throat was a genuine bottleneck.</strong> Without the tunnel, no amount of outer-corridor frequency could reach the city — the core had no room. It had to come first.</p>
+          <p><strong>The tunnel was never the fix for your frequency.</strong> That was always a separate job — signalling past Clayton, more track, all-day service — which was descoped or deferred. Blaming the tube for that is aiming at the wrong target.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull" style="margin-top:28px;max-width:46ch">The tunnel isn't failing — it's incomplete and mis-sequenced. $14&nbsp;billion bought CBD capacity while the growth corridor still runs 20-minute off-peak trains on 1970s signals. Judge the program, not the tube.<span class="by">— the critical verdict</span></div>
+  </div>
+</section>
+
+<!-- ============ 8. GLOBAL LESSONS ============ -->
+<section id="global">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">08 — How complex cities solved it</span>
+      <h2>Three cities that turned a congested corridor into a spine</h2>
+      <p>None of these places had an easy geography. Each faced sprawl, car-dependence or a legacy network at capacity — the same constraints as Melbourne's south-east — and each chose rail as the answer.</p>
+    </div>
+
+    <div class="cases">
+      <div class="case">
+        <div class="band"><span class="city">Perth</span><span class="flag">Australia</span></div>
+        <div class="big"><div class="n tnum">130<span style="font-size:.5em">km/h</span></div><div class="u">Fast rail built in the freeway median — Mandurah &amp; airport lines</div></div>
+        <div class="body"><p><span class="did">What they did:</span> ran high-speed electric rail down the middle of existing freeways, with clock-face timetables, a <strong>15-minute minimum</strong> frequency network-wide, and buses timed to meet every train.</p>
+        <p>From a weak base, Perth rose to <strong>third in Australia</strong> for public-transport trips per person.</p></div>
+        <div class="lesson"><b>Lesson for the corridor</b>Frequency, simplicity and speed beat parking. Build rail into the road reserves you already own, and make the timetable so frequent nobody consults it.</div>
+      </div>
+
+      <div class="case">
+        <div class="band"><span class="city">London</span><span class="flag">United Kingdom</span></div>
+        <div class="big"><div class="n tnum">500M+</div><div class="u">Journeys on the Elizabeth line since 2022 — far above forecast</div></div>
+        <div class="body"><p><span class="did">What they did:</span> tunnelled a high-frequency line through the core to join outer suburbs to the centre without a change of train — the same "through-running" model Melbourne's Metro Tunnel now uses.</p>
+        <p>~1 in 3 trips are new or shifted off roads; <strong>378,000 jobs</strong> clustered near its stations; benefit-cost ratio ~<strong>1.9:1</strong>.</p></div>
+        <div class="lesson"><b>Lesson for the corridor</b>Through-running unlocks land value. Capacity plus a one-seat ride to the core reshapes where jobs and homes get built — plan the stations as growth engines.</div>
+      </div>
+
+      <div class="case">
+        <div class="band"><span class="city">Zürich · Copenhagen</span><span class="flag">CH · DK</span></div>
+        <div class="big"><div class="n tnum">10 min</div><div class="u">Or better, all day — the suburban "S-Bahn / S-tog" standard</div></div>
+        <div class="body"><p><span class="did">What they did:</span> ran suburban rail like a metro — <strong>turn-up-and-go all day</strong>, one integrated ticket across train, tram and bus, and land use ("finger plan") deliberately steered onto the rail lines.</p>
+        <p>The result is among the highest public-transport mode shares in the developed world.</p></div>
+        <div class="lesson"><b>Lesson for the corridor</b>Solve the frequency cliff. All-day frequency and one integrated fare matter more than raw speed — and only build housing where the rail already goes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. WHAT CAN BE DONE ============ -->
+<section id="do">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">09 — What can be done next</span>
+      <h2>A delivery roadmap for the south-east corridor</h2>
+      <p>The Metro Tunnel bought headroom. The task now is to push trunk-level service and access outward to where the people actually are — sequenced by lead time and cost, not treated as one distant mega-project.</p>
+    </div>
+
+    <div class="road">
+      <div class="lane now">
+        <div class="hd"><span class="n">Now · 0–2 yrs</span><h3>Run the asset harder</h3></div>
+        <ul>
+          <li><b>Close the frequency cliff.</b> Lift off-peak and outer-section service toward every 10–20 minutes until midnight, seven days — the cheapest win, using trains already delivered.</li>
+          <li><b>Trial time-slicing in peak.</b> Batch the all-stoppers and run a limited-express behind them, overtaking only where track already allows (the Caulfield group, Westall short-starts). A faster outer trip with no new concrete.</li>
+          <li><b>Feeder buses that meet trains.</b> Clock-face bus connections from Clyde and Clyde North to Cranbourne, and manage the station car-park overflow.</li>
+        </ul>
+      </div>
+      <div class="lane next">
+        <div class="hd"><span class="n">Next · 3–7 yrs</span><h3>Extend capacity &amp; reach</h3></div>
+        <ul>
+          <li><b>Extend signalling past Clayton.</b> Push high-capacity signalling out to Dandenong and the branches — the descoped section is exactly what caps frequency in the growth area.</li>
+          <li><b>Targeted overtaking track.</b> Build short third-track sections (Westall / Clayton / Springvale) so a genuine Dandenong→city express can pass a stopper — the affordable route to your express idea.</li>
+          <li><b>Ten-car trains + Clyde extension.</b> Unlock the remaining ~41,000 peak passengers/day, and build the ~5&nbsp;km, three-station extension (Cranbourne East, Casey Fields, Clyde).</li>
+        </ul>
+      </div>
+      <div class="lane later">
+        <div class="hd"><span class="n">Later · 8+ yrs</span><h3>Reshape the network</h3></div>
+        <ul>
+          <li><b>Four-track &amp; fix the pinch.</b> Build the dedicated express pair the skyrail piers were spaced for — and unblock the Caulfield–South Yarra choke point, or the downstream tracks are wasted. The complete express solution.</li>
+          <li><b>Orbital connection.</b> Deliver Suburban Rail Loop–style cross-town links so the south-east reaches jobs without every trip funnelling through the CBD.</li>
+          <li><b>TOD + demand management.</b> Build housing on the rail line, and spread the peak with pricing and flexible-work policy rather than chasing it with concrete alone.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:52px;margin-bottom:24px"><span class="eyebrow">The governance lesson</span><h2 style="font-size:clamp(22px,3vw,30px)">What a growth corridor should learn from all of this</h2></div>
+    <div class="takeaways">
+      <div class="tk"><div><h4>Sequence transport with land, not after it</h4><p>Every city that succeeded steered housing onto the rail line. Melbourne's fringe does the reverse — approve the estate, retrofit the train. Bind rezoning to committed transport capacity.</p></div></div>
+      <div class="tk"><div><h4>Build the whole cross-section while the corridor is open</h4><p>When the line was torn up for level-crossing removal, the marginal cost of the extra tracks and full signalling was the lowest it will ever be. Laying two tracks not four, and stopping the signalling at Clayton, saved money once — and will cost more, forever. Never descope the once-in-a-generation dig.</p></div></div>
+      <div class="tk"><div><h4>Through-running multiplies the value of a tunnel</h4><p>London and now Melbourne show the one-seat ride to the core is what reshapes job and housing markets. Treat stations as growth engines with explicit benefit targets.</p></div></div>
+      <div class="tk"><div><h4>Deliver in stages with a benefits ledger</h4><p>Break the fix into Now / Next / Later increments, each with measurable outcomes — minutes saved, riders added, cars removed — instead of betting everything on one distant mega-project.</p></div></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <h3>Sources</h3>
+    <div class="srcs">
+      <a href="https://www.id.com.au/insights/articles/population-growth-and-decline-by-lga-in-2024/">.id — Population growth and decline by LGA, 2024 (City of Casey 405,415)</a>
+      <a href="https://cranbournenews.starcommunity.com.au/news/2026-09-01/state-election-26-ptua-calls-for-clyde-rail-bus-and-train-boost/">Cranbourne News — PTUA calls for Clyde rail, bus and train boost (2026)</a>
+      <a href="https://en.wikipedia.org/wiki/Pakenham_line">Pakenham line — route, journey time, HCMT, Metro Tunnel</a>
+      <a href="https://en.wikipedia.org/wiki/Cranbourne_line">Cranbourne line — length, duplication, frequency</a>
+      <a href="https://australiainstitute.org.au/wp-content/uploads/2020/12/DP78_8.pdf">The Australia Institute — "Off to Work: Commuting in Australia"</a>
+      <a href="https://www.infrastructureaustralia.gov.au/sites/default/files/2019-08/Urban%20Transport%20Crowding%20and%20Congestion%20Fact%20Sheet%20-%20Melbourne%20and%20Geelong.pdf">Infrastructure Australia — Melbourne &amp; Geelong crowding &amp; congestion fact sheet</a>
+      <a href="https://en.wikipedia.org/wiki/Metro_Tunnel">Metro Tunnel — capacity uplift, signalling, cost</a>
+      <a href="https://bigbuild.vic.gov.au/projects/metro-tunnel/about/benefits">Victoria's Big Build — Metro Tunnel benefits &amp; new stations</a>
+      <a href="https://adventuresintransitland.substack.com/p/nine-public-transport-lessons-from">Adventures in Transitland — Nine public-transport lessons from Perth</a>
+      <a href="https://www.ianvisits.co.uk/articles/elizabeth-line-beats-forecasts-with-over-500-million-journeys-since-it-opened-78364/">ianVisits — Elizabeth line beats forecasts (500M+ journeys)</a>
+      <a href="https://www.alstom.com/press-releases-news/2024/12/how-commuter-rail-can-boost-local-economy-look-londons-elizabeth-line">Alstom — Elizabeth line economic impact (jobs, BCR)</a>
+      <a href="https://danielbowen.com/2016/02/09/how-many-tracks/">Daniel Bowen — "How many tracks?" (2-track constraint, express running)</a>
+      <a href="https://australasiantransportforum.org.au/wp-content/uploads/2022/03/2007_Mees.pdf">Paul Mees — "Infrastructure constraints or poor service planning?" (2007)</a>
+      <a href="https://wongm.com/2026/03/metro-tunnel-project-demolishing-the-descoped-cbtc-equipment-westall-springvale/">Marcus Wong (wongm) — HCS descoped to Clayton</a>
+      <a href="https://www.apartments.com.au/news/comment-the-dandenong-line-and-quadruplication">Comment — The Dandenong line and quadruplication</a>
+      <a href="https://en.wikipedia.org/wiki/Dandenong_railway_line_triplication">Dandenong line triplication — history &amp; scope cuts</a>
+      <a href="https://danielbowen.com/2026/01/12/big-switch-timetable-released/">Daniel Bowen — Big Switch timetable (Feb 2026 frequencies)</a>
+      <a href="https://dandenong.starcommunity.com.au/news/2026-01-25/peak-time-trains-every-3-minutes/">Dandenong Star — Peak trains every 3 minutes (post-tunnel)</a>
+      <a href="https://www.railwaymagazine.co.uk/2662/victoria-line-introduces-record-frequency/">Railway Magazine — Victoria line 36 tph / every 100 seconds</a>
+      <a href="https://www.metrofare.in/en/australia/sydney-metro/timings/">Sydney Metro — service frequency (peak/off-peak)</a>
+      <a href="https://londontimenow.co.uk/elizabeth-line-timetable/">Elizabeth line timetable — core frequency</a>
+    </div>
+    <p class="disc">Prepared for the CivicLens corridor study, September 2026. Figures are drawn from the public sources listed above and are indicative: population and congestion projections carry uncertainty, journey and frequency figures reflect published timetables and may vary by time of day and service disruptions. Wellbeing findings are population-level research associations, not clinical statements about individuals. This document is analysis and advocacy for discussion, not government policy.</p>
+  </div>
+</footer>
+
+<div id="tip" role="status" aria-live="off"></div>
+<script>
+(function(){
+  var tip=document.getElementById('tip');
+  function show(e){
+    var t=e.currentTarget.getAttribute('data-tip'); if(!t)return;
+    tip.textContent=t; tip.style.opacity='1';
+    move(e);
+  }
+  function move(e){
+    var x=e.clientX, y=e.clientY, pad=14;
+    var w=tip.offsetWidth, h=tip.offsetHeight;
+    var lx=x+pad, ly=y+pad;
+    if(lx+w>window.innerWidth-8) lx=x-w-pad;
+    if(ly+h>window.innerHeight-8) ly=y-h-pad;
+    tip.style.left=lx+'px'; tip.style.top=ly+'px';
+  }
+  function hide(){ tip.style.opacity='0'; }
+  var nodes=document.querySelectorAll('[data-tip]');
+  for(var i=0;i<nodes.length;i++){
+    nodes[i].addEventListener('mouseenter',show);
+    nodes[i].addEventListener('mousemove',move);
+    nodes[i].addEventListener('mouseleave',hide);
+  }
+})();
+</script>
+</body>
+</html>
