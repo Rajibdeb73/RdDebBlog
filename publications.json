@@ -1,5 +1,25 @@
 [
   {
+    "file": "Casey_City_Council_Performance_Critique.html",
+    "title": "City of Casey — Performance Critique",
+    "nav": "Casey Critique",
+    "date": "2026-10-26",
+    "desc": "Finance · asset renewal gap · operations · residents",
+    "category": "City of Casey",
+    "tags": [
+      "Budget",
+      "Asset Renewal",
+      "Satisfaction",
+      "Governance"
+    ],
+    "icon": "🏛️",
+    "accent": "#0B1F3A",
+    "accent2": "#F59E0B",
+    "metric": "51 vs 58",
+    "metricLabel": "Satisfaction vs State",
+    "badge": "Live"
+  },
+  {
     "file": "cranbourne_pakenham_commute_report.html",
     "title": "Cranbourne & Pakenham → City — The 3-Hour Commute",
     "nav": "★ 3-Hr Commute",

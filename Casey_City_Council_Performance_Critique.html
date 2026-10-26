@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City of Casey — Performance Critique 2026</title>
+<meta name="pub:title" content="City of Casey — Performance Critique">
+<meta name="pub:nav" content="Casey Critique">
+<meta name="pub:date" content="2026-10-26">
+<meta name="pub:desc" content="Finance · asset renewal gap · operations · residents' problems · governance &amp; trust · 10 measurable actions">
+<meta name="pub:category" content="City of Casey">
+<meta name="pub:tags" content="Budget, Asset Renewal, Satisfaction, Governance">
+<meta name="pub:icon" content="🏛️">
+<meta name="pub:accent" content="#0B1F3A">
+<meta name="pub:accent2" content="#F59E0B">
+<meta name="pub:metric" content="51 vs 58">
+<meta name="pub:metricLabel" content="Satisfaction vs State">
+<meta name="pub:badge" content="Live">
+<meta name="description" content="CivicLens independent critique of City of Casey performance: finance, operations, residents' problems and governance, built from public budget papers, regulator data and the 2026 Community Satisfaction Survey.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --navy:#0B1F3A;--navy-2:#13294B;--navy-3:#1E3A5F;--navy-l:#E8EEF6;
+  --teal:#0F766E;--teal-m:#14B8A6;--teal-l:#E6F6F4;
+  --amber:#B45309;--amber-m:#F59E0B;--amber-l:#FEF5E4;
+  --red:#B42318;--red-m:#E5484D;--red-l:#FDECEC;
+  --ink:#0F172A;--ink-2:#334155;--ink-3:#5B6B82;
+  --rule:#E2E8F0;--surface:#F6F8FB;--white:#FFFFFF;
+  --r:12px;--r-lg:16px;
+  --sh:0 1px 2px rgba(11,31,58,.06),0 2px 8px rgba(11,31,58,.05);
+}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--surface);color:var(--ink);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--teal)}
+.mono{font-family:'DM Mono',monospace}
+
+/* Site bar */
+.sitebar{background:#071427;border-bottom:2px solid var(--amber-m);position:sticky;top:0;z-index:300}
+.sitebar-in{max-width:1220px;margin:0 auto;padding:0 24px;height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:'DM Serif Display',serif;font-size:18px;color:#fff;text-decoration:none;white-space:nowrap}
+.brand span{color:var(--amber-m)}
+.sitebar small{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back{font-size:12px;color:var(--amber-m);text-decoration:none;border:1px solid rgba(245,158,11,.35);padding:5px 12px;border-radius:6px;white-space:nowrap}
+
+/* Cover */
+.cover{background:radial-gradient(ellipse at 85% 0%,rgba(20,184,166,.18),transparent 55%),radial-gradient(ellipse at 0% 100%,rgba(245,158,11,.14),transparent 50%),var(--navy);color:#fff;padding:56px 24px 40px}
+.cover-in{max-width:1220px;margin:0 auto}
+.kicker{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.kicker::before{content:'';width:26px;height:1px;background:var(--amber-m)}
+.cover h1{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(34px,5.4vw,58px);line-height:1.05;letter-spacing:-.01em;max-width:900px}
+.cover h1 em{color:var(--amber-m);font-style:italic}
+.cover .lede{font-size:17px;color:rgba(255,255,255,.75);max-width:760px;margin:18px 0 28px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
+.chip{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.85)}
+.chip.hot{background:rgba(229,72,77,.18);border-color:rgba(229,72,77,.45);color:#FFC9CB}
+.statrow{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid rgba(255,255,255,.12);padding-top:22px;gap:18px}
+.cs label{display:block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:4px}
+.cs .v{font-family:'DM Serif Display',serif;font-size:30px;line-height:1}
+.cs .s{font-size:12px;color:rgba(255,255,255,.6);margin-top:4px}
+.cs .v.bad{color:#FF9EA1}.cs .v.warn{color:var(--amber-m)}.cs .v.ok{color:#7EE3D6}
+
+/* Tabs */
+.tabs{background:var(--white);border-bottom:1px solid var(--rule);position:sticky;top:44px;z-index:250;box-shadow:var(--sh)}
+.tabs-in{max-width:1220px;margin:0 auto;padding:0 16px;display:flex;overflow-x:auto;scrollbar-width:none}
+.tabs-in::-webkit-scrollbar{display:none}
+.tab{appearance:none;background:none;border:none;border-bottom:3px solid transparent;font:600 13.5px 'DM Sans',sans-serif;color:var(--ink-3);padding:14px 14px 11px;cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--navy)}
+.tab[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--amber-m)}
+.tab .n{font-family:'DM Mono',monospace;font-size:11px;color:var(--amber);margin-right:6px}
+
+/* Layout */
+main{max-width:1220px;margin:0 auto;padding:40px 24px 64px}
+.panel{display:none}.panel.active{display:block}
+.eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:8px}
+h2{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(28px,3.4vw,38px);line-height:1.1;color:var(--navy);margin-bottom:12px}
+h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:8px;line-height:1.3}
+.intro{font-size:16px;color:var(--ink-2);max-width:820px;margin-bottom:28px}
+.sec{margin-top:40px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.g32{display:grid;grid-template-columns:3fr 2fr;gap:18px}
+.card{background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);padding:22px 24px;box-shadow:var(--sh)}
+.card p{color:var(--ink-2);font-size:14.5px}
+.card p+p{margin-top:10px}
+.kpi{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh)}
+.kpi .l{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.kpi .v{font-family:'DM Serif Display',serif;font-size:30px;line-height:1;color:var(--navy)}
+.kpi .s{font-size:12.5px;color:var(--ink-3);margin-top:6px;line-height:1.45}
+.kpi.bad .v{color:var(--red)}.kpi.warn .v{color:var(--amber)}.kpi.ok .v{color:var(--teal)}
+.chartbox{position:relative;height:300px}
+.chartbox.tall{height:380px}
+.cap{font-size:12.5px;color:var(--ink-3);margin-top:10px}
+
+/* Findings */
+.find{background:var(--white);border:1px solid var(--rule);border-left:4px solid var(--red-m);border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh)}
+.find.amber{border-left-color:var(--amber-m)}
+.find.teal{border-left-color:var(--teal-m)}
+.find .tag{display:inline-block;font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:10px;margin-bottom:8px;background:var(--red-l);color:var(--red)}
+.find.amber .tag{background:var(--amber-l);color:var(--amber)}
+.find.teal .tag{background:var(--teal-l);color:var(--teal)}
+.find p{font-size:14px;color:var(--ink-2)}
+.find .ev{margin-top:10px;font-size:12.5px;color:var(--ink-3);border-top:1px dashed var(--rule);padding-top:8px}
+.ref{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);text-decoration:none;vertical-align:super}
+
+/* Scorecard */
+.score{width:100%;border-collapse:collapse;font-size:14px;background:var(--white);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
+.score th{background:var(--navy);color:#fff;text-align:left;font:500 11px 'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:12px 14px}
+.score td{padding:12px 14px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink-2)}
+.score td:first-child{font-weight:600;color:var(--navy);white-space:nowrap}
+.grade{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;font-family:'DM Serif Display',serif;font-size:20px;color:#fff}
+.gA{background:var(--teal)}.gB{background:#3E8E7E}.gC{background:var(--amber-m);color:var(--navy)}.gD{background:#D9622B}.gF{background:var(--red)}
+.tblwrap{overflow-x:auto;border-radius:var(--r-lg)}
+
+/* Callouts */
+.callout{border-radius:var(--r-lg);padding:20px 22px;margin:22px 0;font-size:14.5px;line-height:1.7;border:1px solid}
+.callout.navy{background:var(--navy-l);border-color:#C9D6E8;color:var(--navy)}
+.callout.amber{background:var(--amber-l);border-color:#F6D9A6;color:#7A3E06}
+.callout.red{background:var(--red-l);border-color:#F5C2C3;color:#7A1A14}
+.callout.teal{background:var(--teal-l);border-color:#B8E5DF;color:#0B4F49}
+.callout strong{font-weight:700}
+
+/* Lists */
+.ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.ul li{position:relative;padding-left:18px;font-size:14px;color:var(--ink-2)}
+.ul li::before{content:'';position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:2px;background:var(--amber-m)}
+.ul.t li::before{background:var(--teal-m)}
+.ul.r li::before{background:var(--red-m)}
+
+/* Context split */
+.split{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;background:var(--white);box-shadow:var(--sh)}
+.split>div{padding:20px 22px}
+.split>div:first-child{border-right:1px solid var(--rule);background:#FFFBF5}
+.split h4{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+
+/* Recs */
+.rec{display:flex;gap:16px;background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh)}
+.rec .num{flex:0 0 38px;height:38px;border-radius:50%;background:var(--navy);color:var(--amber-m);font-family:'DM Serif Display',serif;font-size:19px;display:flex;align-items:center;justify-content:center}
+.rec .meta{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
+.rec p{font-size:14px;color:var(--ink-2)}
+.rec .kpit{margin-top:8px;font-size:12.5px;color:var(--teal);font-weight:600}
+
+/* Glossary */
+.gloss{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.gl{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:14px 16px}
+.gl dt{font-weight:700;color:var(--navy);font-size:14.5px;margin-bottom:4px}
+.gl dd{font-size:13.5px;color:var(--ink-2)}
+.search{width:100%;max-width:420px;padding:11px 14px;border:1px solid var(--rule);border-radius:10px;font:15px 'DM Sans',sans-serif;margin-bottom:18px;background:var(--white)}
+
+/* Sources */
+ol.src{padding-left:22px;display:flex;flex-direction:column;gap:8px}
+ol.src li{font-size:13.5px;color:var(--ink-2)}
+ol.src li a{word-break:break-word}
+
+footer{background:var(--navy);color:rgba(255,255,255,.6);font-size:12.5px;padding:28px 24px}
+footer .in{max-width:1220px;margin:0 auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer strong{color:#fff}
+
+@media (max-width:1000px){
+  .statrow{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g32{grid-template-columns:1fr}
+}
+@media (max-width:680px){
+  main{padding:28px 16px 48px}.cover{padding:40px 16px 30px}.sitebar-in{padding:0 16px}
+  .sitebar small{display:none}
+  .statrow{grid-template-columns:1fr 1fr}
+  .g2,.g3,.g4,.gloss,.split{grid-template-columns:1fr}
+  .split>div:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .chartbox{height:260px}.chartbox.tall{height:340px}
+  .score thead{display:none}
+  .score tr{display:grid;grid-template-columns:1fr 44px;border-bottom:1px solid var(--rule)}
+  .score td{border:none;padding:10px 14px}
+  .score td:nth-child(1){grid-column:1;padding-bottom:0}
+  .score td:nth-child(2){grid-column:2;grid-row:1;padding:8px 10px 0 0}
+  .score td:nth-child(3){grid-column:1 / -1}
+}
+@media print{
+  .sitebar,.tabs{display:none}.panel{display:block!important;page-break-before:always}
+  .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div class="sitebar"><div class="sitebar-in">
+  <a class="brand" href="index.html">Civic<span>Lens</span></a>
+  <small>Victoria · City of Casey · Performance Critique · October 2026</small>
+  <a class="back" href="index.html">← All reports</a>
+</div></div>
+
+<header class="cover"><div class="cover-in">
+  <div class="kicker">Independent critique · Finance · Operations · Residents · Governance</div>
+  <h1>City of Casey: a growth council that is <em>building fast but not keeping up</em></h1>
+  <p class="lede">Victoria's most populous municipality runs an $688 million budget, posts nine-figure accounting surpluses and talks of being debt-free. Yet residents rate it below the State and its growth-area peers, only one in four trust its decisions, and its own budget papers show it is not renewing the assets it already owns. This report sets out where the council is falling short, using its own numbers.</p>
+  <div class="chips">
+    <span class="chip">Population ~444,700 (2026 forecast)</span>
+    <span class="chip">12 wards · elected council restored Oct 2024</span>
+    <span class="chip">Budget 2026/27: $688M</span>
+    <span class="chip hot">Overall satisfaction 51 vs State 58</span>
+    <span class="chip hot">Renewal gap ≈ $141M to 2030</span>
+    <span class="chip">Published 26 October 2026</span>
+  </div>
+  <div class="statrow">
+    <div class="cs"><label>Trust in decisions</label><div class="v bad">26%</div><div class="s">high or complete trust (2026)</div></div>
+    <div class="cs"><label>Spending public funds</label><div class="v bad">46</div><div class="s">lowest core score · State 51</div></div>
+    <div class="cs"><label>Adjusted underlying</label><div class="v bad">−$19.8M</div><div class="s">2026/27 budget</div></div>
+    <div class="cs"><label>Renewal vs depreciation</label><div class="v warn">69%</div><div class="s">2026/27 (100% = keeping pace)</div></div>
+    <div class="cs"><label>Planning decisions</label><div class="v warn">102 days</div><div class="s">median 2024/25 · 60-day statutory clock</div></div>
+    <div class="cs"><label>Waste service</label><div class="v ok">73</div><div class="s">best-rated service · above State</div></div>
+  </div>
+</div></header>
+
+<nav class="tabs" aria-label="Report sections"><div class="tabs-in" role="tablist">
+  <button class="tab" role="tab" data-tab="verdict" aria-selected="true"><span class="n">01</span>Verdict</button>
+  <button class="tab" role="tab" data-tab="finance" aria-selected="false"><span class="n">02</span>Finance</button>
+  <button class="tab" role="tab" data-tab="operations" aria-selected="false"><span class="n">03</span>Operations</button>
+  <button class="tab" role="tab" data-tab="residents" aria-selected="false"><span class="n">04</span>Residents' problems</button>
+  <button class="tab" role="tab" data-tab="governance" aria-selected="false"><span class="n">05</span>Governance &amp; trust</button>
+  <button class="tab" role="tab" data-tab="actions" aria-selected="false"><span class="n">06</span>What Casey must do</button>
+  <button class="tab" role="tab" data-tab="glossary" aria-selected="false"><span class="n">07</span>Glossary</button>
+  <button class="tab" role="tab" data-tab="sources" aria-selected="false"><span class="n">08</span>Sources &amp; method</button>
+</div></nav>
+
+<main>
+
+<!-- ============ 01 VERDICT ============ -->
+<section class="panel active" id="verdict" role="tabpanel">
+  <div class="eyebrow">01 · The verdict</div>
+  <h2>Busy, solvent, improving — and still not doing enough</h2>
+  <p class="intro">Casey is not a council in crisis. It is solvent, carries almost no debt, delivered its largest capital program on record in 2024/25 and lifted its satisfaction score in 2026. The problem is scale: a city adding roughly 12,000–14,000 people a year needs the council to run ahead of growth, and on finance, asset care, planning speed, trust and its share of resident pain points, it is running behind.</p>
+
+  <div class="tblwrap"><table class="score">
+    <thead><tr><th>Domain</th><th>Grade</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Financial sustainability</td><td><span class="grade gC">C</span></td><td>Strong balance sheet and low debt, but a recurring adjusted underlying deficit (ESC four-year average −5.9%) and a −$19.8M budgeted result for 2026/27. Headline surpluses are mostly developer-gifted assets, not cash.</td></tr>
+      <tr><td>Asset stewardship</td><td><span class="grade gD">D</span></td><td>Renewal and upgrade spending has never reached depreciation in the regulator's six-year view, and the council's own projections keep it at 65–76% through 2029/30 — a cumulative gap of about $141M.</td></tr>
+      <tr><td>Capital delivery</td><td><span class="grade gB">B</span></td><td>Record $122.3M delivered in 2024/25 (87.7% of budget), but $43M still carried forward and 58% of the 2026/27 program goes to recreation and community buildings while roads get 12% and footpaths under 2%.</td></tr>
+      <tr><td>Core service operations</td><td><span class="grade gB">B</span></td><td>Waste (73) and customer service (66) are near State benchmarks; missed bins fell 72% in three years; sealed roads are 95.5% to standard. Planning remains slow at a 102-day median.</td></tr>
+      <tr><td>Responsiveness to residents</td><td><span class="grade gD">D</span></td><td>Lowest-scoring areas are the ones residents care about most: value for money (46), decisions in the community's interest (47), feedback opportunities (48). South ward and 35–64 year olds are least satisfied.</td></tr>
+      <tr><td>Governance &amp; trust</td><td><span class="grade gC">C</span></td><td>Post-administration rebuild is real (local law rewrite, no rate-cap variation), but 26% trust, a 2025 meeting abandoned amid crowd anger, a waste-station decision overturned at VCAT, and a mid-term mayoral handover to a State-election run.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">Grades are CivicLens judgements against the evidence in this report, not an official rating. A = leading practice, C = adequate with clear gaps, F = failing.</p>
+
+  <div class="sec">
+    <h3>Eight findings that matter most</h3>
+    <div class="g2" style="margin-top:14px">
+      <div class="find"><span class="tag">Finance</span><h3>The "$140M surplus" is not money residents can spend</h3><p>The 2024/25 headline surplus was $139.7M, but the cash surplus was about $6M. Strip out gifted estate assets and one-off capital grants and the council budgets an adjusted underlying deficit of $19.8M for 2026/27.</p><div class="ev">Evidence: Budget 2026/27 financial snapshot; 2024/25 result reporting <a class="ref" href="#s1">[1]</a><a class="ref" href="#s6">[6]</a></div></div>
+      <div class="find"><span class="tag">Assets</span><h3>Casey is consuming its infrastructure faster than it renews it</h3><p>In 2026/27 the council plans $64.3M of renewal and upgrade against $93.1M of depreciation. Its own four-year projections never close the gap.</p><div class="ev">Evidence: Statement of Capital Works and Income Statement, Budget 2026/27; ESC fact sheet <a class="ref" href="#s1">[1]</a><a class="ref" href="#s3">[3]</a></div></div>
+      <div class="find"><span class="tag">Residents</span><h3>Only 26% of residents trust council decisions</h3><p>A third report little or no trust. "Spending public funds" scored 46, the lowest core measure and five points below the State.</p><div class="ev">Evidence: 2026 Community Satisfaction Survey <a class="ref" href="#s4">[4]</a><a class="ref" href="#s5">[5]</a></div></div>
+      <div class="find amber"><span class="tag">Operations</span><h3>Planning permits take 102 days at the median</h3><p>The statutory clock is 60 days. A 14% improvement is welcome, but in Victoria's busiest growth council slow permits delay housing, shops and jobs.</p><div class="ev">Evidence: Star News reporting council's 2024/25 data <a class="ref" href="#s12">[12]</a></div></div>
+      <div class="find"><span class="tag">Priorities</span><h3>Safety is residents' top worry; it gets 0.2% of the budget</h3><p>Crime rose 9.1% to 23,284 incidents in the year to March 2026. The council's dedicated community-safety initiatives total about $1.2M of a $688M budget. Policing is a State job — but lighting, CCTV partnerships, youth programs and place design are not.</p><div class="ev">Evidence: CSA data via Star News; Budget 2026/27 highlights <a class="ref" href="#s9">[9]</a><a class="ref" href="#s1">[1]</a></div></div>
+      <div class="find amber"><span class="tag">Overheads</span><h3>The back office is growing faster than frontline safety</h3><p>Strategy and Innovation spending rises 39% to $28.9M in 2026/27 and IT 16% to $20.2M. Community Safety rises 1% to $16.0M. Stormwater and flood management gets $2.1M.</p><div class="ev">Evidence: Strategic services tables, Budget 2026/27 <a class="ref" href="#s1">[1]</a></div></div>
+      <div class="find"><span class="tag">Waste</span><h3>The region's last landfill is closing and there is no settled replacement</h3><p>Hallam Road is expected to fill by mid-2027 to 2028. The Hampton Park transfer station the council permitted was refused at VCAT, and the council's budget warns waste costs will rise "significantly" on retender.</p><div class="ev">Evidence: Budget 2026/27 waste section; Star News on VCAT decision <a class="ref" href="#s1">[1]</a><a class="ref" href="#s15">[15]</a></div></div>
+      <div class="find teal"><span class="tag">Credit due</span><h3>Real improvements the council should get credit for</h3><p>Overall satisfaction up 4 points; waste service above State; Victoria's most-improved council on Snap Send Solve; no rate-cap variation sought; waste charge frozen for 2026/27; a heavily criticised local law rewritten after public backlash.</p><div class="ev">Evidence: <a class="ref" href="#s4">[4]</a><a class="ref" href="#s24">[24]</a><a class="ref" href="#s1">[1]</a><a class="ref" href="#s18">[18]</a></div></div>
+    </div>
+  </div>
+
+  <div class="callout navy sec"><strong>The paradox at the heart of Casey.</strong> On the CivicLens 12-dimension digital maturity framework Casey scores 76/85 — the highest of the six Victorian councils assessed so far. It has an open data portal, a citizen self-service layer and a transformation program. Yet that technical maturity has not turned into trust: residents still say they cannot see how their input shapes decisions or how their money is spent. Casey's gap is no longer technology. It is transparency of reasoning — showing the "why" behind decisions, the trade-offs, and the results.</div>
+</section>
+
+<!-- ============ 02 FINANCE ============ -->
+<section class="panel" id="finance" role="tabpanel">
+  <div class="eyebrow">02 · Finance</div>
+  <h2>Rich on paper, thin in cash, behind on renewal</h2>
+  <p class="intro">Casey's statutory accounts look enormous because developers hand over roads, drains and parks from new estates, and those gifts count as income. The useful questions are narrower: does recurring income cover recurring costs, is the council looking after what it owns, and is money going where residents need it?</p>
+
+  <div class="g4">
+    <div class="kpi"><div class="l">Total budget 2026/27</div><div class="v">$688M</div><div class="s">$551.5M services + $136.5M capital works</div></div>
+    <div class="kpi warn"><div class="l">Operating surplus</div><div class="v">$195.9M</div><div class="s">down from $212.6M forecast for 2025/26 — mostly non-cash</div></div>
+    <div class="kpi bad"><div class="l">Adjusted underlying</div><div class="v">−$19.8M</div><div class="s">2026/27 budget; −$3.7M forecast 2025/26</div></div>
+    <div class="kpi bad"><div class="l">Cash result</div><div class="v">−$29.5M</div><div class="s">2026/27 cash deficit, after −$42.3M in 2025/26 — drawn from reserves</div></div>
+    <div class="kpi"><div class="l">Rates &amp; charges</div><div class="v">$357.9M</div><div class="s">+5.7% total; average rate +2.75% (at cap)</div></div>
+    <div class="kpi ok"><div class="l">Waste charge</div><div class="v">Frozen</div><div class="s">$4.4M drawn from the waste reserve to hold it</div></div>
+    <div class="kpi warn"><div class="l">Planned borrowing</div><div class="v">$95M</div><div class="s">2028/29–2029/30 in forecast; $135M over five years per the budget</div></div>
+    <div class="kpi"><div class="l">Staff (FTE)</div><div class="v">1,450.9</div><div class="s">up from 1,421; projected to fall to 1,361.6 from 2027/28</div></div>
+  </div>
+
+  <div class="g32 sec">
+    <div class="card">
+      <h3>Renewal and upgrade spending vs depreciation ($M)</h3>
+      <div class="chartbox"><canvas id="cRenewal"></canvas></div>
+      <p class="cap">Source: Budget 2026/27, Statement of Capital Works and Comprehensive Income Statement (depreciation excludes right-of-use assets). 2025/26 is forecast; later years are council projections.</p>
+    </div>
+    <div class="card">
+      <h3>The asset renewal gap</h3>
+      <p>Depreciation is the annual wear on roads, buildings, drains and parks. Renewal and upgrade spending is what puts that wear back. When renewal sits below depreciation for years, the network quietly ages and a bill builds for future ratepayers.</p>
+      <p>The Essential Services Commission found Casey's renewal and upgrade spending stayed below depreciation every year from 2020–21 to 2023–24 (82–94%). On the council's own 2026/27 figures, the ratio drops to <strong>76% in 2025/26 and 69% in 2026/27</strong>, and stays between 65% and 75% to 2029/30.</p>
+      <p>Added up, that is roughly <strong>$141M of wear not renewed</strong> over five years — while the asset base is projected to grow from $8.1B to $9.8B.</p>
+      <p class="cap">ESC had forecast 100% for 2025–26 based on earlier plans; the newer budget does not deliver that.</p>
+    </div>
+  </div>
+
+  <div class="g2 sec">
+    <div class="card">
+      <h3>Adjusted underlying result, % of underlying revenue</h3>
+      <div class="chartbox"><canvas id="cUnderlying"></canvas></div>
+      <p class="cap">Source: ESC Local Government Outcomes fact sheet 2025 (actuals). 2023–24 would be −4.5% if federal grants had arrived on the usual timetable.</p>
+    </div>
+    <div class="card">
+      <h3>Real spending per resident (2023–24 dollars)</h3>
+      <div class="chartbox"><canvas id="cPerPerson"></canvas></div>
+      <p class="cap">Source: ESC fact sheet 2025. Capital spend per resident fell 31% in real terms in three years while materials and services (mostly contracts) rose 12%.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3>Where the finance story falls short</h3>
+    <div class="g2" style="margin-top:12px">
+      <div class="find"><span class="tag">Structural deficit</span><h3>Recurring income does not cover recurring costs</h3><p>The ESC reports an average adjusted underlying result of −5.9% over four years and warns that a persistent deficit means a council may not have enough revenue to fund its current services without one-off money. Casey's 2026/27 budget forecasts −$19.8M. The council's answer — that the deficit disappears if you exclude "initiative" spending — treats about $28.7M of yearly projects as optional when they recur every year.</p></div>
+      <div class="find"><span class="tag">Messaging</span><h3>"Debt-free" and "borrowing $135M" are both true — residents need the full picture</h3><p>Leaders have said Casey is on track to be debt-free next year. The same budget plans $55M of borrowing in 2028/29 and $40M in 2029/30, with $135M flagged to fund about $200M of major infrastructure from 2027/28. Borrowing for long-life assets is reasonable. Presenting only the debt-free half of the story is part of why "spending public funds" scores 46.</p></div>
+      <div class="find amber"><span class="tag">Allocation</span><h3>Big-ticket buildings crowd out streets and footpaths</h3><p>Of the $136.5M capital program, $79.8M (58%) goes to recreational, leisure and community facilities, including $6M toward the Casey Fields rectangular stadium. Roads get $15.8M (12%), footpaths and cycleways $2.3M (under 2%), drainage $6.2M. Projections push the facilities line to $169M by 2029/30. Residents' lowest infrastructure score is sealed local streets (52).</p></div>
+      <div class="find amber"><span class="tag">Cost growth</span><h3>Contracts are the fastest-growing cost line</h3><p>Materials and services rise from $260.6M to $281.2M in 2026/27 and to $315M by 2029/30. The budget itself says contract and construction costs often outrun the rate cap. There is no published target for contract savings or procurement benchmarking against other growth councils.</p></div>
+    </div>
+  </div>
+
+  <div class="card sec">
+    <h3>Capital works 2026/27 by asset class ($M)</h3>
+    <div class="chartbox tall"><canvas id="cCapex"></canvas></div>
+    <p class="cap">Source: Budget 2026/27, Statement of Capital Works. Total $136.5M.</p>
+  </div>
+
+  <div class="split sec">
+    <div><h4 style="color:var(--amber)">Fair context — outside council control</h4>
+      <ul class="ul">
+        <li>The State rate cap (3.0% in 2025/26, 2.75% in 2026/27) limits general-rate growth while construction and contract costs run higher.</li>
+        <li>Each new estate hands over assets that start depreciating immediately — a growth council inherits renewal liabilities it did not choose.</li>
+        <li>Grants are lumpy and tied to the government of the day; capital grants fall from $34.6M to $24.4M in 2026/27.</li>
+        <li>State reforms (four-bin kerbside, landfill levy of $13.3M) add costs councils must absorb.</li>
+      </ul></div>
+    <div><h4 style="color:var(--teal)">Within council control — and not done enough</h4>
+      <ul class="ul t">
+        <li>Set and publish a target to lift renewal to at least 90% of depreciation within four years.</li>
+        <li>Report the adjusted underlying result and cash result as headline numbers, not the accounting surplus.</li>
+        <li>Rebalance the capital program toward streets, paths and drainage before adding new major facilities.</li>
+        <li>Publish procurement and contract-cost benchmarks against Wyndham, Hume, Whittlesea and Melton.</li>
+      </ul></div>
+  </div>
+</section>
+
+<!-- ============ 03 OPERATIONS ============ -->
+<section class="panel" id="operations" role="tabpanel">
+  <div class="eyebrow">03 · Operations &amp; services</div>
+  <h2>Good at bins and phones, slow at permits, exposed on waste</h2>
+  <p class="intro">Day-to-day services are broadly at benchmark, and some are improving fast. The weaknesses are in the processes that unlock growth (planning), the services that can't be outsourced to a contractor's KPI (place, safety, engagement), and a looming regional waste problem.</p>
+
+  <div class="g4">
+    <div class="kpi ok"><div class="l">Bins missed per 10,000</div><div class="v">2.85</div><div class="s">down from 10.12 in 2020–21 (−72%)</div></div>
+    <div class="kpi ok"><div class="l">Sealed roads to standard</div><div class="v">95.5%</div><div class="s">2023–24 regulator indicator</div></div>
+    <div class="kpi warn"><div class="l">Planning median</div><div class="v">102 days</div><div class="s">2024/25 · down 14% · statutory clock 60 days</div></div>
+    <div class="kpi warn"><div class="l">Capital delivered</div><div class="v">87.7%</div><div class="s">$122.3M in 2024/25; ~$43M carried forward</div></div>
+  </div>
+
+  <div class="card sec">
+    <h3>2026/27 operating spend by selected service ($M expenditure)</h3>
+    <div class="chartbox tall"><canvas id="cServices"></canvas></div>
+    <p class="cap">Source: Budget 2026/27, strategic services tables (expenditure, not net cost). "Water" covers stormwater, drainage and flood plain management.</p>
+  </div>
+
+  <div class="sec">
+    <div class="g2">
+      <div class="find amber"><span class="tag">Planning</span><h3>Permits are still too slow for a growth city</h3><p>The median decision took 102 days in 2024/25. State reforms now propose 10-, 30- and 60-day pathways depending on dwelling type. Casey's Building and Planning service goes from a $2.4M surplus in 2024/25 to a $1.6M net cost in 2026/27 as fee income drops — a signal the service is under pressure, not over-resourced.</p></div>
+      <div class="find"><span class="tag">Waste</span><h3>No settled answer when Hallam Road landfill closes</h3><p>The nine-council advanced waste project depended on a Hampton Park transfer station. Casey issued a permit; VCAT refused it citing unacceptable odour risk and the operator says it is unlikely to pursue it. The budget warns of landfill cost rises and limited transfer capacity until waste-to-energy is running. Residents face both a closing landfill and no visible plan B.</p></div>
+      <div class="find amber"><span class="tag">Overheads</span><h3>Transformation spend needs proof of return</h3><p>Strategy and Innovation costs $28.9M in 2026/27 (up 39%), IT $20.2M and Customer $13.7M. The budget says efficiencies are anticipated "in future years" and FTE falls by about 89 from 2027/28 as fixed-term staff finish. There is no published benefits register showing dollars saved or service levels gained.</p></div>
+      <div class="find"><span class="tag">Flood &amp; climate</span><h3>Drainage and flood management is thinly funded</h3><p>The Water service spends $2.1M a year on stormwater and flood management for a 409 km² city that includes Western Port coastal land; drainage capital is $6.2M. Climate investment rises 17% to $3.7M — welcome, but small beside the $79.8M facilities line.</p></div>
+      <div class="find amber"><span class="tag">Carry-forwards</span><h3>Projects still slip year to year</h3><p>2024/25 delivery was a record, yet about $43M of capital work and $6.2M of operating initiatives rolled into 2025/26. The 2026/27 budget again says unfinished projects "may be rephased". Rolling backlogs make it hard for residents to know when promised works will actually arrive.</p></div>
+      <div class="find teal"><span class="tag">Working well</span><h3>Waste collection and issue reporting</h3><p>Waste management scores 73 (State 72) and was used by 92% of households. Missed bins fell by nearly three-quarters. Casey was named Victoria's most improved council in the 2026 Snap Send Solve index, which draws on over 250,000 resident ratings.</p></div>
+    </div>
+  </div>
+
+  <div class="callout amber sec"><strong>Enterprise architecture lens.</strong> Casey's operating model shows a classic pattern: front-door channels (reporting apps, call centre, waste) are optimised and measurable, while the decision layer behind them — planning assessment, capital prioritisation, engagement-to-decision traceability — is opaque. The next round of the council's OneCouncil upgrade should be judged on whether it exposes that decision layer: permit status and stage timing, capital project status by ward, and a visible link from each consultation to the decision it informed.</div>
+</section>
+
+<!-- ============ 04 RESIDENTS ============ -->
+<section class="panel" id="residents" role="tabpanel">
+  <div class="eyebrow">04 · Residents' problems</div>
+  <h2>What residents are telling Casey — and where it hasn't listened enough</h2>
+  <p class="intro">Satisfaction improved in 2026, but from a low base. Casey has sat below the State average every year from 2021 to 2026 — a reversal from 2018, when it scored 61 and beat the State — and the gaps are widest on the measures about judgement and value rather than service delivery.</p>
+
+  <div class="g2">
+    <div class="card">
+      <h3>Overall performance score, 2021–2026</h3>
+      <div class="chartbox"><canvas id="cCSSTrend"></canvas></div>
+      <p class="cap">Source: Local Government Community Satisfaction Survey results published by Casey and press reports. 2024 not shown (not retrieved for this report). 2025 values derived from the published 2026 year-on-year changes.</p>
+    </div>
+    <div class="card">
+      <h3>2026 core measures: Casey vs State vs Interface councils</h3>
+      <div class="chartbox"><canvas id="cCSSCore"></canvas></div>
+      <p class="cap">Source: Klein 2026 Community Satisfaction Survey summary for Casey. Index scores out of 100.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3>The problems residents raise most</h3>
+    <div class="g2" style="margin-top:12px">
+      <div class="find"><span class="tag">Safety &amp; crime</span><h3>Crime up 9.1% after a 20% jump the year before</h3><p>23,284 criminal incidents were recorded in the year to March 2026. Motor vehicle theft rose from 1,272 to 1,545; theft from vehicles rose over 20% to 4,475; serious family-violence assaults reached 763. More than 58% of incidents remain unsolved. A police member told a council crime forum that as few as 12 officers can be on shift for the whole city.</p><div class="ev">What council could do more of: fund lighting and safety audits at scale, push for police resourcing with hard data, expand youth outreach beyond $2.8M, and report safety outcomes by ward. <a class="ref" href="#s9">[9]</a><a class="ref" href="#s10">[10]</a><a class="ref" href="#s11">[11]</a></div></div>
+      <div class="find"><span class="tag">Traffic &amp; transport</span><h3>Growth suburbs without rail, roads at capacity</h3><p>Clyde and Clyde North are heading for 157,000+ residents with no train line; commuters can spend up to 30 minutes reaching Cranbourne station, where parking overflows. Council's own advocacy material cites 58 serious injuries and 201 other injuries on the Clyde Road corridor. Transport and congestion were the top concern in the council's 2026 advocacy feedback.</p><div class="ev">Rail and arterial roads are State responsibilities. Council's gap is local: footpaths and cycleways get $2.3M of capital in 2026/27. <a class="ref" href="#s23">[23]</a><a class="ref" href="#s1">[1]</a></div></div>
+      <div class="find"><span class="tag">Cost of living</span><h3>Rates rose twice after candidates campaigned on keeping them low</h3><p>Rates went up 3% in 2025/26 and 2.75% in 2026/27, both at the cap. The ratepayers' association had called for a freeze, pointing to the council's own description of high reserves. Some councillors who listed low rates as an election priority faced questions. Sixteen retirement villages, backed by 1,818 signatures, say they pay full rates while maintaining their own roads, lights and drains.</p><div class="ev">Credit: the waste charge was frozen for 2026/27. Gap: no response yet published on the retirement-village differential rate case. <a class="ref" href="#s13">[13]</a><a class="ref" href="#s14">[14]</a><a class="ref" href="#s19">[19]</a></div></div>
+      <div class="find"><span class="tag">Waste &amp; odour</span><h3>Hampton Park: years of odour, then a transfer station next to homes</h3><p>Residents of Lynbrook, Hampton Park, Narre Warren South and Cranbourne North objected in large numbers; a parliamentary debate cited over 6,200 petitions, objections and submissions. The site's earlier plan earmarked parkland; a revised development plan under the appointed administrators made it a waste hub. The landfill operator paid $1M to settle EPA odour breaches. Casey issued the permit; VCAT refused it.</p><div class="ev">Lesson: the council backed a regional procurement before winning the local social licence. <a class="ref" href="#s15">[15]</a><a class="ref" href="#s16">[16]</a></div></div>
+      <div class="find amber"><span class="tag">Streets &amp; amenity</span><h3>Local streets and public areas still lag</h3><p>Sealed local streets scored 52 (State 54) even after a 6-point lift. In 2022 Casey scored 59 for appearance of public areas against a State average of 71 — one of its weakest results. Three-quarters of households use the street network and footpaths, so this is felt every day.</p><div class="ev"><a class="ref" href="#s4">[4]</a><a class="ref" href="#s26">[26]</a></div></div>
+      <div class="find amber"><span class="tag">Connectivity</span><h3>Poor mobile coverage in new estates</h3><p>Residents in parts of Clyde North and Cranbourne East report little or no reception. The council concedes telecommunications planning has historically been limited when new communities are designed — a planning gap it can push harder to close through precinct structure plans.</p><div class="ev"><a class="ref" href="#s20">[20]</a></div></div>
+    </div>
+  </div>
+
+  <div class="callout red sec"><strong>Who is being left behind.</strong> The 2026 survey singles out the South ward and residents aged 35–64 — the working-age, mortgage-paying, commuting core of the growth corridor — as the least satisfied on streets, feedback opportunities and decisions in the community's interest. These are the residents who pay the most in rates, spend the longest in traffic and have the least time to attend a council meeting. A council that engages mainly through formal submissions and meeting question time will keep missing them.</div>
+</section>
+
+<!-- ============ 05 GOVERNANCE ============ -->
+<section class="panel" id="governance" role="tabpanel">
+  <div class="eyebrow">05 · Governance &amp; trust</div>
+  <h2>A rebuild that is working, slowly</h2>
+  <p class="intro">Casey's councillors were dismissed in February 2020 during IBAC's Operation Sandon investigation into planning decisions and developer influence. Appointed administrators ran the city for almost five years until elections in October 2024. Trust starts from a deep hole, and the new council has made progress — but some of its own actions have made the climb harder.</p>
+
+  <div class="g3">
+    <div class="kpi bad"><div class="l">Trust in decisions</div><div class="v">26%</div><div class="s">high or complete trust; about a third little or none</div></div>
+    <div class="kpi warn"><div class="l">Making decisions</div><div class="v">47</div><div class="s">+5 on 2025 · State 52</div></div>
+    <div class="kpi warn"><div class="l">Feedback opportunities</div><div class="v">48</div><div class="s">+8 on 2025 · State 55 — the widest gap</div></div>
+  </div>
+
+  <div class="card sec">
+    <h3>Timeline</h3>
+    <ul class="ul" style="margin-top:10px">
+      <li><strong>Feb 2020</strong> — State Government dismisses all Casey councillors after a municipal monitor finds significant governance failures; administrators appointed.</li>
+      <li><strong>Jul 2023</strong> — IBAC tables its Operation Sandon special report with 34 recommendations, including taking some planning decisions away from councillors. Administrators endorse the Hampton Park Hill Development Plan despite more than 1,000 objections.</li>
+      <li><strong>Oct 2024</strong> — Elected council restored under a new 12-ward structure.</li>
+      <li><strong>Feb 2025</strong> — First council meeting of the year adjourned after hundreds of residents protest over private land-use permits and the waste station; police called. Residents describe written answers to their questions as indirect.</li>
+      <li><strong>Sep 2025</strong> — Charges laid against two people, including a former councillor, from matters arising from Operation Sandon. These matters are before the courts.</li>
+      <li><strong>Dec 2025 – Mar 2026</strong> — Rewritten Casey Community Local Law adopted, dropping the unregistered-vehicle and repair permits; in force from 2 March 2026.</li>
+      <li><strong>Aug 2026</strong> — Mayor steps down to contest the November State election as a party candidate; deputy elected mayor until 17 November.</li>
+    </ul>
+  </div>
+
+  <div class="g2 sec">
+    <div class="find"><span class="tag">Engagement</span><h3>Consultation that doesn't show its working</h3><p>The survey's own recommendation is to explain the reasoning behind major decisions and show how input changed them. The council's regulator-reported consultation score was 52, 50, 47 and 49 over 2020–21 to 2023–24 — flat and low for four years. Officer-written answers to public questions, read in bulk, fuel the perception that councillors are not personally accountable.</p></div>
+    <div class="find"><span class="tag">Waste hub decision</span><h3>A legacy decision the new council inherited — and defended</h3><p>The waste-hub plan was set by appointed administrators, not elected representatives. The permit, regional procurement and transfer-station decisions then left residents feeling the deal was done before they were asked. VCAT's refusal vindicated their concerns and leaves the council's waste strategy exposed.</p></div>
+    <div class="find amber"><span class="tag">Political neutrality</span><h3>Mayoral turnover in an election year</h3><p>Two mayors in 2026, with the outgoing mayor now a party candidate in a local State seat while the council runs a State-election advocacy campaign. Nothing improper is alleged, but a council still rebuilding trust after Sandon should be scrupulous about separating council advocacy from party campaigns.</p></div>
+    <div class="find teal"><span class="tag">Credit due</span><h3>What the new council got right</h3><p>It listened on the local law and rewrote it; it chose not to seek a rate-cap variation; it froze the waste charge; it now tracks closed-meeting decisions as a strategic indicator to reduce; and the "general direction" score rose to 48, level with the State.</p></div>
+  </div>
+</section>
+
+<!-- ============ 06 ACTIONS ============ -->
+<section class="panel" id="actions" role="tabpanel">
+  <div class="eyebrow">06 · What Casey must do</div>
+  <h2>Ten actions, each with a measurable test</h2>
+  <p class="intro">Every action below is within the council's own power. Each has a test residents can check in the next Annual Report or survey.</p>
+
+  <div class="g2">
+    <div class="rec"><div class="num">1</div><div><div class="meta">Finance · 2027/28 budget</div><h3>Close the renewal gap on a published path</h3><p>Adopt a target of renewal and upgrade at 90% of depreciation by 2029/30 and 100% by 2031/32, funded before new discretionary facilities.</p><div class="kpit">Test: ratio ≥ 80% in the 2027/28 budget (currently 65% projected)</div></div></div>
+    <div class="rec"><div class="num">2</div><div><div class="meta">Finance · transparency</div><h3>Lead with the real numbers</h3><p>Put the adjusted underlying result, cash result and planned borrowing on page one of the budget and Annual Report — and explain the gifted-asset surplus in plain language.</p><div class="kpit">Test: "spending public funds" ≥ 51 (State level) by 2028</div></div></div>
+    <div class="rec"><div class="num">3</div><div><div class="meta">Capital · rebalance</div><h3>Streets and paths before stadiums</h3><p>Lift footpaths, cycleways and local road capital to at least 20% of the program, and publish a ward-by-ward map of upcoming street works as the survey recommends.</p><div class="kpit">Test: sealed streets score ≥ 55 by 2028</div></div></div>
+    <div class="rec"><div class="num">4</div><div><div class="meta">Planning · 2026–27</div><h3>A 60-day median for planning decisions</h3><p>Triage simple applications, publish live permit-stage tracking, and report quarterly median days against the statutory clock and against peer growth councils.</p><div class="kpit">Test: median ≤ 60 days in 2027/28 (102 in 2024/25)</div></div></div>
+    <div class="rec"><div class="num">5</div><div><div class="meta">Engagement · show the working</div><h3>"You said, we did" on every major decision</h3><p>Attach a one-page decision trace to each major report: what was consulted, who responded, what changed, what didn't and why. Have councillors, not officers, answer public questions on major items.</p><div class="kpit">Test: trust in decisions ≥ 35% high/complete by 2028</div></div></div>
+    <div class="rec"><div class="num">6</div><div><div class="meta">Engagement · South ward &amp; 35–64</div><h3>Go to residents instead of waiting for them</h3><p>Run evening and weekend pop-ups at stations, sports clubs and shopping centres in the South ward; use short in-app polls through existing reporting channels.</p><div class="kpit">Test: South ward scores reach the municipal average by 2028</div></div></div>
+    <div class="rec"><div class="num">7</div><div><div class="meta">Safety · within council powers</div><h3>A ward-level safety program with real money</h3><p>Lift community-safety initiatives from about $1.2M to a level matched to residents' top concern; publish safety-audit results and lighting upgrades by ward; use crime data to argue for police numbers.</p><div class="kpit">Test: safety spend and outcomes reported by ward in the 2026/27 Annual Report</div></div></div>
+    <div class="rec"><div class="num">8</div><div><div class="meta">Waste · urgent</div><h3>Publish a landfill-closure contingency plan</h3><p>Set out where Casey's residual waste goes after Hallam Road closes, the cost per household, and a site-selection process that starts with community criteria rather than ends with them.</p><div class="kpit">Test: plan published before the 2027/28 budget</div></div></div>
+    <div class="rec"><div class="num">9</div><div><div class="meta">Operations · transformation</div><h3>Benefits register for the $28.9M transformation spend</h3><p>Publish annual savings, service-level gains and staff changes against each transformation project, audited by the Audit and Risk Committee.</p><div class="kpit">Test: net recurring savings disclosed in the 2026/27 Annual Report</div></div></div>
+    <div class="rec"><div class="num">10</div><div><div class="meta">Fairness · rates</div><h3>Answer the retirement-village rate case on its merits</h3><p>Model a differential rate or rebate for villages that maintain their own roads, lighting and drainage, publish the modelling, and decide openly.</p><div class="kpit">Test: decision and modelling published in the 2027/28 Revenue and Rating review</div></div></div>
+  </div>
+
+  <div class="callout teal sec"><strong>Bottom line.</strong> Casey does not need more strategies. It needs to renew what it owns, decide permits faster, spend visibly on the streets and safety residents use every day, and show its reasoning. If it does those four things, the satisfaction gap to the State can close within this council term. If it doesn't, rising headline surpluses will keep colliding with falling resident confidence.</div>
+</section>
+
+<!-- ============ 07 GLOSSARY ============ -->
+<section class="panel" id="glossary" role="tabpanel">
+  <div class="eyebrow">07 · Glossary</div>
+  <h2>Terms used in this report</h2>
+  <input class="search" id="gsearch" type="search" placeholder="Filter terms…" aria-label="Filter glossary terms">
+  <dl class="gloss" id="glist">
+    <div class="gl"><dt>Adjusted underlying result</dt><dd>The operating result after removing non-recurrent capital grants, gifted (non-monetary) assets and other capital contributions. It shows whether everyday income covers everyday costs.</dd></div>
+    <div class="gl"><dt>Asset renewal</dt><dd>Spending that restores an existing asset to its original capability, such as resurfacing a road or replacing a pavilion roof.</dd></div>
+    <div class="gl"><dt>Asset upgrade / expansion / new</dt><dd>Upgrade improves an existing asset beyond its original standard; expansion extends it to new users; new creates an asset that did not exist.</dd></div>
+    <div class="gl"><dt>Capital works program</dt><dd>The council's yearly spending on building, renewing and upgrading physical assets.</dd></div>
+    <div class="gl"><dt>Carry forward</dt><dd>Budgeted work not finished in a financial year and moved into the next year's budget.</dd></div>
+    <div class="gl"><dt>Cash result</dt><dd>The surplus or deficit after converting the accounting result to actual cash flows, including capital spending, reserve movements and loan repayments.</dd></div>
+    <div class="gl"><dt>Community Satisfaction Survey (CSS)</dt><dd>The State-coordinated annual telephone survey of residents. Scores are index values out of 100 and are compared with State-wide and council-group averages.</dd></div>
+    <div class="gl"><dt>CRRA</dt><dd>Casey Residents and Ratepayers Association, an independent community group.</dd></div>
+    <div class="gl"><dt>CSA</dt><dd>Crime Statistics Agency, the Victorian body that publishes recorded crime data.</dd></div>
+    <div class="gl"><dt>Depreciation</dt><dd>The annual estimate of how much value council assets lose through age and use. If renewal spending stays below depreciation, assets deteriorate over time.</dd></div>
+    <div class="gl"><dt>Developer contributions / DCP / ICP</dt><dd>Payments or works that developers provide to fund infrastructure for new estates, under Development or Infrastructure Contributions Plans.</dd></div>
+    <div class="gl"><dt>Differential rate</dt><dd>A different rate in the dollar applied to a class of property, such as commercial land or, as proposed, retirement villages.</dd></div>
+    <div class="gl"><dt>ESC</dt><dd>Essential Services Commission, the Victorian regulator that sets the rate cap and publishes council outcomes reports.</dd></div>
+    <div class="gl"><dt>Fair Go Rates System / rate cap</dt><dd>The State limit on how much a council's average general rates can rise each year: 3.0% in 2025/26 and 2.75% in 2026/27.</dd></div>
+    <div class="gl"><dt>FTE</dt><dd>Full-time equivalent staff: total hours worked expressed as a number of full-time positions.</dd></div>
+    <div class="gl"><dt>IBAC / Operation Sandon</dt><dd>Victoria's Independent Broad-based Anti-corruption Commission and its investigation into planning decisions and developer influence at Casey, reported in July 2023.</dd></div>
+    <div class="gl"><dt>Initiative expenditure</dt><dd>Operating spending on time-limited projects rather than ongoing services. Casey excludes it when describing its "business as usual" surplus.</dd></div>
+    <div class="gl"><dt>Interface councils</dt><dd>The group of Melbourne fringe growth councils, including Casey, Cardinia, Wyndham, Hume, Whittlesea and Melton, used as a benchmark group.</dd></div>
+    <div class="gl"><dt>Kerbside reform / four-bin system</dt><dd>The State requirement for separate garbage, recycling, food and garden organics, and glass collections, with glass being introduced in Casey in late 2026.</dd></div>
+    <div class="gl"><dt>Landfill levy</dt><dd>A State charge on each tonne of waste sent to landfill; Casey expects to pay $13.3M in 2026/27.</dd></div>
+    <div class="gl"><dt>Materials and services</dt><dd>Spending on contracts, supplies, utilities and outsourced services. It is Casey's largest expense category.</dd></div>
+    <div class="gl"><dt>Municipal monitor</dt><dd>A person appointed by the Minister to observe and report on a council's governance.</dd></div>
+    <div class="gl"><dt>Non-monetary contributions</dt><dd>Assets such as roads, drains and parks handed to council by developers. They count as income in the accounts but bring no cash.</dd></div>
+    <div class="gl"><dt>OneCouncil</dt><dd>The enterprise software platform Casey uses for core council operations; an upgrade design is planned for 2026/27.</dd></div>
+    <div class="gl"><dt>SEMAWP</dt><dd>South Eastern Metropolitan Advanced Waste Processing, a nine-council project to send residual waste to a waste-to-energy facility.</dd></div>
+    <div class="gl"><dt>Statutory clock (planning)</dt><dd>The 60-day period within which a regular planning permit decision is expected under Victorian planning rules.</dd></div>
+    <div class="gl"><dt>VCAT</dt><dd>Victorian Civil and Administrative Tribunal, which reviews planning decisions on appeal.</dd></div>
+    <div class="gl"><dt>Working capital ratio</dt><dd>Current assets as a percentage of current liabilities; above 100% means short-term obligations can be met.</dd></div>
+  </dl>
+</section>
+
+<!-- ============ 08 SOURCES ============ -->
+<section class="panel" id="sources" role="tabpanel">
+  <div class="eyebrow">08 · Sources &amp; method</div>
+  <h2>How this report was built</h2>
+  <div class="card">
+    <p>All figures come from public documents: the council's adopted budgets, the Essential Services Commission's 2025 outcomes fact sheet, the 2026 Community Satisfaction Survey summary, Crime Statistics Agency data as reported locally, Victorian Hansard, and local news reporting of council meetings and decisions. Ratios such as renewal-to-depreciation and the five-year renewal gap were calculated by CivicLens from the council's own Statement of Capital Works and Comprehensive Income Statement in the 2026/27 Budget. Grades are CivicLens judgements. Where a responsibility belongs to the State (policing, rail, arterial roads, the rate cap), the report says so and limits criticism to what is within council control.</p>
+    <p>CivicLens is an independent, free civic data publication with no commercial relationship with any council or vendor. Corrections are welcome and will be published.</p>
+  </div>
+  <ol class="src sec">
+    <li id="s1">City of Casey, <a href="https://www.casey.vic.gov.au/sites/default/files/2026-06/Budget%20Report%202026-27.pdf">Budget Report 2026/27</a></li>
+    <li id="s2">City of Casey, <a href="https://www.casey.vic.gov.au/sites/default/files/2025-06/Budget%20Report%202025-26.pdf">Budget Report 2025/26</a></li>
+    <li id="s3">Essential Services Commission, <a href="https://www.esc.vic.gov.au/sites/default/files/documents/lg-outcomes2025-factsheet-casey-20250612.pdf">Local government outcomes fact sheet 2025 — Casey City Council</a></li>
+    <li id="s4">City of Casey, <a href="https://www.casey.vic.gov.au/sites/default/files/user-files/City%20of%20Casey%20Community%20Satisfaction%20Survey%202026%20-%20summary.pdf">Community Satisfaction Survey 2026 — summary</a></li>
+    <li id="s5">Star News, <a href="https://dandenong.starcommunity.com.au/?p=138474">Survey: one in four residents trust council decisions</a></li>
+    <li id="s6">Star News, <a href="https://dandenong.starcommunity.com.au/?p=128853">Casey records $140 million surplus for 2024/25</a></li>
+    <li id="s7">Star News, <a href="https://dandenong.starcommunity.com.au/?p=127606">$139.7M surplus, record capital delivery</a></li>
+    <li id="s8">Star News, <a href="https://dandenong.starcommunity.com.au/?p=130727">Casey's finances delicately balanced</a></li>
+    <li id="s9">Star News, <a href="https://dandenong.starcommunity.com.au/?p=137098">Crime in Casey up 9.1% (year to March 2026)</a></li>
+    <li id="s10">Star News, <a href="https://dandenong.starcommunity.com.au/?p=137196">Petition for more police in Casey</a></li>
+    <li id="s11">Star News, <a href="https://dandenong.starcommunity.com.au/news/2025-09-30/caseys-crime-rate-up-20/">Casey's crime rate up 20%</a></li>
+    <li id="s12">Star News, <a href="https://dandenong.starcommunity.com.au/?p=129529">Casey Mayor calls for genuine consultation on planning reforms (102-day median)</a></li>
+    <li id="s13">Star News, <a href="https://dandenong.starcommunity.com.au/?p=136279">Casey councillors pressed on rate pledges</a></li>
+    <li id="s14">Star News, <a href="https://dandenong.starcommunity.com.au/?p=124773">Residents disappointed with 3% rate rise</a></li>
+    <li id="s15">Star News, <a href="https://dandenong.starcommunity.com.au/?p=134532">Hampton Park waste-transfer station rejected by VCAT</a>; <a href="https://dandenong.starcommunity.com.au/?p=134931">Veolia unlikely to pursue station</a>; <a href="https://dandenong.starcommunity.com.au/?p=132781">Hampton Park waste plan hits home</a></li>
+    <li id="s16">Parliament of Victoria, <a href="https://www.parliament.vic.gov.au/parliamentary-activity/hansard/hansard-details/HANSARD-974425065-31032">Hansard, petition debate 28 May 2025</a></li>
+    <li id="s17">Star News, <a href="https://pakenhamnews.starcommunity.com.au/news/2025-02-20/casey-council-meeting-adjourned-after-crowd-anger/">Casey Council meeting adjourned after crowd anger</a>; <a href="https://cranbournenews.starcommunity.com.au/news/2025-02-23/residents-decry-indirect-and-unhelpful-answers-to-public-questions/">Residents decry answers to public questions</a></li>
+    <li id="s18">City of Casey, <a href="https://www.casey.vic.gov.au/node/13982">Casey Community Local Law 2025 in effect</a>; Star News, <a href="https://dandenong.starcommunity.com.au/?p=126795">Council drops controversial vehicle permits</a></li>
+    <li id="s19">The Weekly Source, <a href="https://www.theweeklysource.com.au/residents-in-16-retirement-villages-latest-to-dispute-council-rates/">Residents in 16 retirement villages dispute council rates</a></li>
+    <li id="s20">Star News, <a href="https://berwicknews.starcommunity.com.au/news/2026-09-24/caseys-mobile-tower-debate-under-the-spotlight/">Casey's mobile tower debate under the spotlight</a></li>
+    <li id="s21">City of Casey, <a href="https://www.casey.vic.gov.au/node/14439">Casey elects new Mayor and Deputy Mayor</a></li>
+    <li id="s22">Star News, <a href="https://dandenong.starcommunity.com.au/?p=123821">Operation Sandon report and charges</a>; IBAC, <a href="https://ibac.vic.gov.au/operation-sandon-uncovers-serious-corruption-risks-victorias-planning-system">Operation Sandon media release</a>; Star News, <a href="https://dandenong.starcommunity.com.au/?p=127095">Casey reacts to Operation Sandon charges</a></li>
+    <li id="s23">City of Casey, <a href="https://www.casey.vic.gov.au/node/14170">Building a Better Casey advocacy feedback</a>; <a href="https://treasury.gov.au/sites/default/files/2022-03/258735_city_of_casey_supporting_document_2.pdf">Clyde Road Corridor submission</a>; <a href="https://treasury.gov.au/sites/default/files/2022-03/258735_city_of_casey_supporting_document_1.pdf">Clyde Rail Link submission</a>; <a href="https://www.parliament.vic.gov.au/parliamentary-activity/hansard/hansard-details/HANSARD-974425065-34016">Hansard 4 Feb 2026</a></li>
+    <li id="s24">City of Casey, <a href="https://www.casey.vic.gov.au/node/14427">Most improved council, Snap Send Solve index 2026</a></li>
+    <li id="s25">City of Casey, <a href="https://performers-9932.c16.cw.ironstar.io/node/9962">2023 survey results</a>; Inside Local Government, <a href="https://insidelocalgovernment.com.au/city-of-casey-improves-performance/">2021 survey results</a></li>
+    <li id="s26">Star News, <a href="https://dandenong.starcommunity.com.au/?p=92167">Casey falls behind state benchmarks in satisfaction survey (2022)</a></li>
+    <li id="s27">City of Casey, <a href="https://www.casey.vic.gov.au/node/14403">Casey welcomes improved 2026 survey results</a></li>
+  </ol>
+</section>
+
+</main>
+
+<footer><div class="in">
+  <div><strong>CivicLens</strong> · City of Casey Performance Critique · October 2026<br>Independent analysis of public data. Not affiliated with any council, government or vendor.</div>
+  <div>Draft for public discussion · corrections welcome</div>
+</div></footer>
+
+<script>
+(function(){
+  // Tabs
+  const tabs=[...document.querySelectorAll('.tab')];
+  const panels=[...document.querySelectorAll('.panel')];
+  const drawn={};
+  function show(id,push){
+    if(!document.getElementById(id)) id='verdict';
+    tabs.forEach(t=>t.setAttribute('aria-selected',t.dataset.tab===id));
+    panels.forEach(p=>p.classList.toggle('active',p.id===id));
+    if(push) history.replaceState(null,'','#'+id);
+    if(!drawn[id] && charts[id]){charts[id]();drawn[id]=true;}
+    if(push){const top=document.querySelector('main').offsetTop-100;if(window.scrollY>top)window.scrollTo({top,behavior:'instant'});}
+  }
+  window.addEventListener('hashchange',()=>show((location.hash||'#verdict').slice(1),false));
+  tabs.forEach(t=>t.addEventListener('click',()=>show(t.dataset.tab,true)));
+  document.querySelectorAll('a.ref').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('sources',true);const el=document.querySelector(a.getAttribute('href'));if(el){setTimeout(()=>{el.scrollIntoView({block:'center'});el.style.background='#FEF5E4';setTimeout(()=>el.style.background='',1600)},50)}}));
+
+  // Glossary filter
+  const gs=document.getElementById('gsearch');
+  gs.addEventListener('input',()=>{const q=gs.value.toLowerCase();document.querySelectorAll('#glist .gl').forEach(d=>{d.style.display=d.textContent.toLowerCase().includes(q)?'':'none'})});
+
+  // Charts
+  const C={navy:'#13294B',teal:'#0F766E',tealL:'#5FC4B8',amber:'#F59E0B',red:'#E5484D',grey:'#94A3B8',ink:'#334155'};
+  if(window.Chart){
+    Chart.defaults.font.family="'DM Sans',system-ui,sans-serif";
+    Chart.defaults.font.size=12;
+    Chart.defaults.color=C.ink;
+    Chart.defaults.plugins.legend.labels.boxWidth=12;
+    Chart.defaults.maintainAspectRatio=false;
+  }
+  const grid={color:'rgba(15,23,42,.07)'};
+  const charts={
+    finance(){
+      new Chart(document.getElementById('cRenewal'),{type:'bar',data:{labels:['2025/26','2026/27','2027/28','2028/29','2029/30'],datasets:[
+        {label:'Renewal + upgrade',data:[61.0,64.3,63.2,70.0,79.9],backgroundColor:C.teal,borderRadius:4},
+        {label:'Depreciation',data:[80.5,93.1,97.0,101.6,106.9],backgroundColor:C.amber,borderRadius:4}]},
+        options:{plugins:{tooltip:{callbacks:{afterBody:(items)=>{const i=items[0].dataIndex;const r=[76,69,65,69,75][i];return 'Renewal ratio: '+r+'%'}}}},scales:{y:{grid,title:{display:true,text:'$ million'}},x:{grid:{display:false}}}}});
+      new Chart(document.getElementById('cUnderlying'),{type:'bar',data:{labels:['2020–21','2021–22','2022–23','2023–24'],datasets:[{label:'Adjusted underlying result %',data:[-2.3,-9.9,-5.8,-5.5],backgroundColor:C.red,borderRadius:4}]},
+        options:{plugins:{legend:{display:false}},scales:{y:{grid,suggestedMin:-12,suggestedMax:2,ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}});
+      new Chart(document.getElementById('cPerPerson'),{type:'line',data:{labels:['2020–21','2021–22','2022–23','2023–24'],datasets:[
+        {label:'Materials & services',data:[531,586,561,593],borderColor:C.amber,backgroundColor:C.amber,tension:.25},
+        {label:'Employee costs',data:[429,423,372,362],borderColor:C.navy,backgroundColor:C.navy,tension:.25},
+        {label:'Capital spend',data:[428,505,323,297],borderColor:C.red,backgroundColor:C.red,tension:.25,borderWidth:3}]},
+        options:{scales:{y:{grid,title:{display:true,text:'$ per resident'}},x:{grid:{display:false}}}}});
+      new Chart(document.getElementById('cCapex'),{type:'bar',data:{labels:['Recreational, leisure & community facilities','Roads','Parks, open space & streetscapes','Plant & equipment','Other infrastructure','Drainage','Property (land & buildings)','Footpaths & cycleways','Bridges'],
+        datasets:[{data:[79.8,15.8,13.2,8.3,6.7,6.2,3.9,2.3,0.3],backgroundColor:[C.navy,C.amber,C.teal,C.grey,C.grey,C.tealL,C.grey,C.red,C.grey],borderRadius:4}]},
+        options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.raw+'M ('+(c.raw/136.5*100).toFixed(1)+'%)'}}},scales:{x:{grid,title:{display:true,text:'$ million'}},y:{grid:{display:false}}}}});
+    },
+    operations(){
+      const labels=['Waste','Child, youth & family','Parks & open spaces','Strategy & innovation','Community connection','Information technology','Destination & events','Maintenance','Sustainability & environment','Transport','Community safety','Customer','Building & planning','Water (drainage & flood)'];
+      const vals=[76.5,58.1,31.0,28.9,21.7,20.2,19.8,17.6,17.0,16.2,16.0,13.7,12.6,2.1];
+      const hi={'Strategy & innovation':C.amber,'Community safety':C.red,'Water (drainage & flood)':C.red,'Information technology':C.amber};
+      new Chart(document.getElementById('cServices'),{type:'bar',data:{labels,datasets:[{data:vals,backgroundColor:labels.map(l=>hi[l]||C.navy),borderRadius:4}]},
+        options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.raw+'M'}}},scales:{x:{grid,title:{display:true,text:'$ million, 2026/27 budget'}},y:{grid:{display:false}}}}});
+    },
+    residents(){
+      new Chart(document.getElementById('cCSSTrend'),{type:'line',data:{labels:['2021','2022','2023','2025','2026'],datasets:[
+        {label:'Casey',data:[57,56,50,47,51],borderColor:C.red,backgroundColor:C.red,borderWidth:3,tension:.2},
+        {label:'State-wide',data:[61,59,56,54,58],borderColor:C.navy,backgroundColor:C.navy,tension:.2},
+        {label:'Interface councils',data:[59,56,51,48,53],borderColor:C.amber,backgroundColor:C.amber,borderDash:[5,4],tension:.2}]},
+        options:{scales:{y:{grid,min:40,max:65},x:{grid:{display:false}}}}});
+      new Chart(document.getElementById('cCSSCore'),{type:'bar',data:{labels:['Overall','Spending funds','Making decisions','Feedback','Sealed streets','Direction','Customer service','Waste'],datasets:[
+        {label:'Casey',data:[51,46,47,48,52,48,66,73],backgroundColor:C.red,borderRadius:3},
+        {label:'State',data:[58,51,52,55,54,48,68,72],backgroundColor:C.navy,borderRadius:3},
+        {label:'Interface',data:[53,47,48,50,51,47,66,70],backgroundColor:C.amber,borderRadius:3}]},
+        options:{scales:{y:{grid,min:30,max:80},x:{grid:{display:false},ticks:{autoSkip:false,maxRotation:45,minRotation:0}}}}});
+    }
+  };
+  show((location.hash||'#verdict').slice(1),false);
+})();
+</script>
+</body>
+</html>
